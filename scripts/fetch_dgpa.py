@@ -89,9 +89,9 @@ def attachment_candidates(page, roc):
         params = urllib.parse.parse_qs(parsed.query, keep_blank_values=True)
         # DGPA FileConversion exposes one workbook as XLSX, PDF and ODS.
         # The original filename=...xlsx is present in all three URLs;
-        # nfix identifies the actual output format.
+        # nfix identifies the output format; an empty nfix means original XLSX.
         formats = [value.lower() for value in params.get('nfix', [])]
-        if formats and any(fmt not in ('xlsx', 'xls') for fmt in formats):
+        if any(fmt not in ('', 'xlsx', 'xls') for fmt in formats):
             continue
         if parsed.path.lower() == '/fileconversion':
             source = params.get('filename', [''])[0].lower()
