@@ -28,6 +28,7 @@
 .light .day.offDay .lunar{color:#475569}
 .light .day .off{background:#64748b;color:white}
 
+.day:not(.empty){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y;cursor:pointer}
 .quickBackdrop{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;padding:18px}
 .quickBackdrop.open{display:flex}
 .quickPanel{width:min(390px,100%);background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 16px 48px #0007}
@@ -38,7 +39,7 @@
 .quickButtons .wide{grid-column:1/-1}
 .quickButtons button:disabled{opacity:.35;cursor:not-allowed}
 .quickClose{width:100%;margin-top:12px}
-</style></head><body><div class="wrap"><header><div><h1>四班二輪班表</h1><div class="sub" id="appSub">V8.1.0 日期快捷選單測試版</div></div><button class="theme" id="themeBtn" aria-label="切換深淺色">☀ / 🌙</button></header>
+</style></head><body><div class="wrap"><header><div><h1>四班二輪班表</h1><div class="sub" id="appSub">V8.1.1 長按日期快捷選單測試版</div></div><button class="theme" id="themeBtn" aria-label="切換深淺色">☀ / 🌙</button></header>
 <section class="card"><div class="topbar"><div class="monthTitle" id="monthTitle" role="button" tabindex="0"></div><button class="primary" id="todayBtn">今天</button></div><div class="nav"><button id="prev" aria-label="上一個月">‹</button><button class="pickerTrigger" id="pickerTrigger">選擇年月</button><button id="next" aria-label="下一個月">›</button></div><div class="week"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div class="grid" id="calendar"></div><div class="legend"><span><i class="dot" style="background:#ff9d20"></i>早班</span><span><i class="dot" style="background:#945bff"></i>夜班</span><span><i class="dot" style="background:#66758b"></i>休假</span><span><i class="dot" style="background:#ff5d70"></i>國定假日／補假</span><span><i class="dot" style="background:#ffe047"></i>加班</span><span><i class="dot" style="background:#35d0a0"></i>節氣</span></div></section>
 <div class="quickBackdrop" id="quickDialog" role="dialog" aria-modal="true" aria-labelledby="quickTitle">
 <div class="quickPanel"><h2 id="quickTitle">日期快捷操作</h2><div class="quickStatus" id="quickStatus"></div>
@@ -115,7 +116,36 @@ function holidayName(d){const k=dateKey(d),y=d.getFullYear(),m=d.getMonth()+1,dd
 }
 const terms={'01-05':'小寒','01-20':'大寒','02-04':'立春','02-19':'雨水','03-05':'驚蟄','03-20':'春分','04-05':'清明','04-20':'穀雨','05-05':'立夏','05-21':'小滿','06-05':'芒種','06-21':'夏至','07-07':'小暑','07-23':'大暑','08-07':'立秋','08-23':'處暑','09-07':'白露','09-23':'秋分','10-08':'寒露','10-23':'霜降','11-07':'立冬','11-22':'小雪','12-07':'大雪','12-22':'冬至'};
 function safeText(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function render(){const y=view.getFullYear(),m=view.getMonth(),grid=$('calendar');$('monthTitle').textContent=`${y}年 ${m+1}月`;$('pickerTrigger').textContent=`${y}年 / ${m+1}月`;$('prev').disabled=y===MIN_YEAR&&m===0;$('next').disabled=y===MAX_YEAR&&m===11;grid.replaceChildren();for(let i=0;i<new Date(y,m,1).getDay();i++){const el=document.createElement('div');el.className='day empty';grid.append(el)}for(let d=1;d<=new Date(y,m+1,0).getDate();d++){const dt=dateAt(y,m+1,d),s=status(dt),h=holidayName(dt),term=terms[`${pad(m+1)}-${pad(d)}`]||'',r=reminderFor(dt),el=document.createElement('div');el.className='day';if([0,6].includes(dt.getDay()))el.classList.add('weekend');if(!s.work&&!s.unconfigured)el.classList.add('offDay');if(h)el.classList.add('holiday');if(dateKey(dt)===dateKey(selected))el.classList.add('selected');if(dateKey(dt)===dateKey(new Date()))el.classList.add('today');const cls=s.override==='leave'?'leave':s.override==='overtime'?'overtime':s.name==='早班'?'dayShift':s.name==='夜班'?'nightShift':'off';el.innerHTML=`<div class="num">${d}</div><div class="lunar">${safeText(lunarText(dt))}</div>${s.name?`<div class="shift ${cls}">${safeText(s.name)}</div>`:''}${r?`<div class="statusBadge">提醒 ${safeText(r.time)}</div>`:s.override==='leave'?'<div class="statusBadge">提醒已關閉</div>':''}${h?`<div class="holidayName">${safeText(h)}</div>`:''}${term?`<div class="term">${term}</div>`:''}`;el.onclick=()=>{selected=dt;render();openQuickMenu()};grid.append(el)}showSelected()}
+function render(){const y=view.getFullYear(),m=view.getMonth(),grid=$('calendar');$('monthTitle').textContent=`${y}年 ${m+1}月`;$('pickerTrigger').textContent=`${y}年 / ${m+1}月`;$('prev').disabled=y===MIN_YEAR&&m===0;$('next').disabled=y===MAX_YEAR&&m===11;grid.replaceChildren();for(let i=0;i<new Date(y,m,1).getDay();i++){const el=document.createElement('div');el.className='day empty';grid.append(el)}for(let d=1;d<=new Date(y,m+1,0).getDate();d++){const dt=dateAt(y,m+1,d),s=status(dt),h=holidayName(dt),term=terms[`${pad(m+1)}-${pad(d)}`]||'',r=reminderFor(dt),el=document.createElement('div');el.className='day';if([0,6].includes(dt.getDay()))el.classList.add('weekend');if(!s.work&&!s.unconfigured)el.classList.add('offDay');if(h)el.classList.add('holiday');if(dateKey(dt)===dateKey(selected))el.classList.add('selected');if(dateKey(dt)===dateKey(new Date()))el.classList.add('today');const cls=s.override==='leave'?'leave':s.override==='overtime'?'overtime':s.name==='早班'?'dayShift':s.name==='夜班'?'nightShift':'off';el.innerHTML=`<div class="num">${d}</div><div class="lunar">${safeText(lunarText(dt))}</div>${s.name?`<div class="shift ${cls}">${safeText(s.name)}</div>`:''}${r?`<div class="statusBadge">提醒 ${safeText(r.time)}</div>`:s.override==='leave'?'<div class="statusBadge">提醒已關閉</div>':''}${h?`<div class="holidayName">${safeText(h)}</div>`:''}${term?`<div class="term">${term}</div>`:''}`;// Short tap selects only; a stationary 550ms hold opens the menu.
+let holdTimer=null,holdOpened=false,startX=0,startY=0,activePointer=null;
+const cancelHold=()=>{if(holdTimer!==null){clearTimeout(holdTimer);holdTimer=null}};
+el.addEventListener('pointerdown',e=>{
+ if(e.button!==0||!e.isPrimary)return;
+ cancelHold();holdOpened=false;activePointer=e.pointerId;startX=e.clientX;startY=e.clientY;
+ holdTimer=setTimeout(()=>{
+  holdTimer=null;holdOpened=true;selected=dt;render();openQuickMenu();
+ },550);
+});
+el.addEventListener('pointermove',e=>{
+ if(activePointer===e.pointerId&&Math.hypot(e.clientX-startX,e.clientY-startY)>10)cancelHold();
+});
+el.addEventListener('pointerup',cancelHold);
+el.addEventListener('pointercancel',()=>{cancelHold();activePointer=null});
+el.addEventListener('contextmenu',e=>{
+ e.preventDefault();cancelHold();if(!holdOpened){holdOpened=true;selected=dt;render();openQuickMenu()}
+});
+el.addEventListener('click',()=>{
+ if(holdOpened)return;
+ selected=dt;render();
+});
+el.tabIndex=0;
+el.setAttribute('role','button');
+el.setAttribute('aria-label',`${dateKey(dt)}，點一下選取，長按開啟快捷操作`);
+el.addEventListener('keydown',e=>{
+ if(e.key==='Enter'||e.key===' '){e.preventDefault();selected=dt;render()}
+ if(e.key==='ContextMenu'||(e.shiftKey&&e.key==='F10')){e.preventDefault();selected=dt;render();openQuickMenu()}
+});
+grid.append(el)}showSelected()}
 function showSelected(){const s=status(selected),h=holidayName(selected),r=reminderFor(selected),sn=s.shiftName||s.name,detail=!configured()?'尚未設定':!s.work?'今天休假':sn==='早班'?`${$('dayStart').value} ～ ${$('dayEnd').value}`:`${$('nightStart').value} ～ 次日 ${$('nightEnd').value}`;$('dateInfo').innerHTML=`<strong>${dateKey(selected)}</strong><br>農曆：${safeText(lunarText(selected)||'—')}<br>班別：<strong>${safeText(s.name||'尚未設定')}</strong><br>時間：${safeText(detail)}<br>網頁提醒：${r?safeText(r.time):'未建立／已關閉'}<br>假日：${safeText(h||'—')}`;$('note').value=typeof notes[dateKey(selected)]==='string'?notes[dateKey(selected)]:''}
 function showToday(){if(!configured()){$('todayReminder').textContent='尚未設定班表規則。';return}const t=new Date(),d=dateAt(t.getFullYear(),t.getMonth()+1,t.getDate()),s=status(d);if(!s.work){$('todayReminder').textContent='今天是休假／請假日，不建立上班提醒。';return}const sn=s.shiftName||s.name;$('todayReminder').innerHTML=`今天：<strong>${safeText(s.name)}</strong><br>上班：${safeText(sn==='早班'?$('dayStart').value:$('nightStart').value)}<br>提醒時間：<strong>${safeText(alarmTime(s))}</strong><br><small>僅供查閱；不會自動觸發 iPhone 系統鬧鐘。</small>`}
 function showLog(){const lines=Object.keys(overrides).filter(k=>/^\d{4}-\d\d-\d\d$/.test(k)).sort().slice(-12).reverse().map(k=>`${safeText(k)}：${overrides[k]==='leave'?'請假（網頁提醒已關閉）':overrides[k]==='overtime'?'加班（網頁提醒紀錄）':'其他變更'}`);$('reminderLog').innerHTML=lines.length?lines.join('<br>'):'尚無變更'}
