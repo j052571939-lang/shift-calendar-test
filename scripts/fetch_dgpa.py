@@ -76,19 +76,34 @@ def find_announcement(listing, roc):
         raise ValueError(f'{roc}: expected one calendar announcement, found {len(set(candidates))}')
     return candidates[0]
 
-def find_attachment(page, roc):
-    matches = []
+def attachment_candidates(page, roc):
+    """Return unique DGPA XLSX candidates, retaining labels for diagnostics."""
+    found = {}
     for label, href in anchors(page):
-        # Some official pages place the filename in the href rather than the link label.
         decoded = urllib.parse.unquote(href)
         if f'{roc}年辦公日曆表' not in (label + ' ' + decoded) or '.xlsx' not in (label + ' ' + decoded).lower():
             continue
         url = urllib.parse.urljoin(BASE, href)
         safe_url(url)
-        matches.append(url)
-    if len(set(matches)) != 1:
-        raise ValueError(f'{roc}: expected one XLSX attachment, found {len(set(matches))}')
-    return matches[0]
+        found.setdefault(url, label.strip())
+    return found
+
+def find_attachment(page, roc):
+    found = attachment_candidates(page, roc)
+    if len(found) == 1:
+        return next(iter(found))
+    # Prefer an exact calendar filename, not supplemental or revised attachments.
+    # Never arbitrarily choose the first link: conflicting attachments must be inspected.
+    exact = []
+    for url, label in found.items():
+        filename = urllib.parse.unquote(urllib.parse.urlparse(url).query)
+        target = f'{roc}年辦公日曆表.xlsx'
+        if label == target or re.search(r'(?<![\w\d])' + re.escape(target) + r'(?![\w\d])', filename):
+            exact.append(url)
+    if len(exact) == 1:
+        return exact[0]
+    details = '; '.join(f'{label or "(no label)"}: {url}' for url, label in found.items())
+    raise ValueError(f'{roc}: ambiguous XLSX attachments ({len(found)} links, {len(exact)} exact matches): {details[:1600]}')
 
 def verify_xlsx(data):
     with zipfile.ZipFile(io.BytesIO(data)) as archive:
