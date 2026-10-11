@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#081222"><title>輪班日曆 V8.1.3</title>
+<style>
+:root{--bg:#081222;--card:#0f1d31;--line:#29405d;--text:#f5f7fb;--muted:#9eafc6;--blue:#2d6df6;--red:#ff5d70;--orange:#ffa51f;--purple:#818cf8;--gray:#73869e;--green:#35d0a0}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif;background:var(--bg);color:var(--text)}button,input,textarea,select{font:inherit}button{cursor:pointer}.wrap{max-width:760px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 10px calc(45px + env(safe-area-inset-bottom))}header,.topbar,.nav{display:flex;align-items:center;justify-content:space-between;gap:10px}header{padding:14px 4px 20px}h1{font-size:27px;margin:0}.sub,.notice{color:var(--muted)}.sub{margin-top:5px}.card{background:var(--card);border:2px solid var(--line);border-radius:23px;padding:16px;margin-bottom:17px}h2{font-size:23px;margin:0 0 14px}.monthTitle{font-size:23px;font-weight:800;cursor:pointer}.primary,.secondary,.theme,.nav button{border:0;border-radius:14px;padding:12px 15px;font-weight:750}.primary{background:var(--blue);color:white}.secondary,.theme,.nav button{background:#17263d;color:white}.theme{font-size:20px}.nav{margin:14px 0}.nav button{min-width:50px;font-size:23px}.nav button:disabled{opacity:.3}.nav .pickerTrigger{flex:1;font-size:18px;border:1px solid var(--line)}.week,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.week{background:#02091a}.week div{text-align:center;padding:11px 0;font-weight:800}.week div:first-child,.week div:last-child{color:var(--red)}.day{position:relative;min-height:101px;padding:6px 3px;border:1px solid #354962;overflow:hidden;overflow-wrap:anywhere;background:rgba(255,255,255,.025);cursor:pointer}.day.empty{opacity:.12;cursor:default}.day.weekend{background:rgba(245,210,245,.09)}.day.offDay{background:#e5e7eb;color:#1f2937}.day.holiday{background:#ffdce5;color:#20242c}.day.weekend .num,.day.holiday .num{color:#e7192d}.day.today{box-shadow:inset 0 0 0 3px #f9fafb}.day.selected{outline:3px solid var(--blue);outline-offset:-3px}.num{font-size:18px;font-weight:900}.lunar{font-size:10px;color:var(--muted);margin-top:3px}.day.offDay .lunar,.day.holiday .lunar{color:#475569}.shift{display:block;border-radius:7px;text-align:center;padding:4px 1px;margin-top:6px;font-size:11px;font-weight:800}.dayShift{background:var(--orange);color:#172033}.nightShift{background:var(--purple);color:#10132c}.off{background:#f8fafc;color:#475569;border:1px solid #94a3b8}.leave{background:#64748b;color:white}.overtime{background:#f59e0b;color:#172033}.holidayName,.term,.statusBadge{font-size:10px;font-weight:800;margin-top:3px;line-height:1.25}.holidayName{color:#c61b35}.term{color:#059669}.statusBadge{color:#047857}.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}.dot{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}.info{line-height:1.85;white-space:normal;margin-bottom:12px}.actions{display:flex;flex-wrap:wrap;gap:9px}textarea{width:100%;min-height:100px;resize:vertical;margin-top:12px;padding:12px;border-radius:14px;border:1px solid var(--line);background:#17263d;color:white}.settings{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%;padding:11px;border-radius:12px;border:1px solid var(--line);background:#17263d;color:white}.notice{font-size:13px;line-height:1.6;margin-top:12px}.light{--bg:#eef3f9;--card:#fff;--line:#c8d5e5;--text:#152033;--muted:#64748b}.light .theme,.light .nav button,.light .secondary,.light textarea,.light .field input,.light .field select{background:#e4ebf5;color:#152033}.light .week{background:#e8eef7}.light .day.today{box-shadow:inset 0 0 0 3px #111}.pickerBackdrop{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px}.pickerBackdrop.open{display:flex}.pickerPanel{width:min(500px,100%);background:#f5f2f5;color:#333;border-radius:25px;padding:20px}.pickerHeading{text-align:center;font-size:24px;font-weight:800;margin-bottom:15px}.wheelWrap{display:grid;grid-template-columns:1fr 1fr;gap:12px}.wheel{width:100%;height:230px;border-radius:12px;border:1px solid #c6c6ce;background:white;color:#222;font-size:22px;text-align:center}.pickerActions{display:flex;gap:12px;margin-top:15px}.pickerActions button{flex:1}.light .day.offDay{background:#e5e7eb}@media(max-width:520px){h1{font-size:23px}.card{padding:11px}.day{min-height:89px;padding:4px 2px}.num{font-size:16px}.lunar,.holidayName,.term,.statusBadge{font-size:9px}.shift{font-size:10px}.settings{grid-template-columns:1fr}}
+
+/* V7.4：深淺模式下讓上班日突出、休假日退後；假日與班別同時顯示 */
+:root{--orange:#ff9d20;--purple:#945bff;--gray:#66758b;--green:#35d0a0;--overtime:#ffe047}
+.day{background:#111f34}
+.day.weekend{background:#19263c}
+.day.offDay,.day.offDay.weekend{background:#283344;color:#f1f5f9}
+.day.holiday,.day.holiday.weekend{background:#f8b8c5;color:#20202b}
+.day.holiday .lunar{color:#653747}
+.day.holiday .holidayName{color:#a50827;font-weight:900}
+.day.offDay .lunar{color:#b9c5d6}
+.day .shift{color:#fff;border:0;font-weight:900}
+.day .dayShift{background:var(--orange);color:#19202a}
+.day .nightShift{background:var(--purple);color:#fff}
+.day .off{background:#485468;color:#f7f9fc}
+.day .leave{background:#596679;color:#fff}
+.day .overtime{background:var(--overtime);color:#242018}
+.day.holiday .shift{box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.day.holiday .num,.day.weekend .num{color:#f52b48}
+.day.holiday .term{color:#047857}
+.light .day{background:#f6f9fe;color:#152033}
+.light .day.weekend{background:#e9edf5}
+.light .day.offDay,.light .day.offDay.weekend{background:#d6dce5;color:#182235}
+.light .day.holiday,.light .day.holiday.weekend{background:#ffd2dc;color:#20202b}
+.light .day.offDay .lunar{color:#475569}
+.light .day .off{background:#64748b;color:white}
+
+.day:not(.empty){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y;cursor:pointer}
+.quickBackdrop{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;padding:18px}
+.quickBackdrop.open{display:flex}
+.quickPanel{width:min(390px,100%);background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 16px 48px #0007}
+.quickPanel h2{margin:0 0 8px}
+.quickPanel .quickStatus{color:var(--muted);margin-bottom:15px}
+.quickButtons{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quickButtons button{min-height:48px}
+.quickButtons .wide{grid-column:1/-1}
+.quickButtons button:disabled{opacity:.35;cursor:not-allowed}
+.quickClose{width:100%;margin-top:12px}.quickNote{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.quickNote textarea{margin-top:8px;min-height:90px}.quickNote .actions{margin-top:8px}.quickNote label{font-weight:750}
+</style></head><body><div class="wrap"><header><div><h1>輪班日曆</h1><div class="sub" id="appSub">V8.1.3 輕點快捷選單・記事整合測試版</div></div><button class="theme" id="themeBtn" aria-label="切換深淺色">☀ / 🌙</button></header>
+<section class="card"><div class="topbar"><div class="monthTitle" id="monthTitle" role="button" tabindex="0"></div><button class="primary" id="todayBtn">今天</button></div><div class="nav"><button id="prev" aria-label="上一個月">‹</button><button class="pickerTrigger" id="pickerTrigger">選擇年月</button><button id="next" aria-label="下一個月">›</button></div><div class="week"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div class="grid" id="calendar"></div><div class="legend"><span><i class="dot" style="background:#ff9d20"></i>早班</span><span><i class="dot" style="background:#945bff"></i>夜班</span><span><i class="dot" style="background:#66758b"></i>休假</span><span><i class="dot" style="background:#ff5d70"></i>國定假日／補假</span><span><i class="dot" style="background:#ffe047"></i>加班</span><span><i class="dot" style="background:#35d0a0"></i>節氣</span></div></section>
+<div class="quickBackdrop" id="quickDialog" role="dialog" aria-modal="true" aria-labelledby="quickTitle">
+<div class="quickPanel"><h2 id="quickTitle">日期快捷操作</h2><div class="quickStatus" id="quickStatus"></div>
+<div class="quickButtons"><button class="secondary" id="quickLeave">改請假</button><button class="secondary" id="quickOvertime">改加班</button><button class="secondary wide" id="quickRestore">恢復原班表</button><button class="secondary wide" id="quickDetail">查看完整日期資訊</button></div>
+<div class="quickNote"><label for="quickNote">當日記事</label><textarea id="quickNote" placeholder="輸入這一天的記事…"></textarea><div class="actions"><button class="primary" id="quickSaveNote">儲存記事</button><button class="secondary" id="quickDeleteNote">刪除記事</button></div></div><button class="secondary quickClose" id="quickClose">關閉</button></div></div>
+<section class="card"><h2>今日上班提醒</h2><div class="info" id="todayReminder"></div></section>
+<section class="card"><h2>選擇日期</h2><div class="info" id="dateInfo"></div><div class="actions"><button class="primary" id="remindBtn">建立當天提醒紀錄</button><button class="secondary" id="leaveBtn">改請假</button><button class="secondary" id="overtimeBtn">改加班</button><button class="secondary" id="restoreDayBtn">恢復原班表</button><button class="secondary" id="saveNote">儲存記事</button></div><textarea id="note" placeholder="這一天的記事…"></textarea></section>
+<section class="card"><h2>提醒連動紀錄</h2><div class="info" id="reminderLog">尚無變更</div><div class="notice">此處的提醒僅是本機紀錄，不會直接建立、取消或觸發 iPhone「時鐘」App 鬧鐘。請使用「捷徑」或「時鐘」另行設定真正的系統鬧鐘。</div></section>
+<section class="card"><h2>國定假日資料</h2><div class="info" id="holidaySyncStatus"></div><div class="actions"><button class="primary" id="syncHolidays">更新官方假日資料</button><button class="secondary" id="officialHolidayPage" type="button">查看官方辦公日曆公告</button></div><div class="notice">2026、2027 年的放假日依行政院人事行政總處官方 Excel；假日名稱依內建名稱表顯示。按「更新官方假日資料」會下載本網站已驗證的 JSON，不直接跨網站抓取政府 Excel。2028～2040 年未有已驗證資料時僅推估。更新失敗不刪除原資料。<a href="https://www.dgpa.gov.tw/informationlist?uid=30" target="_blank" rel="noopener noreferrer" style="color:#93c5fd">官方公告來源</a>。</div></section>
+<section class="card"><h2>班表設定</h2><div class="settings"><div class="field"><label for="team">班別名稱</label><select id="team"><option value="">未設定</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div><div class="field"><label for="cycleStart">循環起始日（第一個上班日）</label><input id="cycleStart" type="date"></div><div class="field"><label for="workDays">連續上班天數</label><select id="workDays"><option value="">未設定</option><option value="2">2天</option><option value="3">3天</option><option value="4">4天</option></select></div><div class="field"><label for="offDays">連續休假天數</label><select id="offDays"><option value="">未設定</option><option value="2">休假2天</option><option value="3">休假3天</option><option value="4">休假4天</option></select></div><div class="field"><label for="rotationMonths">日夜班切換週期</label><select id="rotationMonths"><option value="">未設定</option><option value="2">每2個月切換</option><option value="3">每3個月切換</option></select></div><div class="field"><label for="firstShift">第一輪班別</label><select id="firstShift"><option value="">未設定</option><option value="night">夜班</option><option value="day">早班</option></select></div><div class="field"><label for="dayStart">早班上班</label><input id="dayStart" type="time" value="00:00"></div><div class="field"><label for="dayEnd">早班下班</label><input id="dayEnd" type="time" value="00:00"></div><div class="field"><label for="nightStart">夜班上班</label><input id="nightStart" type="time" value="00:00"></div><div class="field"><label for="nightEnd">夜班下班</label><input id="nightEnd" type="time" value="00:00"></div><div class="field"><label for="dayAlarm">早班提醒</label><input id="dayAlarm" type="time" value="00:00"></div><div class="field"><label for="nightAlarm">夜班提醒</label><input id="nightAlarm" type="time" value="00:00"></div></div><div class="actions" style="margin-top:14px"><button class="primary" id="saveSchedule">儲存班表設定</button><button class="secondary" id="resetSchedule">恢復預設</button></div><div class="notice" id="ruleSummary"></div></section></div>
+<div class="pickerBackdrop" id="yearMonthDialog" role="dialog" aria-modal="true" aria-labelledby="pickerHeading"><div class="pickerPanel"><div class="pickerHeading" id="pickerHeading">請選擇年月</div><div class="wheelWrap"><select class="wheel" id="yearWheel" size="5" aria-label="年份"></select><select class="wheel" id="monthWheel" size="5" aria-label="月份"></select></div><div class="pickerActions"><button class="secondary" id="pickerCancel">取消</button><button class="primary" id="pickerDone">完成</button></div></div></div>
+<script>
+'use strict';
+const APP_VERSION='8.0.1',MIN_YEAR=2026,MAX_YEAR=2040,$=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const dateKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const dateAt=(y,m,d)=>new Date(y,m-1,d,12);
+const validDateString=s=>{if(!/^\d{4}-\d\d-\d\d$/.test(s||''))return false;const [y,m,d]=s.split('-').map(Number),v=dateAt(y,m,d);return v.getFullYear()===y&&v.getMonth()+1===m&&v.getDate()===d};
+const readObj=name=>{try{const v=JSON.parse(localStorage.getItem(name)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{}}catch(e){return {}}};
+const store=(name,obj)=>{try{localStorage.setItem(name,JSON.stringify(obj));return true}catch(e){alert('儲存失敗：請檢查瀏覽器儲存空間或隱私設定。');return false}};
+let officialData=null;
+const notes=readObj('shiftNotes'),overrides=readObj('v66_day_overrides'),reminders=readObj('v66_day_reminders'),syncedHolidays=readObj('v65_holidays'),onlineCalendar=readObj('v75_official_calendar');
+const scheduleIds=['team','cycleStart','workDays','offDays','rotationMonths','firstShift','dayStart','dayEnd','nightStart','nightEnd','dayAlarm','nightAlarm'];
+const defaults={team:'',cycleStart:'',workDays:'',offDays:'',rotationMonths:'',firstShift:'',dayStart:'00:00',dayEnd:'00:00',nightStart:'00:00',nightEnd:'00:00',dayAlarm:'00:00',nightAlarm:'00:00'};
+let view=new Date(),selected=new Date();view=dateAt(Math.min(MAX_YEAR,Math.max(MIN_YEAR,view.getFullYear())),view.getMonth()+1,1);selected=dateAt(view.getFullYear(),view.getMonth()+1,Math.min(selected.getDate(),new Date(view.getFullYear(),view.getMonth()+1,0).getDate()));
+const getConfig=()=>({team:$('team').value,base:$('cycleStart').value,work:Number($('workDays').value),off:Number($('offDays').value),months:Number($('rotationMonths').value),first:$('firstShift').value});
+const configured=()=>{const c=getConfig();return !!(c.team&&validDateString(c.base)&&[2,3,4].includes(c.work)&&[2,3,4].includes(c.off)&&[2,3].includes(c.months)&&['day','night'].includes(c.first))};
+function rotation(d){const c=getConfig();if(!configured())return '';const [y,m]=c.base.split('-').map(Number);const months=(d.getFullYear()-y)*12+(d.getMonth()+1-m);const block=Math.floor(months/c.months);return ((block%2+2)%2===0)?c.first:(c.first==='day'?'night':'day')}
+function baseStatus(d){if(!configured())return {work:false,name:'',unconfigured:true};const c=getConfig(),a=c.base.split('-').map(Number),start=Date.UTC(a[0],a[1]-1,a[2]),end=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate());const delta=Math.round((end-start)/86400000),cycle=((delta%(c.work+c.off))+(c.work+c.off))%(c.work+c.off);if(cycle>=c.work)return {work:false,name:'休假'};return {work:true,name:rotation(d)==='day'?'早班':'夜班'}}
+function status(d){const base=baseStatus(d),o=overrides[dateKey(d)];if(!configured())return base;if(o==='leave'&&base.work)return {work:false,name:'請假',override:'leave',base};if(o==='overtime'&&!base.work){const name=rotation(d)==='day'?'早班':'夜班';return {work:true,name:name+'加班',shiftName:name,override:'overtime',base}}return base}
+const alarmTime=s=>(s.shiftName||s.name)==='早班'?$('dayAlarm').value:$('nightAlarm').value;
+const reminderFor=d=>{const s=status(d),r=reminders[dateKey(d)];if(!s.work||!r)return null;const sn=s.shiftName||s.name;return {...r,time:alarmTime(s),shift:sn}};
+function saveChanges(){store('v66_day_overrides',overrides);store('v66_day_reminders',reminders)}
+function changeDay(type){if(!configured()){alert('請先完成班表設定');return}const k=dateKey(selected),base=baseStatus(selected);if(type==='leave'&&!base.work){alert('原本是休假日');return}if(type==='overtime'&&base.work){alert('原本是上班日');return}overrides[k]=type;if(type==='leave')delete reminders[k];else {const s=status(selected);reminders[k]={time:alarmTime(s),shift:s.shiftName||s.name,auto:true}}saveChanges();refresh();alert(type==='leave'?'已記錄請假，並取消網頁內當日提醒紀錄。':'已記錄加班，並建立網頁內提醒紀錄（不是系統鬧鐘）。')}
+function openQuickMenu(){
+ const base=baseStatus(selected),current=status(selected),hasOverride=!!overrides[dateKey(selected)];
+ $('quickTitle').textContent=`${dateKey(selected).replaceAll('-','/')} 快捷操作`;
+ $('quickStatus').textContent=`目前：${current.name||'未設定'}${holidayName(selected)?' · '+holidayName(selected):''}`;
+ $('quickLeave').disabled=!configured()||!base.work||current.override==='leave';
+ $('quickOvertime').disabled=!configured()||base.work||current.override==='overtime';
+ $('quickRestore').disabled=!hasOverride;
+ $('quickNote').value=typeof notes[dateKey(selected)]==='string'?notes[dateKey(selected)]:'';
+ $('quickDialog').classList.add('open');
+ $('quickClose').focus();
+}
+function closeQuickMenu(){$('quickDialog').classList.remove('open')}
+function restoreDay(){delete overrides[dateKey(selected)];delete reminders[dateKey(selected)];saveChanges();refresh();alert('已恢復原班表（網頁紀錄）。')}
+const fixed={'01-01':'元旦','02-28':'和平紀念日','04-04':'兒童節','05-01':'勞動節','09-28':'教師節','10-10':'國慶日','10-25':'臺灣光復節','12-25':'行憲紀念日'};
+const official2026={'2026-01-01':'元旦','2026-02-15':'春節假期','2026-02-16':'除夕','2026-02-17':'春節','2026-02-18':'春節','2026-02-19':'春節','2026-02-20':'春節補假','2026-02-27':'和平紀念日補假','2026-02-28':'和平紀念日','2026-04-03':'兒童節補假','2026-04-04':'兒童節','2026-04-05':'清明節','2026-04-06':'清明節補假','2026-05-01':'勞動節','2026-06-19':'端午節','2026-09-25':'中秋節','2026-09-28':'教師節','2026-10-09':'國慶日補假','2026-10-10':'國慶日','2026-10-25':'臺灣光復節','2026-10-26':'光復節補假','2026-12-25':'行憲紀念日'};
+const official2027={'2027-01-01':'元旦','2027-02-04':'春節假期','2027-02-05':'除夕','2027-02-06':'春節（初一）','2027-02-07':'春節（初二）','2027-02-08':'春節（初三）','2027-02-09':'春節補假','2027-02-10':'春節補假','2027-02-28':'和平紀念日','2027-03-01':'和平紀念日補假','2027-04-04':'兒童節','2027-04-05':'清明節','2027-04-06':'兒童節補假','2027-04-30':'勞動節補假','2027-05-01':'勞動節','2027-10-10':'國慶日','2027-10-11':'國慶日補假','2027-10-25':'臺灣光復節','2027-12-24':'行憲紀念日補假','2027-12-25':'行憲紀念日','2027-12-31':'2028元旦補假','2027-06-09':'端午節','2027-09-15':'中秋節','2027-09-28':'教師節'};
+
+const officialOfficeDaysOff={"2026":["2026-01-01","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-27","2026-04-03","2026-04-06","2026-05-01","2026-06-19"],"2027":["2027-01-01","2027-02-04","2027-02-05","2027-02-08","2027-02-09","2027-02-10","2027-03-01","2027-04-05","2027-04-06","2027-04-30","2027-06-09"]};
+const lunarFormatter=new Intl.DateTimeFormat('zh-TW-u-ca-chinese',{month:'numeric',day:'numeric'});
+function lunarParts(d){try{const p=lunarFormatter.formatToParts(d),mv=p.find(x=>x.type==='month')?.value||'',dv=p.find(x=>x.type==='day')?.value||'';return {m:Number((mv.match(/\d+/)||[])[0]),d:Number((dv.match(/\d+/)||[])[0]),leap:/閏|leap/i.test(mv)}}catch(e){return {m:0,d:0,leap:false}}}
+function lunarText(d){try{return new Intl.DateTimeFormat('zh-TW-u-ca-chinese',{month:'short',day:'numeric'}).format(d).replace(/\s/g,'')}catch(e){return ''}}
+function qingmingDay(y){const yy=y%100;return Math.floor(yy*.2422+4.81)-Math.floor(yy/4)}
+function predictedMakeup(y,m,d){if(y<=2027||y>2040)return '';for(const [mm,dd,name] of [[1,1,'元旦'],[2,28,'和平紀念日'],[4,4,'兒童節'],[5,1,'勞動節'],[9,28,'教師節'],[10,10,'國慶日'],[10,25,'光復節'],[12,25,'行憲紀念日']]){const x=dateAt(y,mm,dd),w=x.getDay();if(w===6)x.setDate(x.getDate()-1);else if(w===0)x.setDate(x.getDate()+1);else continue;if(x.getFullYear()===y&&x.getMonth()+1===m&&x.getDate()===d)return name+'補假（推估）'}return ''}
+function officialDay(d){const k=dateKey(d),y=String(d.getFullYear());return officialData?.years?.[y]?.days?.[k]||null}
+function holidayName(d){const k=dateKey(d),y=d.getFullYear(),m=d.getMonth()+1,dd=d.getDate();
+ if(y===2026||y===2027){
+   const named=(y===2026?official2026:official2027)[k]||'';
+   const rec=officialDay(d);
+   if(rec){
+     if(rec.name)return rec.name;
+     if(named)return named;
+     if(rec.off&&d.getDay()!==0&&d.getDay()!==6)return '政府公告放假日（名稱待核）';
+     return '';
+   }
+   if(named)return named;
+   if(officialOfficeDaysOff[y]?.includes(k))return '政府公告放假日（名稱待核）';
+   return '';
+ }
+ const rec=officialDay(d);if(rec)return rec.name||((rec.off&&![0,6].includes(d.getDay()))?'政府公告放假日（名稱待核）':'');
+ const a=[];if(fixed[`${pad(m)}-${pad(dd)}`])a.push(fixed[`${pad(m)}-${pad(dd)}`]);if(m===4&&dd===qingmingDay(y))a.push('清明節（推估）');const l=lunarParts(d);if(!l.leap){if(l.m===1&&[1,2,3].includes(l.d))a.push('春節（推估）');if(l.m===5&&l.d===5)a.push('端午節（推估）');if(l.m===8&&l.d===15)a.push('中秋節（推估）')}const mk=predictedMakeup(y,m,dd);if(mk)a.push(mk);return [...new Set(a)].join('・')
+}
+const terms={'01-05':'小寒','01-20':'大寒','02-04':'立春','02-19':'雨水','03-05':'驚蟄','03-20':'春分','04-05':'清明','04-20':'穀雨','05-05':'立夏','05-21':'小滿','06-05':'芒種','06-21':'夏至','07-07':'小暑','07-23':'大暑','08-07':'立秋','08-23':'處暑','09-07':'白露','09-23':'秋分','10-08':'寒露','10-23':'霜降','11-07':'立冬','11-22':'小雪','12-07':'大雪','12-22':'冬至'};
+function safeText(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){const y=view.getFullYear(),m=view.getMonth(),grid=$('calendar');$('monthTitle').textContent=`${y}年 ${m+1}月`;$('pickerTrigger').textContent=`${y}年 / ${m+1}月`;$('prev').disabled=y===MIN_YEAR&&m===0;$('next').disabled=y===MAX_YEAR&&m===11;grid.replaceChildren();for(let i=0;i<new Date(y,m,1).getDay();i++){const el=document.createElement('div');el.className='day empty';grid.append(el)}for(let d=1;d<=new Date(y,m+1,0).getDate();d++){const dt=dateAt(y,m+1,d),s=status(dt),h=holidayName(dt),term=terms[`${pad(m+1)}-${pad(d)}`]||'',r=reminderFor(dt),el=document.createElement('div');el.className='day';if([0,6].includes(dt.getDay()))el.classList.add('weekend');if(!s.work&&!s.unconfigured)el.classList.add('offDay');if(h)el.classList.add('holiday');if(dateKey(dt)===dateKey(selected))el.classList.add('selected');if(dateKey(dt)===dateKey(new Date()))el.classList.add('today');const cls=s.override==='leave'?'leave':s.override==='overtime'?'overtime':s.name==='早班'?'dayShift':s.name==='夜班'?'nightShift':'off';el.innerHTML=`<div class="num">${d}</div><div class="lunar">${safeText(lunarText(dt))}</div>${s.name?`<div class="shift ${cls}">${safeText(s.name)}</div>`:''}${r?`<div class="statusBadge">提醒 ${safeText(r.time)}</div>`:s.override==='leave'?'<div class="statusBadge">提醒已關閉</div>':''}${h?`<div class="holidayName">${safeText(h)}</div>`:''}${term?`<div class="term">${term}</div>`:''}`;// A single tap selects the date and opens the combined quick-action and notes panel.
+el.addEventListener('click',()=>{selected=dt;render();openQuickMenu()});
+el.tabIndex=0;
+el.setAttribute('role','button');
+el.setAttribute('aria-label',`${dateKey(dt)}，點一下開啟快捷操作及記事`);
+el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selected=dt;render();openQuickMenu()}});
+grid.append(el)}showSelected()}
+function showSelected(){const s=status(selected),h=holidayName(selected),r=reminderFor(selected),sn=s.shiftName||s.name,detail=!configured()?'尚未設定':!s.work?'今天休假':sn==='早班'?`${$('dayStart').value} ～ ${$('dayEnd').value}`:`${$('nightStart').value} ～ 次日 ${$('nightEnd').value}`;$('dateInfo').innerHTML=`<strong>${dateKey(selected)}</strong><br>農曆：${safeText(lunarText(selected)||'—')}<br>班別：<strong>${safeText(s.name||'尚未設定')}</strong><br>時間：${safeText(detail)}<br>網頁提醒：${r?safeText(r.time):'未建立／已關閉'}<br>假日：${safeText(h||'—')}`;$('note').value=typeof notes[dateKey(selected)]==='string'?notes[dateKey(selected)]:''}
+function showToday(){if(!configured()){$('todayReminder').textContent='尚未設定班表規則。';return}const t=new Date(),d=dateAt(t.getFullYear(),t.getMonth()+1,t.getDate()),s=status(d);if(!s.work){$('todayReminder').textContent='今天是休假／請假日，不建立上班提醒。';return}const sn=s.shiftName||s.name;$('todayReminder').innerHTML=`今天：<strong>${safeText(s.name)}</strong><br>上班：${safeText(sn==='早班'?$('dayStart').value:$('nightStart').value)}<br>提醒時間：<strong>${safeText(alarmTime(s))}</strong><br><small>僅供查閱；不會自動觸發 iPhone 系統鬧鐘。</small>`}
+function showLog(){const lines=Object.keys(overrides).filter(k=>/^\d{4}-\d\d-\d\d$/.test(k)).sort().slice(-12).reverse().map(k=>`${safeText(k)}：${overrides[k]==='leave'?'請假（網頁提醒已關閉）':overrides[k]==='overtime'?'加班（網頁提醒紀錄）':'其他變更'}`);$('reminderLog').innerHTML=lines.length?lines.join('<br>'):'尚無變更'}
+function refresh(){render();showToday();showLog()}
+function loadSchedule(){for(const id of scheduleIds){let v=null;try{v=localStorage.getItem('v64_'+id)}catch(e){}$(id).value=v===null?defaults[id]:v}updateSummary()}
+function saveSchedule(){for(const id of scheduleIds){try{localStorage.setItem('v64_'+id,$(id).value)}catch(e){alert('班表儲存失敗：'+e.message);return}}updateSummary();refresh()}
+function updateSummary(){$('ruleSummary').textContent=configured()?'班表規則已設定。修改後請按「儲存班表設定」。':'目前尚未完成班表設定；需填妥所有班表規則。'}
+function openPicker(){const y=view.getFullYear(),m=view.getMonth()+1;$('yearWheel').value=String(y);$('monthWheel').value=String(m);$('yearMonthDialog').classList.add('open');$('yearWheel').focus()}
+for(let y=MIN_YEAR;y<=MAX_YEAR;y++)$('yearWheel').add(new Option(y+'年',y));for(let m=1;m<=12;m++)$('monthWheel').add(new Option(m+'月',m));
+$('prev').onclick=()=>{if(view.getFullYear()===MIN_YEAR&&view.getMonth()===0)return;view=dateAt(view.getFullYear(),view.getMonth(),0);view=dateAt(view.getFullYear(),view.getMonth()+1,1);selected=dateAt(view.getFullYear(),view.getMonth()+1,1);render()};
+$('next').onclick=()=>{if(view.getFullYear()===MAX_YEAR&&view.getMonth()===11)return;view=dateAt(view.getFullYear(),view.getMonth()+2,1);render()};
+$('todayBtn').onclick=()=>{const t=new Date();const y=Math.min(MAX_YEAR,Math.max(MIN_YEAR,t.getFullYear()));view=dateAt(y,t.getMonth()+1,1);selected=dateAt(y,t.getMonth()+1,t.getDate());refresh()};
+$('pickerTrigger').onclick=openPicker;$('monthTitle').onclick=openPicker;$('monthTitle').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPicker()}};
+$('pickerCancel').onclick=()=>$('yearMonthDialog').classList.remove('open');$('pickerDone').onclick=()=>{view=dateAt(Number($('yearWheel').value),Number($('monthWheel').value),1);selected=dateAt(view.getFullYear(),view.getMonth()+1,1);$('yearMonthDialog').classList.remove('open');render()};$('yearMonthDialog').onclick=e=>{if(e.target===$('yearMonthDialog'))$('yearMonthDialog').classList.remove('open')};document.addEventListener('keydown',e=>{if(e.key==='Escape')$('yearMonthDialog').classList.remove('open')});
+$('saveNote').onclick=()=>{const k=dateKey(selected);if($('note').value.trim())notes[k]=$('note').value;else delete notes[k];if(store('shiftNotes',notes))alert('記事已儲存')};
+$('remindBtn').onclick=()=>{if(!configured()){alert('請先完成班表設定');return}const s=status(selected);if(!s.work){alert('這一天是休假／請假，不建立提醒紀錄');return}reminders[dateKey(selected)]={time:alarmTime(s),shift:s.shiftName||s.name,auto:false};saveChanges();refresh();alert('已建立網頁內提醒紀錄。iPhone 系統鬧鐘請另外透過「時鐘」或「捷徑」設定。')};
+$('quickClose').onclick=closeQuickMenu;
+$('quickDialog').onclick=e=>{if(e.target===$('quickDialog'))closeQuickMenu()};
+$('quickLeave').onclick=()=>{closeQuickMenu();changeDay('leave')};
+$('quickOvertime').onclick=()=>{closeQuickMenu();changeDay('overtime')};
+$('quickRestore').onclick=()=>{closeQuickMenu();restoreDay()};
+$('quickDetail').onclick=()=>{closeQuickMenu();$('dateInfo').scrollIntoView({behavior:'smooth',block:'center'})};
+$('quickSaveNote').onclick=()=>{const k=dateKey(selected);const value=$('quickNote').value;if(value.trim())notes[k]=value;else delete notes[k];if(store('shiftNotes',notes)){$('note').value=value;alert('記事已儲存')}};
+$('quickDeleteNote').onclick=()=>{const k=dateKey(selected);if(!notes[k]&&!$('quickNote').value.trim())return;if(!confirm('確定刪除這一天的記事？'))return;delete notes[k];if(store('shiftNotes',notes)){$('quickNote').value='';$('note').value='';alert('記事已刪除')}};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeQuickMenu()});
+$('leaveBtn').onclick=()=>changeDay('leave');$('overtimeBtn').onclick=()=>changeDay('overtime');$('restoreDayBtn').onclick=restoreDay;
+$('themeBtn').onclick=()=>{document.body.classList.toggle('light');try{localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark')}catch(e){}};
+for(const id of scheduleIds)$(id).addEventListener('change',()=>{updateSummary();refresh()});
+$('saveSchedule').onclick=()=>{saveSchedule();alert('已儲存班表設定。舊版記事與請假／加班紀錄已保留。')};
+$('resetSchedule').onclick=()=>{if(!confirm('恢復未設定狀態？會清除班表規則，但保留記事、請假／加班及提醒歷史紀錄。'))return;for(const id of scheduleIds)$(id).value=defaults[id];saveSchedule();alert('已恢復未設定狀態。')};
+function holidayStatus(){
+ const years=Object.keys(officialData?.years||{}).sort();
+ $('holidaySyncStatus').textContent=years.length
+ ?`已載入本網站驗證的政府 Excel 日期：${years.join('、')} 年。其餘年度尚無官方驗證資料時使用推估。假日名稱與日期分類仍應以官方公告為準。`
+ :'尚未載入線上官方日曆 JSON；目前使用內建假日名稱及日期表。可按「更新官方假日資料」重試。';
+}
+async function loadOfficialCalendar(showMessage=false){
+ const response=await fetch('./data/official_calendar.json?v='+Date.now(),{cache:'no-store'});
+ if(!response.ok)throw new Error('HTTP '+response.status);
+ const data=await response.json();
+ if(data.schema!==1||!data.years||typeof data.years!=='object'||!data.years['2026']||!data.years['2027'])throw new Error('缺少必要年度或資料格式不符');
+ for(const [year,rec] of Object.entries(data.years)){
+   if(!/^20\d{2}$/.test(year)||Number(year)<2026||Number(year)>2040)throw new Error('年份不符');
+    const keys=Object.keys(rec.days||{});
+   const expected=(Number(year)%4===0&&(Number(year)%100!==0||Number(year)%400===0))?366:365;
+   if(keys.length!==expected||keys.some(k=>!/^\d{4}-\d{2}-\d{2}$/.test(k)||!k.startsWith(year+'-')||typeof rec.days[k].off!=='boolean'||typeof rec.days[k].name!=='string'||rec.days[k].name.length>80))throw new Error(year+' 年資料驗證失敗');
+ }
+ officialData=data;
+ try{localStorage.setItem('v80_official_calendar',JSON.stringify(data))}catch(e){}
+ holidayStatus();refresh();
+ if(showMessage)alert('已成功載入官方 Excel 驗證資料：'+Object.keys(data.years).join('、')+' 年。');
+}
+$('officialHolidayPage').onclick=()=>window.open('https://www.dgpa.gov.tw/informationlist?uid=30','_blank','noopener,noreferrer');
+$('syncHolidays').onclick=async()=>{
+ const btn=$('syncHolidays');if(btn.disabled)return;btn.disabled=true;btn.textContent='正在更新…';
+ try{await loadOfficialCalendar(true)}catch(e){alert('更新失敗：'+e.message+'。已保留原有假日資料。')}
+ finally{btn.disabled=false;btn.textContent='更新官方假日資料'}
+};
+async function checkForUpdate(){try{const r=await fetch('./index.html?v='+Date.now(),{cache:'no-store'});if(!r.ok)return;const html=await r.text(),m=html.match(/const APP_VERSION\s*=\s*['"]([^'"]+)['"]/);if(m&&m[1]!==APP_VERSION){if(!sessionStorage.getItem('shift_update_'+m[1])){sessionStorage.setItem('shift_update_'+m[1],'1');if('caches'in window){for(const n of await caches.keys())await caches.delete(n)}const u=new URL(location.href);u.searchParams.set('updated',Date.now().toString());location.replace(u.href)}}}catch(e){}}
+try{if(localStorage.getItem('theme')==='light')document.body.classList.add('light')}catch(e){}
+try{const cached=JSON.parse(localStorage.getItem('v80_official_calendar')||'null');if(cached?.schema===1)officialData=cached}catch(e){}
+loadSchedule();holidayStatus();refresh();loadOfficialCalendar().catch(()=>{});checkForUpdate();window.addEventListener('pageshow',checkForUpdate);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkForUpdate()});
+</script></body></html>
