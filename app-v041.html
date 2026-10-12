@@ -106,7 +106,7 @@ async function loadHolidays(manual=false){try{const r=await fetch('./data/offici
 $('refreshHolidays').onclick=()=>loadHolidays(true);
 
 function openDateSheet(){$('overtimeEditor').classList.add('hidden');$('sheetTitle').textContent=selected+'｜'+status(selected,saved).label;$('sheetInfo').innerHTML=info(selected,status(selected,saved));$('sheetNote').value=notes[selected]||'';$('dateSheet').classList.remove('hidden')}
-function closeDateSheet(){const v=$('sheetNote').value.trim(),old=notes[selected]||'';if(v!==old){if(v)notes[selected]=v;else delete notes[selected];if(!persist()){if(old)notes[selected]=old;else delete notes[selected];alert('記事尚未成功儲存，請稍後再試。');return false}render()}$('dateSheet').classList.add('hidden');return true}
+function closeDateSheet(){const v=$('sheetNote').value.trim(),old=notes[selected]||'';if(v!==old){if(v)notes[selected]=v;else delete notes[selected];if(!persist()){if(old)notes[selected]=old;else delete notes[selected];alert('記事尚未成功儲存，請稍後再試。');return false}render()}$('dateSheet').classList.add('hidden');window.dispatchEvent(new Event("shift-editor-closed"));return true}
 $('sheetClose').onclick=closeDateSheet;
 $('dateSheet').onclick=e=>{if(e.target===$('dateSheet'))closeDateSheet()};
 $('sheetLeave').onclick=()=>{if(change('leave'))openDateSheet()};
@@ -334,8 +334,8 @@ async function checkCloud(){
  else {conflict=!(base===remote&&local!==remote);
  if(base===remote&&local!==remote){status("📱 偵測到手機新記事，準備安全自動備份…");queueAutoUpload()}
  else if(base&&base!==local&&base!==remote){
-  const merged=safeThreeWayMerge(base,local,remote);
-  if(!merged){status("⚠ 相同資料有不同修改，已保留手機與雲端原始版本，停止自動同步。");}
+  const merged=hasUnsavedEditorNote()?null:safeThreeWayMerge(base,local,remote);
+  if(!merged){status(hasUnsavedEditorNote()?"📝 記事正在編輯，已暫停雲端合併，請先儲存或關閉編輯視窗。":"⚠ 相同資料有不同修改，已保留手機與雲端原始版本，停止自動同步。");}
   else if(localData()!==local){status("⚠ 合併期間手機資料有新修改，已暫停避免覆蓋。");}
   else{
    const mergedText=stableJSON(merged);
@@ -386,6 +386,7 @@ async function safeAutoUpload(){
 }
 function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(()=>{if(current&&!conflict&&!ownerMismatch())safeAutoUpload();else if(!current)status("📱 已儲存在手機，登入 Google 後自動備份。")},2200)}
 window.addEventListener("shift-local-saved",queueAutoUpload);
+window.addEventListener("shift-editor-closed",()=>{if(current&&navigator.onLine&&!busy)checkCloud();else if(current&&navigator.onLine)retryCloudCheck()});
 window.addEventListener("online",()=>{clearTimeout(recheckTimer);if(current)checkCloud();else if(!authReady)status("☁️ 網路已恢復，等待 Google 登入狀態…")});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
 onAuthStateChanged(auth,u=>{authReady=true;clearTimeout(authWait);const priorUid=current?.uid;current=u;if(priorUid!==u?.uid){conflict=false;pendingSync=false;clearTimeout(autoTimer)}buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>{authReady=true;clearTimeout(authWait);buttons();status("⚠ Google 登入狀態讀取失敗，手機資料保留："+e.message)});
