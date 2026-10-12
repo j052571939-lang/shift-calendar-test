@@ -320,7 +320,7 @@ async function safeAutoUpload(){
  if(!snap.exists()||stableJSON(snap.data().data)!==base)throw new Error("雲端版本已變更，已阻止覆蓋");
  tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
  }));
- if(current?.uid===uid){localStorage.setItem(baselineKey(),local);setLocalOwner(uid);pendingSync=false;status("✅ 變更已自動備份到雲端。");}
+ if(current?.uid===uid){localStorage.setItem(baselineKey(),local);setLocalOwner(uid);pendingSync=localData()!==local;status(pendingSync?"📱 有新修改，繼續自動備份…":"✅ 變更已自動備份到雲端。");}
  }catch(e){conflict=true;pendingSync=true;status("⚠ 備份未確認成功："+e.message+"。手機資料保留，重新連線時會先檢查差異。")}
  finally{busy=false;buttons();if(!conflict&&localData()!==local)queueAutoUpload()}
 }
