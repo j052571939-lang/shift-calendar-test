@@ -317,7 +317,7 @@ async function safeAutoUpload(){
 }
 function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(safeAutoUpload,2200)}
 window.addEventListener("shift-local-saved",queueAutoUpload);
-window.addEventListener("online",()=>{if(current){conflict=false;checkCloud()}});
+window.addEventListener("online",()=>{if(current)checkCloud()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
 onAuthStateChanged(auth,u=>{current=u;conflict=false;buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>status("登入狀態讀取失敗："+e.message));
 el("cloudSignIn").onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){status("登入失敗："+e.message+"。請使用 Safari 或 Chrome 開啟測試頁，並允許彈出式視窗。")}};
