@@ -275,7 +275,8 @@ function localData(){try{return stableJSON(JSON.parse(localStorage.getItem("shif
 function readBaseline(){try{const v=localStorage.getItem(baselineKey());return v?stableJSON(JSON.parse(v)):null}catch(e){return null}}
 const TIMEOUT_MS=12000;
 function withTimeout(p){return Promise.race([p,new Promise((_,reject)=>setTimeout(()=>reject(new Error("雲端連線逾時，資料未變更。")),TIMEOUT_MS))])}
-let pendingSync=false,autoTimer=null,conflict=false;
+let pendingSync=false,autoTimer=null,conflict=false,recheckTimer=null;
+function retryCloudCheck(){clearTimeout(recheckTimer);if(!current||!navigator.onLine||document.hidden)return;recheckTimer=setTimeout(()=>{if(current&&!busy)checkCloud()},12000)}
 async function checkCloud(){
  if(!current||busy)return;
  if(ownerMismatch()){conflict=true;status("⚠ 這台手機的班表已綁定其他 Google 帳號。為保護資料，已停止自動同步。");return}
@@ -306,8 +307,8 @@ async function checkCloud(){
  else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
  else status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。");
  }
- }catch(e){pendingSync=true;status("⚠ 雲端檢查未完成，手機資料保留。恢復連線或重新開啟時會再檢查："+e.message)}
- finally{busy=false;buttons();if(pendingSync&&!conflict)queueAutoUpload()}
+ }catch(e){status("⚠ 雲端檢查未完成，手機資料保留。稍後自動重新檢查："+e.message);retryCloudCheck()}
+ finally{busy=false;buttons();if(pendingSync&&!conflict&&readBaseline()&&localData()!==readBaseline())queueAutoUpload()}
 }
 el("cloudCheck").onclick=checkCloud;
 async function safeAutoUpload(){
@@ -330,7 +331,7 @@ async function safeAutoUpload(){
 }
 function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(()=>{if(current&&!conflict&&!ownerMismatch())safeAutoUpload();else if(!current)status("📱 已儲存在手機，登入 Google 後自動備份。")},2200)}
 window.addEventListener("shift-local-saved",queueAutoUpload);
-window.addEventListener("online",()=>{if(current)checkCloud()});
+window.addEventListener("online",()=>{clearTimeout(recheckTimer);if(current)checkCloud();else if(!authReady)status("☁️ 網路已恢復，等待 Google 登入狀態…")});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
 onAuthStateChanged(auth,u=>{authReady=true;clearTimeout(authWait);const priorUid=current?.uid;current=u;if(priorUid!==u?.uid){conflict=false;pendingSync=false;clearTimeout(autoTimer)}buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>{authReady=true;clearTimeout(authWait);buttons();status("⚠ Google 登入狀態讀取失敗，手機資料保留："+e.message)});
 el("cloudSignIn").onclick=async()=>{try{const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});await signInWithPopup(auth,provider)}catch(e){status("登入失敗："+e.message+"。請確認瀏覽器允許 Google 登入視窗。")}};
