@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1729"><link rel="manifest" href="./manifest-v041.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="班表助理"><link rel="icon" type="image/svg+xml" href="./icon-v041.svg"><title>班表助理｜測試版 0.5.3</title>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1729"><link rel="manifest" href="./manifest-v041.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="班表助理"><link rel="icon" type="image/svg+xml" href="./icon-v041.svg"><title>班表助理｜測試版 0.5.4</title>
 <style>
 :root{color-scheme:dark;--bg:#091525;--card:#14243a;--line:#334760;--txt:#f6f8fc;--muted:#aebfd3;--blue:#3c78f2;--orange:#ffb54a;--purple:#b6a0ff;--red:#ff7885}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px -apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;background:#273c57;color:white;padding:11px 13px}button.primary{background:var(--blue);font-weight:700}button:disabled{opacity:.4}input,select,textarea{background:#0c1b2e;border:1px solid var(--line);color:white;border-radius:10px;padding:11px;width:100%;min-width:0}input[type=checkbox]{width:auto;accent-color:var(--blue)}.wrap{max-width:540px;margin:auto;padding:calc(15px + env(safe-area-inset-top)) 12px 60px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.head h1{font-size:23px;margin:0}.small{font-size:12px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:13px}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.row button{white-space:nowrap}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.field label{font-size:13px;color:var(--muted)}.field:last-child{margin-bottom:0}.full{width:100%}.hidden{display:none!important}.week,.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.week div{text-align:center;color:var(--muted);padding:8px 0;font-size:13px}.week div:first-child,.week div:last-child{color:var(--red)}.day{border:1px solid #30455e;background:#101e31;min-height:64px;padding:4px 2px;border-radius:5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;overflow:hidden}.day:disabled{opacity:.1}.day.sel{outline:2px solid #75b0ff}.day .num{font-size:14px;font-weight:700}.day .num.red{color:var(--red)}.pill{font-size:11px;border-radius:5px;padding:2px 3px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pill.daywork{background:#88540b;color:#ffe2ad}.pill.weekday{background:#087f83;color:#e9ffff}.pill.night{background:#463a87;color:#e3ddff}.pill.off{background:#425166;color:#fff}.pill.leave{background:#576577;color:white}.pill.overtime{background:#f5c842;color:#352800;font-weight:700}.holiday{font-size:9px;color:#ff9caa;line-height:1.2;overflow:hidden;max-height:24px}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}.muted{color:var(--muted)}.notice{border-left:3px solid #79a9ff;padding:9px 12px;background:#142844;border-radius:7px;font-size:13px;margin-bottom:12px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.actions button{font-size:13px;padding:10px 4px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.days button{padding:12px 0}.days button.active{background:var(--blue)}.previewlist{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.pv{border:1px solid var(--line);border-radius:8px;padding:8px 2px;text-align:center;font-size:12px;background:#0c1b2e}.pv strong{display:block;font-size:13px;margin-bottom:5px}.pv span{font-size:11px}.sep{border:0;border-top:1px solid var(--line);margin:14px 0}textarea{min-height:80px}h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 10px}#status{font-size:12px;color:#a4d9ba;margin-top:7px}.twoButtons{display:flex;gap:8px}.twoButtons>*{flex:1}
 /* iPhone time controls: prevent intrinsic-width overflow */
@@ -12,7 +12,7 @@
 #settings .cols .field{min-width:0;width:100%}
 #settings input[type="time"]{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px;text-align:left;padding:11px 8px}
 @media(max-width:500px){#settings .cols:has(input[type="time"]){grid-template-columns:minmax(0,1fr)}#settings .cols:has(input[type="time"]) .field{width:100%}}
-/* iPhone form geometry v0.5.3: symmetrical compact native controls */
+/* iPhone form geometry v0.5.4: symmetrical compact native controls */
 #settings .card{overflow:hidden}
 #settings .cols{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;width:100%;max-width:100%}
 #settings .field{min-width:0!important;width:100%!important;max-width:100%!important}
@@ -26,12 +26,12 @@
 /* Single-tap date action sheet */
 .sheetShade{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}.sheetShade.hidden{display:none!important}.sheet{width:100%;max-width:540px;max-height:85vh;overflow:auto;background:#1a2c44;border:1px solid #516582;border-radius:22px;padding:18px;box-shadow:0 12px 50px #0008}.sheet .actions{margin:14px 0}.sheet textarea{margin:8px 0 10px}.sheetTitle{font-size:21px;font-weight:750;margin-bottom:8px}.sheetClose{float:right;background:#324860;padding:7px 13px}
 
-/* integrated iPhone preview v0.5.3 */
+/* integrated iPhone preview v0.5.4 */
 #settings .cols{gap:14px!important}#settings .cols .field{overflow:hidden}#settings input[type="time"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:14px!important;padding:8px 3px!important;overflow:hidden!important}#settings input[type="date"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:15px!important;overflow:hidden!important}#settings .card{overflow:hidden}.day:focus-visible{outline:2px solid #83baff}.day.today{box-shadow:inset 0 0 0 2px #c6e1ff}.day .holiday{color:#ff9aaa}#onboarding{margin-top:8px}.helpList{font-size:14px;line-height:1.9}.smallActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.smallActions button{font-size:13px}.themeLight{--bg:#f4f7fb;--card:#fff;--line:#c6d3e2;--txt:#18263b;--muted:#52637c;color-scheme:light}.themeLight .day{background:#f1f5fb}.themeLight input,.themeLight select,.themeLight textarea{background:#f5f8ff;color:#162338}.themeLight .sheet{background:#fff;color:#18263b}.themeLight .pv{background:#f6f9ff;color:#18263b}.themeLight .notice{color:#f6f8fc}
 .noteDot{font-size:10px;color:#80d5c3;line-height:1.1}.day{min-height:70px}.day .noteDot{max-width:100%;overflow:hidden;white-space:nowrap}
 .pill.overtime{background:#f5c842!important;color:#352800!important}.legend span{white-space:nowrap}#overtimeEditor select{max-width:100%}
 
-/* 0.5.3: readable calendar in light mode and visible month picker */
+/* 0.5.4: readable calendar in light mode and visible month picker */
 #monthTitle{color:var(--txt)!important;min-width:0;flex:1;text-align:center}
 .themeLight .day{color:#18263b!important;background:#f1f5fb}
 .themeLight .day .num{color:#18263b!important}
@@ -45,8 +45,8 @@
 .themeLight #jumpYear,.themeLight #jumpMonth{background:#f5f8ff!important;color:#18263b!important;border:1px solid #94a9c3!important}
 </style></head><body><div class="wrap">
 <section id="home">
-<div class="head"><div><h1>班表助理</h1><div class="small">iPhone 介面測試版 0.5.3</div></div><button id="openSettings">⚙ 班表設定</button></div>
-<div class="notice">班表助理 0.5.3 測試版｜正式 V8.1.8 不受影響｜目前尚未連動 iPhone 系統通知。</div><div id="onboarding" class="card hidden"><h2>歡迎使用班表助理</h2><p class="muted">尚未建立班表。請先設定規則，月曆目前只顯示日期與假日。</p><div class="twoButtons"><button id="quickSetup" class="primary">快速建立班表</button><button id="helpBtn">使用指南</button></div></div><div class="smallActions"><button id="themeToggle">◐ 深／淺色</button><button id="helpBtn2">使用指南</button><button id="refreshHolidays">更新假日資料</button><button id="checkAppVersion" type="button">檢查 App 更新</button><button id="shareMonth" class="primary">📤 分享本月班表</button><button id="exportBackup">匯出備份</button><div id="backupStatus" role="status" aria-live="polite" style="width:100%;font-size:13px;line-height:1.6;color:#c6d6e8;padding:4px 8px"></div><button id="importBackup">匯入還原</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none"><button id="clearSchedule">清除班表規則</button></div>
+<div class="head"><div><h1>班表助理</h1><div class="small">iPhone 介面測試版 0.5.4</div></div><button id="openSettings">⚙ 班表設定</button></div>
+<div class="notice">班表助理 0.5.4 測試版｜正式 V8.1.8 不受影響｜目前尚未連動 iPhone 系統通知。</div><div id="onboarding" class="card hidden"><h2>歡迎使用班表助理</h2><p class="muted">尚未建立班表。請先設定規則，月曆目前只顯示日期與假日。</p><div class="twoButtons"><button id="quickSetup" class="primary">快速建立班表</button><button id="helpBtn">使用指南</button></div></div><div class="smallActions"><button id="themeToggle">◐ 深／淺色</button><button id="helpBtn2">使用指南</button><button id="refreshHolidays">更新假日資料</button><button id="checkAppVersion" type="button">檢查 App 更新</button><button id="shareMonth" class="primary">📤 分享本月班表</button><button id="exportBackup">匯出備份</button><div id="backupStatus" role="status" aria-live="polite" style="width:100%;font-size:13px;line-height:1.6;color:#c6d6e8;padding:4px 8px"></div><button id="importBackup">匯入還原</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none"><button id="clearSchedule">清除班表規則</button></div>
 <div class="card"><div class="row"><button id="prevMonth">‹</button><button id="monthTitle" type="button" title="點此快速選擇年月" style="background:transparent;font-weight:700;font-size:21px;padding:8px 3px;white-space:nowrap"></button><button id="nextMonth">›</button><button id="today">今天</button></div><div id="monthPicker" style="display:none;padding:12px 0"><div class="row" style="gap:8px"><label style="flex:1">年份<select id="jumpYear" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><label style="flex:1">月份<select id="jumpMonth" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><button id="jumpGo" class="primary">跳轉</button></div></div><div id="holidayDataStatus" class="small" style="margin:4px 0 8px;line-height:1.5"></div><div id="appliedRules" class="small" style="margin:12px 0;line-height:1.5"></div><div class="week"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div id="calendar" class="calendar"></div><div class="legend"><span>🟠 早班</span><span>🟣 夜班</span><span><span style="display:inline-block;width:12px;height:12px;background:#087f83;border-radius:3px;vertical-align:-1px;margin-right:3px"></span>常日班</span><span>⚪ 休假</span><span>🔴 假日</span><span>🟡 加班</span><span>📝 記事</span></div></div>
 <div class="card"><h2 id="summaryTitle">所選日期記事與提醒</h2><div id="todayInfo" class="muted"></div><button id="editTodayNote" style="margin-top:12px">編輯所選日期記事</button></div>
 <div class="card hidden"><h2>選擇日期</h2><div id="dateInfo" class="muted"></div><div class="actions" style="margin-top:12px"><button id="leave">改請假</button><button id="overtime">改加班</button><button id="restore">恢復原班表</button></div><div class="field" style="margin-top:15px"><label for="note">當日記事</label><textarea id="note" placeholder="記錄今天的事情…"></textarea></div><button id="saveNote" class="primary full">儲存記事</button><div id="status"></div></div>
@@ -199,9 +199,9 @@ $('backupFile').onchange=async()=>{
 $('clearSchedule').onclick=()=>{if(!saved)return alert('目前尚未設定班表');if(!confirm('確定清除目前班表規則？記事和請假／加班紀錄會保留。'))return;const old=saved;saved=null;if(persist())render();else saved=old};
 if(localStorage.getItem('shift_assistant_theme')==='light')document.body.classList.add('themeLight');
 load();restoreHolidayCache();render();backupStatus();loadHolidays();
-/* v0.5.3 diagnostic: no new service worker registration */
+/* v0.5.4 diagnostic: no new service worker registration */
 
-const APP_VERSION='0.5.3';
+const APP_VERSION='0.5.4';
 async function checkAppUpdate(manual=false){
  if(!navigator.onLine){if(manual)alert('目前沒有網路，無法檢查更新。');return;}
  try{const response=await fetch('./version.json?ts='+Date.now(),{cache:'no-store'});if(!response.ok){if(manual)alert('版本資訊暫時無法取得。');return;}
@@ -216,7 +216,7 @@ $('checkAppVersion').onclick=()=>checkAppUpdate(true);
 window.addEventListener('load',()=>{const target=sessionStorage.getItem('shift_assistant_update_target');if(target){if(target===APP_VERSION){sessionStorage.removeItem('shift_assistant_update_target');setTimeout(()=>alert('班表助理已更新至 V'+APP_VERSION+'。'),250)}else{sessionStorage.removeItem('shift_assistant_update_target');setTimeout(()=>alert('新版尚未載入。請將 App 從背景滑掉再開啟一次；不必重複按更新。'),250)}}});
 </script>
 <section class="card" id="cloudSyncPanel" style="margin:12px 0;padding:16px">
-<h3>☁️ 雲端同步（V0.5.3 測試）</h3>
+<h3>☁️ 雲端同步（V0.5.4 測試）</h3>
 <p style="font-size:13px">Google 登入後可手動上傳或下載班表、請假、加班與記事。首次登入不會自動覆蓋資料。</p>
 <div id="cloudSyncStatus" role="status" aria-live="polite" style="margin:8px 0">雲端功能載入中…</div>
 <div class="row" style="flex-wrap:wrap;gap:8px">
@@ -233,49 +233,57 @@ import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} f
 import {getFirestore,doc,getDoc,setDoc,runTransaction,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 const config={apiKey:"AIzaSyDGk-NfBbKbDvW4po4KJl3-2lF6HQlp3dg",authDomain:"shift-assistant-4a6a9.firebaseapp.com",projectId:"shift-assistant-4a6a9",storageBucket:"shift-assistant-4a6a9.firebasestorage.app",messagingSenderId:"319856601116",appId:"1:319856601116:web:3fd69e1b34b3f3577897d9"};
 const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app);
-const el=id=>document.getElementById(id),status=msg=>el("cloudSyncStatus").textContent=msg; const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.3 已載入｜等待登入狀態…")}
+const el=id=>document.getElementById(id),status=msg=>el("cloudSyncStatus").textContent=msg; const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.4 已載入｜等待登入狀態…")}
 let current=null,busy=false;
 function buttons(){el("cloudSignIn").hidden=!!current;el("cloudSignOut").hidden=!current;el("cloudUpload").disabled=!current||busy;el("cloudDownload").disabled=!current||busy;el("cloudCheck").disabled=!current||busy}
 function ref(){return doc(db,"users",current.uid)}
 const BASE="shift_assistant_sync_baseline_v2_";
 const baselineKey=()=>BASE+(current?.uid||"signed-out");
 function localData(){try{return JSON.stringify(JSON.parse(localStorage.getItem("shift_assistant_app_preview_01")||"null"))}catch(e){return null}}
+const TIMEOUT_MS=12000;
+function withTimeout(p){return Promise.race([p,new Promise((_,reject)=>setTimeout(()=>reject(new Error("雲端連線逾時，資料未變更。")),TIMEOUT_MS))])}
+let pendingSync=false,autoTimer=null,conflict=false;
 async function checkCloud(){
  if(!current||busy)return;
+ const uid=current.uid;
  busy=true;buttons();status("正在檢查雲端差異，不會覆蓋資料…");
  try{
- const snap=await Promise.race([getDoc(ref()),new Promise((_,reject)=>setTimeout(()=>reject(new Error('雲端連線超過12秒，請稍後再試。')),12000))]);
- if(!snap.exists()){status("雲端沒有備份，本機資料未變更。");return}
+ const snap=await withTimeout(getDoc(doc(db,"users",uid)));
+ if(current?.uid!==uid)return;
+ if(!snap.exists()){conflict=true;status("雲端沒有備份，本機資料未變更。請先手動備份。");return}
  const remote=JSON.stringify(snap.data().data),local=localData(),base=localStorage.getItem(baselineKey());
- if(remote===local){localStorage.setItem(baselineKey(),remote);status("✅ 本機與雲端內容一致。")}
- else if(base&&base!==local&&base!==remote)status("⚠ 本機與雲端都有變更，請先匯出 JSON 備份；已阻止自動覆蓋。");
- else if(base===local)status("☁️ 雲端有更新，本機未變更；可備份後手動下載。");
- else if(base===remote)status("📱 本機有更新，雲端未變更；可備份後手動上傳。");
- else status("⚠ 本機與雲端不同，請先匯出 JSON 備份，再選擇上傳或下載。");
- }catch(e){status("檢查失敗："+e.message)}finally{busy=false;buttons()}
+ if(remote===local){localStorage.setItem(baselineKey(),remote);conflict=false;status("✅ 本機與雲端內容一致。")}
+ else {conflict=true;
+ if(base&&base!==local&&base!==remote)status("⚠ 本機與雲端都有變更，已停止自動同步。請保留備份。");
+ else if(base===local)status("☁️ 雲端有更新，本機未變更；請先核對，勿直接覆蓋。");
+ else if(base===remote)status("📱 本機有更新，雲端未變更；請先核對再手動上傳。");
+ else status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。");
+ }
+ }catch(e){status("檢查失敗："+e.message+" 請稍後再試。")}
+ finally{busy=false;buttons();if(pendingSync&&!conflict)queueAutoUpload()}
 }
 el("cloudCheck").onclick=checkCloud;
-let autoTimer=null;
 async function safeAutoUpload(){
- if(!current||busy||!navigator.onLine)return;
+ if(!current||conflict||!navigator.onLine)return;
+ if(busy){queueAutoUpload();return}
  const uid=current.uid,local=localData(),base=localStorage.getItem(baselineKey());
- if(!base||!local||local===base)return;
- busy=true;buttons();status("☁️ 本機有變更，正在安全同步…");
+ if(!base||!local||local===base){pendingSync=false;return}
+ busy=true;buttons();status("☁️ 正在安全備份變更…");
  try{
- await runTransaction(db,async tx=>{
-   const d=doc(db,"users",uid),snap=await tx.get(d);
-   if(!snap.exists()||JSON.stringify(snap.data().data)!==base)throw new Error("雲端資料已變更，已停止自動上傳，請檢查差異。");
-   tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
- });
- if(current?.uid===uid){localStorage.setItem(baselineKey(),local);status("✅ 變更已自動備份到雲端。");if(localData()!==local)queueAutoUpload()}
- }catch(e){status("⚠ 自動同步暫停："+e.message+" 本機資料仍保留。")}
- finally{busy=false;buttons()}
+ await withTimeout(runTransaction(db,async tx=>{
+ const d=doc(db,"users",uid),snap=await tx.get(d);
+ if(!snap.exists()||JSON.stringify(snap.data().data)!==base)throw new Error("雲端版本已變更，已阻止覆蓋");
+ tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
+ }));
+ if(current?.uid===uid){localStorage.setItem(baselineKey(),local);pendingSync=false;status("✅ 變更已自動備份到雲端。");}
+ }catch(e){conflict=true;status("⚠ 自動備份未確認成功："+e.message+"。請檢查差異，勿重複覆蓋。")}
+ finally{busy=false;buttons();if(!conflict&&localData()!==local)queueAutoUpload()}
 }
-function queueAutoUpload(){clearTimeout(autoTimer);autoTimer=setTimeout(safeAutoUpload,1800)}
+function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(safeAutoUpload,2200)}
 window.addEventListener("shift-local-saved",queueAutoUpload);
 window.addEventListener("online",()=>{if(current)checkCloud()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
-onAuthStateChanged(auth,u=>{current=u;buttons();status(restoreMessage|| (u?"已登入："+(u.email||"Google 使用者")+"；正在檢查雲端差異。":"尚未登入；本機班表不受影響。"));if(u&&!restoreMessage)checkCloud()},e=>status("登入狀態讀取失敗："+e.message));
+onAuthStateChanged(auth,u=>{current=u;conflict=false;buttons();status(restoreMessage|| (u?"已登入："+(u.email||"Google 使用者")+"；正在檢查雲端差異。":"尚未登入；本機班表不受影響。"));if(u)checkCloud()},e=>status("登入狀態讀取失敗："+e.message));
 el("cloudSignIn").onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){status("登入失敗："+e.message+"。請使用 Safari 或 Chrome 開啟測試頁，並允許彈出式視窗。")}};
 el("cloudSignOut").onclick=async()=>{try{await signOut(auth)}catch(e){status("登出失敗："+e.message)}};
 el("cloudUpload").onclick=async()=>{
@@ -286,7 +294,7 @@ el("cloudUpload").onclick=async()=>{
  if(!data||typeof data!=="object"||Array.isArray(data)){status("本機資料格式錯誤。");return}
  if(!confirm("上傳將覆蓋此 Google 帳號目前的雲端班表與記事。建議先匯出 JSON 備份。確定上傳？"))return;
  busy=true;buttons();status("正在上傳…");
- try{await setDoc(ref(),{data,updatedAt:serverTimestamp(),schema:1});localStorage.setItem(baselineKey(),JSON.stringify(data));status("雲端上傳成功！本機資料未變更。")}
+ try{await setDoc(ref(),{data,updatedAt:serverTimestamp(),schema:1});localStorage.setItem(baselineKey(),JSON.stringify(data));conflict=false;pendingSync=false;status("雲端上傳成功！本機資料未變更。")}
  catch(e){status("上傳失敗："+e.message)}finally{busy=false;buttons()}
 };
 el("cloudDownload").onclick=async()=>{
