@@ -278,13 +278,14 @@ async function checkCloud(){
  if(current?.uid!==uid)return;
  if(!snap.exists()){
  const raw=localData();
- if(!localStorage.getItem("shift_assistant_app_preview_01")){conflict=false;status("☁️ 已登入，等待設定班表。");return}
+ if(localStorage.getItem("shift_assistant_app_preview_01")===null){conflict=false;status("☁️ 已登入，等待設定班表。");return}
  const data=JSON.parse(raw);
  if(!data||typeof data!=="object"||Array.isArray(data)){conflict=true;status("⚠ 本機資料格式異常，請先備份。");return}
  await withTimeout(runTransaction(db,async tx=>{const d=doc(db,"users",uid),old=await tx.get(d);if(old.exists())throw new Error("雲端已建立資料，請重新檢查");tx.set(d,{data,updatedAt:serverTimestamp(),schema:1})}));
  if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);conflict=false;pendingSync=false;status("✅ 已自動建立雲端備份。")}
  return
 }
+ if(!snap.data().data||typeof snap.data().data!=="object"||Array.isArray(snap.data().data)||!Object.prototype.hasOwnProperty.call(snap.data().data,"schedule")||!Object.prototype.hasOwnProperty.call(snap.data().data,"overrides")||!Object.prototype.hasOwnProperty.call(snap.data().data,"notes")){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
  const remote=stableJSON(snap.data().data),local=localData(),base=readBaseline();
  if(remote===local){localStorage.setItem(baselineKey(),remote);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
  else {conflict=!(base===remote&&local!==remote);
@@ -300,7 +301,8 @@ async function checkCloud(){
 }
 el("cloudCheck").onclick=checkCloud;
 async function safeAutoUpload(){
- if(!current||conflict||!navigator.onLine)return;
+ if(!current||conflict)return;
+ if(!navigator.onLine){status("📱 離線中，資料已保存在手機；恢復網路後自動同步。");return}
  if(busy){pendingSync=true;return}
  const uid=current.uid,local=localData(),base=readBaseline();
  if(!base||!local||local===base){pendingSync=false;return}
