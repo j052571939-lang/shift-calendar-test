@@ -1,0 +1,20 @@
+{
+  "name": "班表助理（測試版）",
+  "short_name": "班表助理",
+  "description": "班表與加班請假記事、備份還原",
+  "id": "./app-v041.html",
+  "start_url": "./app-v041.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#091525",
+  "theme_color": "#0b1729",
+  "lang": "zh-Hant",
+  "icons": [
+    {
+      "src": "./icon-v041.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
