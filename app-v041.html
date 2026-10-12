@@ -323,7 +323,7 @@ async function safeAutoUpload(){
  }catch(e){conflict=true;pendingSync=true;status("⚠ 備份未確認成功："+e.message+"。手機資料保留，重新連線時會先檢查差異。")}
  finally{busy=false;buttons();if(!conflict&&localData()!==local)queueAutoUpload()}
 }
-function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(safeAutoUpload,2200)}
+function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(()=>{if(current&&!conflict&&!ownerMismatch())safeAutoUpload();else if(!current)status("📱 已儲存在手機，登入 Google 後自動備份。")},2200)}
 window.addEventListener("shift-local-saved",queueAutoUpload);
 window.addEventListener("online",()=>{if(current)checkCloud()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
