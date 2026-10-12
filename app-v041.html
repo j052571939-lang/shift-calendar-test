@@ -338,7 +338,7 @@ el("cloudUpload").onclick=async()=>{
  if(!data||typeof data!=="object"||Array.isArray(data)){status("本機資料格式錯誤。");return}
  if(!confirm("上傳將覆蓋此 Google 帳號目前的雲端班表與記事。建議先匯出 JSON 備份。確定上傳？"))return;
  busy=true;buttons();status("正在上傳…");
- try{await setDoc(ref(),{data,updatedAt:serverTimestamp(),schema:1});localStorage.setItem(baselineKey(),stableJSON(data));conflict=false;pendingSync=false;status("雲端上傳成功！本機資料未變更。")}
+ try{await setDoc(ref(),{data,updatedAt:serverTimestamp(),schema:1});localStorage.setItem(baselineKey(),stableJSON(data));setLocalOwner(current.uid);conflict=false;pendingSync=false;status("雲端上傳成功！本機資料未變更。")}
  catch(e){status("上傳失敗："+e.message)}finally{busy=false;buttons()}
 };
 el("cloudDownload").onclick=async()=>{
@@ -350,7 +350,7 @@ el("cloudDownload").onclick=async()=>{
  const data=snap.data().data;
  if(!data||typeof data!=="object"||Array.isArray(data)||!Object.prototype.hasOwnProperty.call(data,"schedule")||!Object.prototype.hasOwnProperty.call(data,"overrides")||!Object.prototype.hasOwnProperty.call(data,"notes")){status("雲端資料格式不符合預期，已取消下載。");return}
  if(!confirm("下載將覆蓋這台裝置的班表、請假、加班與記事。請先匯出本機 JSON 備份。確定下載？")){status("已取消下載，本機資料未變更。");return}
- localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(data));localStorage.setItem(baselineKey(),stableJSON(data));
+ localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(data));localStorage.setItem(baselineKey(),stableJSON(data));setLocalOwner(current.uid);
  sessionStorage.setItem("shift_assistant_cloud_restore_notice","✅ 雲端資料下載成功！已寫入這台裝置的班表、請假、加班與記事。請核對班表內容。");location.reload();
  }catch(e){status("下載失敗："+e.message)}finally{busy=false;buttons()}
 };
