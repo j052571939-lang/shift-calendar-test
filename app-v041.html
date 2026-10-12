@@ -303,9 +303,10 @@ function safeThreeWayMerge(baseText,localText,remoteText){
  return validSyncData(out)&&syncSizeOK(out)?out:null;
  }catch(e){return null}
 }
-function retryCloudCheck(){clearTimeout(recheckTimer);if(!current||!navigator.onLine)return;recheckTimer=setTimeout(()=>{if(current&&!busy&&navigator.onLine)checkCloud()},12000)}
+function retryCloudCheck(){clearTimeout(recheckTimer);if(!current||!navigator.onLine)return;recheckTimer=setTimeout(()=>{if(current&&!busy&&navigator.onLine)checkCloud();else if(current&&navigator.onLine)retryCloudCheck()},12000)}
 async function checkCloud(){
  if(!current||busy)return;
+ clearTimeout(recheckTimer);recheckTimer=null;
  if(ownerMismatch()){conflict=true;status("⚠ 這台手機的班表已綁定其他 Google 帳號。為保護資料，已停止自動同步。");return}
  if(!navigator.onLine){status("📱 離線中，班表仍保留在手機。");return}
  const uid=current.uid;
@@ -370,8 +371,8 @@ async function safeAutoUpload(){
  tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
  }));
  if(current?.uid===uid){localStorage.setItem(baselineKey(),local);setLocalOwner(uid);pendingSync=localData()!==local;status(pendingSync?"📱 有新修改，繼續自動備份…":"✅ 變更已自動備份到雲端。");}
- }catch(e){conflict=true;pendingSync=true;status("⚠ 備份未確認成功："+e.message+"。手機資料保留，重新連線時會先檢查差異。")}
- finally{busy=false;buttons();if(!conflict&&localData()!==local)queueAutoUpload()}
+ }catch(e){pendingSync=true;status("⚠ 雲端備份尚未確認，手機資料已保留；將重新檢查雲端版本。");retryCloudCheck()}
+ finally{busy=false;buttons();if(!conflict&&localData()!==local&&!recheckTimer)queueAutoUpload()}
 }
 function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(()=>{if(current&&!conflict&&!ownerMismatch())safeAutoUpload();else if(!current)status("📱 已儲存在手機，登入 Google 後自動備份。")},2200)}
 window.addEventListener("shift-local-saved",queueAutoUpload);
