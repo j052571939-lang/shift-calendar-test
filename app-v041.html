@@ -350,6 +350,7 @@ el("cloudUpload").onclick=async()=>{
 };
 el("cloudDownload").onclick=async()=>{
  if(!current||busy)return;
+ if(ownerMismatch()){status("⚠ 帳號與本機資料不一致，已取消還原。");return}
  busy=true;buttons();status("正在檢查雲端資料…");
  try{
  const snap=await getDocFromServer(ref());
