@@ -278,7 +278,7 @@ function withTimeout(p){return Promise.race([p,new Promise((_,reject)=>setTimeou
 let pendingSync=false,autoTimer=null,conflict=false,recheckTimer=null;
 function hasUnsavedEditorNote(){
  const sheet=el("dateSheet");
- return !!sheet&&!sheet.classList.contains("hidden")&&el("sheetNote").value.trim()!==(JSON.parse(localData()||'{"notes":{}}').notes||{})[selected]?.trim?.()&&el("sheetNote").value.trim()!==(notes[selected]||'');
+ return !!sheet&&!sheet.classList.contains("hidden")&&el("sheetNote").value.trim()!==(notes[selected]||'');
 }
 function safeThreeWayMerge(baseText,localText,remoteText){
  try{
