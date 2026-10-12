@@ -341,7 +341,8 @@ el("cloudUpload").onclick=async()=>{
  const raw=localStorage.getItem("shift_assistant_app_preview_01");
  if(!raw){status("沒有本機班表可上傳。");return}
  let data;try{data=JSON.parse(raw)}catch(e){status("本機資料格式錯誤，已取消。");return}
- if(!data||typeof data!=="object"||Array.isArray(data)){status("本機資料格式錯誤。");return}
+ if(!validSyncData(data)||!syncSizeOK(data)){status("本機資料格式或大小不符合規定，已取消上傳。");return}
+ if(ownerMismatch()){status("⚠ Google 帳號與本機資料擁有者不同，已阻止上傳。");return}
  if(!confirm("上傳將覆蓋此 Google 帳號目前的雲端班表與記事。建議先匯出 JSON 備份。確定上傳？"))return;
  busy=true;buttons();status("正在上傳…");
  try{await setDoc(ref(),{data,updatedAt:serverTimestamp(),schema:1});localStorage.setItem(baselineKey(),stableJSON(data));setLocalOwner(current.uid);conflict=false;pendingSync=false;status("雲端上傳成功！本機資料未變更。")}
@@ -351,10 +352,10 @@ el("cloudDownload").onclick=async()=>{
  if(!current||busy)return;
  busy=true;buttons();status("正在檢查雲端資料…");
  try{
- const snap=await getDoc(ref());
+ const snap=await getDocFromServer(ref());
  if(!snap.exists()){status("雲端尚無備份，沒有覆蓋本機資料。");return}
  const data=snap.data().data;
- if(!data||typeof data!=="object"||Array.isArray(data)||!Object.prototype.hasOwnProperty.call(data,"schedule")||!Object.prototype.hasOwnProperty.call(data,"overrides")||!Object.prototype.hasOwnProperty.call(data,"notes")){status("雲端資料格式不符合預期，已取消下載。");return}
+ if(!validSyncData(data)||!syncSizeOK(data)){status("雲端資料格式不符合預期，已取消下載。");return}
  if(!confirm("下載將覆蓋這台裝置的班表、請假、加班與記事。請先匯出本機 JSON 備份。確定下載？")){status("已取消下載，本機資料未變更。");return}
  localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(data));localStorage.setItem(baselineKey(),stableJSON(data));setLocalOwner(current.uid);
  sessionStorage.setItem("shift_assistant_cloud_restore_notice","✅ 雲端資料下載成功！已寫入這台裝置的班表、請假、加班與記事。請核對班表內容。");location.reload();
