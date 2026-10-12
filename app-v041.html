@@ -291,7 +291,7 @@ async function checkCloud(){
  else {conflict=!(base===remote&&local!==remote);
  if(base===remote&&local!==remote){status("📱 偵測到手機新記事，準備安全自動備份…");queueAutoUpload()}
  else if(base&&base!==local&&base!==remote)status("⚠ 本機與雲端都有變更，已停止自動同步。請保留備份。");
- else if(base===local){if(localStorage.getItem("shift_assistant_app_preview_01")){conflict=true;status("⚠ 雲端有其他修改。為避免覆蓋，請到進階資料管理確認。")}else{conflict=true;status("⚠ 本機與雲端狀態不同，請到進階資料管理確認。")}}
+ else if(base===local&&base!==null){if(localData()!==local){conflict=true;status("⚠ 本機剛有新修改，已暫停還原以保護資料。")}else{localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);conflict=false;pendingSync=false;status("✅ 已自動同步其他裝置的修改。");location.reload();return}}
  else if(base===remote)status("📱 本機有更新，雲端未變更；請先核對再手動上傳。");
  else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
  else status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。");
