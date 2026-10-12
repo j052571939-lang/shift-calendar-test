@@ -314,14 +314,14 @@ async function safeAutoUpload(){
  tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
  }));
  if(current?.uid===uid){localStorage.setItem(baselineKey(),local);pendingSync=false;status("✅ 變更已自動備份到雲端。");}
- }catch(e){conflict=true;status("⚠ 自動備份未確認成功："+e.message+"。請檢查差異，勿重複覆蓋。")}
+ }catch(e){conflict=true;pendingSync=true;status("⚠ 備份未確認成功："+e.message+"。手機資料保留，重新連線時會先檢查差異。")}
  finally{busy=false;buttons();if(!conflict&&localData()!==local)queueAutoUpload()}
 }
 function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(safeAutoUpload,2200)}
 window.addEventListener("shift-local-saved",queueAutoUpload);
 window.addEventListener("online",()=>{if(current)checkCloud()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
-onAuthStateChanged(auth,u=>{current=u;conflict=false;buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>status("登入狀態讀取失敗："+e.message));
+onAuthStateChanged(auth,u=>{const priorUid=current?.uid;current=u;if(priorUid!==u?.uid){conflict=false;pendingSync=false;clearTimeout(autoTimer)}buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>status("登入狀態讀取失敗："+e.message));
 el("cloudSignIn").onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){status("登入失敗："+e.message+"。請使用 Safari 或 Chrome 開啟測試頁，並允許彈出式視窗。")}};
 el("cloudSignOut").onclick=async()=>{try{await signOut(auth)}catch(e){status("登出失敗："+e.message)}};
 el("cloudUpload").onclick=async()=>{
