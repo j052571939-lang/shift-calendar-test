@@ -330,10 +330,11 @@ async function checkCloud(){
  if(!validSyncData(snap.data().data)||!syncSizeOK(snap.data().data)){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
  const remote=stableJSON(snap.data().data),local=localData(),base=readBaseline();
  if(current?.uid!==uid)return;
- if(remote===local){if(localData()!==local){pendingSync=true;status("📱 偵測到新修改，準備再次同步…");return}localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
+ if(remote===local){if(localData()!==local){pendingSync=true;status("📱 偵測到新修改，稍後重新檢查雲端…");retryCloudCheck();return}localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
  else {conflict=!(base===remote&&local!==remote);
  if(base===remote&&local!==remote){status("📱 偵測到手機新記事，準備安全自動備份…");queueAutoUpload()}
  else if(base&&base!==local&&base!==remote){
+  conflict=true;
   const merged=hasUnsavedEditorNote()?null:safeThreeWayMerge(base,local,remote);
   if(!merged){status(hasUnsavedEditorNote()?"📝 記事正在編輯，已暫停雲端合併，請先儲存或關閉編輯視窗。":"⚠ 相同資料有不同修改，已保留手機與雲端原始版本，停止自動同步。");}
   else if(localData()!==local){status("⚠ 合併期間手機資料有新修改，已暫停避免覆蓋。");}
@@ -355,10 +356,10 @@ async function checkCloud(){
    }catch(e){conflict=true;status("⚠ 無法安全儲存合併結果，已停止同步。")}
   }
  }
- else if(base===local&&base!==null){if(hasUnsavedEditorNote()){conflict=true;status("📝 記事正在編輯，已暫停雲端還原。請先儲存或關閉編輯視窗。")}else if(localData()!==local){conflict=true;status("⚠ 本機剛有新修改，已暫停還原以保護資料。")}else{localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已自動同步其他裝置的修改。");location.reload();return}}
+ else if(base===local&&base!==null){conflict=true;if(hasUnsavedEditorNote()){conflict=true;status("📝 記事正在編輯，已暫停雲端還原。請先儲存或關閉編輯視窗。")}else if(localData()!==local){conflict=true;status("⚠ 本機剛有新修改，已暫停還原以保護資料。")}else{localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已自動同步其他裝置的修改。");location.reload();return}}
  else if(base===remote)status("📱 本機有更新，雲端未變更；請先核對再手動上傳。");
- else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){if(hasUnsavedEditorNote()){conflict=true;status("📝 記事正在編輯，已暫停還原。");return}localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
- else status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。");
+ else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){conflict=true;if(hasUnsavedEditorNote()){conflict=true;status("📝 記事正在編輯，已暫停還原。");return}localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
+ else {conflict=true;status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。")}
  }
  }catch(e){conflict=true;status("⚠ 暫時無法連接雲端，手機資料已保留；稍後自動重試。");retryCloudCheck()}
  finally{busy=false;buttons();if(pendingSync&&!conflict&&readBaseline()&&localData()!==readBaseline())queueAutoUpload()}
