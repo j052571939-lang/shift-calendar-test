@@ -303,7 +303,7 @@ function safeThreeWayMerge(baseText,localText,remoteText){
  return validSyncData(out)&&syncSizeOK(out)?out:null;
  }catch(e){return null}
 }
-function retryCloudCheck(){clearTimeout(recheckTimer);if(!current||!navigator.onLine||document.hidden)return;recheckTimer=setTimeout(()=>{if(current&&!busy)checkCloud()},12000)}
+function retryCloudCheck(){clearTimeout(recheckTimer);if(!current||!navigator.onLine)return;recheckTimer=setTimeout(()=>{if(current&&!busy&&navigator.onLine)checkCloud()},12000)}
 async function checkCloud(){
  if(!current||busy)return;
  if(ownerMismatch()){conflict=true;status("⚠ 這台手機的班表已綁定其他 Google 帳號。為保護資料，已停止自動同步。");return}
@@ -349,7 +349,7 @@ async function checkCloud(){
  else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
  else status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。");
  }
- }catch(e){status("⚠ 雲端檢查未完成，手機資料保留。稍後自動重新檢查："+e.message);retryCloudCheck()}
+ }catch(e){status("⚠ 暫時無法連接雲端，手機資料已保留；稍後自動重試。");retryCloudCheck()}
  finally{busy=false;buttons();if(pendingSync&&!conflict&&readBaseline()&&localData()!==readBaseline())queueAutoUpload()}
 }
 el("cloudCheck").onclick=checkCloud;
