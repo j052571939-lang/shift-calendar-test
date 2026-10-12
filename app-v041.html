@@ -305,7 +305,7 @@ async function checkCloud(){
  else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
  else status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。");
  }
- }catch(e){status("檢查失敗："+e.message+" 請稍後再試。")}
+ }catch(e){pendingSync=true;status("⚠ 雲端檢查未完成，手機資料保留。恢復連線或重新開啟時會再檢查："+e.message)}
  finally{busy=false;buttons();if(pendingSync&&!conflict)queueAutoUpload()}
 }
 el("cloudCheck").onclick=checkCloud;
