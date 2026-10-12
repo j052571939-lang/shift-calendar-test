@@ -324,6 +324,7 @@ async function safeAutoUpload(){
  await withTimeout(runTransaction(db,async tx=>{
  const d=doc(db,"users",uid),snap=await tx.get(d);
  if(!snap.exists()||!validSyncData(snap.data().data)||stableJSON(snap.data().data)!==base)throw new Error("雲端版本已變更，已阻止覆蓋");
+ if(auth.currentUser?.uid!==uid)throw new Error("登入帳號已變更，已停止寫入");
  tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
  }));
  if(current?.uid===uid){localStorage.setItem(baselineKey(),local);setLocalOwner(uid);pendingSync=localData()!==local;status(pendingSync?"📱 有新修改，繼續自動備份…":"✅ 變更已自動備份到雲端。");}
