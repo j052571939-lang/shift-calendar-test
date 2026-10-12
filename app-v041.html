@@ -268,6 +268,8 @@ const ownerMismatch=()=>!!(localOwner()&&current&&localOwner()!==current.uid);
 const baselineKey=()=>BASE+(current?.uid||"signed-out");
 function canonicalize(v){if(Array.isArray(v))return v.map(canonicalize);if(v&&typeof v==="object"){const out={};for(const k of Object.keys(v).sort())out[k]=canonicalize(v[k]);return out}return v}
 function stableJSON(v){return JSON.stringify(canonicalize(v))}
+function validSyncData(d){return !!d&&typeof d==="object"&&!Array.isArray(d)&&Object.prototype.hasOwnProperty.call(d,"schedule")&&(d.schedule===null||typeof d.schedule==="object"&&!Array.isArray(d.schedule))&&d.overrides!==null&&typeof d.overrides==="object"&&!Array.isArray(d.overrides)&&d.notes!==null&&typeof d.notes==="object"&&!Array.isArray(d.notes)}
+function syncSizeOK(d){try{return new TextEncoder().encode(JSON.stringify(d)).length<=800000}catch(e){return false}}
 function localData(){try{return stableJSON(JSON.parse(localStorage.getItem("shift_assistant_app_preview_01")||"null"))}catch(e){return null}}
 function readBaseline(){try{const v=localStorage.getItem(baselineKey());return v?stableJSON(JSON.parse(v)):null}catch(e){return null}}
 const TIMEOUT_MS=12000;
