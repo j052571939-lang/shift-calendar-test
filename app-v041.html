@@ -286,20 +286,20 @@ async function checkCloud(){
  const raw=localData();
  if(localStorage.getItem("shift_assistant_app_preview_01")===null){conflict=false;status("☁️ 已登入，等待設定班表。");return}
  const data=JSON.parse(raw);
- if(!data||typeof data!=="object"||Array.isArray(data)){conflict=true;status("⚠ 本機資料格式異常，請先備份。");return}
+ if(!data||typeof data!=="object"||Array.isArray(data)||!Object.prototype.hasOwnProperty.call(data,"schedule")||!Object.prototype.hasOwnProperty.call(data,"overrides")||!Object.prototype.hasOwnProperty.call(data,"notes")){conflict=true;status("⚠ 本機資料格式異常，請先備份。");return}
  await withTimeout(runTransaction(db,async tx=>{const d=doc(db,"users",uid),old=await tx.get(d);if(old.exists())throw new Error("雲端已建立資料，請重新檢查");tx.set(d,{data,updatedAt:serverTimestamp(),schema:1})}));
- if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);conflict=false;pendingSync=false;status("✅ 已自動建立雲端備份。")}
+ if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已自動建立雲端備份。")}
  return
 }
  if(!snap.data().data||typeof snap.data().data!=="object"||Array.isArray(snap.data().data)||!Object.prototype.hasOwnProperty.call(snap.data().data,"schedule")||!Object.prototype.hasOwnProperty.call(snap.data().data,"overrides")||!Object.prototype.hasOwnProperty.call(snap.data().data,"notes")){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
  const remote=stableJSON(snap.data().data),local=localData(),base=readBaseline();
- if(remote===local){localStorage.setItem(baselineKey(),remote);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
+ if(remote===local){localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
  else {conflict=!(base===remote&&local!==remote);
  if(base===remote&&local!==remote){status("📱 偵測到手機新記事，準備安全自動備份…");queueAutoUpload()}
  else if(base&&base!==local&&base!==remote)status("⚠ 本機與雲端都有變更，已停止自動同步。請保留備份。");
- else if(base===local&&base!==null){if(localData()!==local){conflict=true;status("⚠ 本機剛有新修改，已暫停還原以保護資料。")}else{localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);conflict=false;pendingSync=false;status("✅ 已自動同步其他裝置的修改。");location.reload();return}}
+ else if(base===local&&base!==null){if(localData()!==local){conflict=true;status("⚠ 本機剛有新修改，已暫停還原以保護資料。")}else{localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已自動同步其他裝置的修改。");location.reload();return}}
  else if(base===remote)status("📱 本機有更新，雲端未變更；請先核對再手動上傳。");
- else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
+ else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
  else status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。");
  }
  }catch(e){status("檢查失敗："+e.message+" 請稍後再試。")}
@@ -307,7 +307,7 @@ async function checkCloud(){
 }
 el("cloudCheck").onclick=checkCloud;
 async function safeAutoUpload(){
- if(!current||conflict)return;
+ if(!current||conflict||ownerMismatch())return;
  if(!navigator.onLine){status("📱 離線中，資料已保存在手機；恢復網路後自動同步。");return}
  if(busy){pendingSync=true;return}
  const uid=current.uid,local=localData(),base=readBaseline();
@@ -319,7 +319,7 @@ async function safeAutoUpload(){
  if(!snap.exists()||stableJSON(snap.data().data)!==base)throw new Error("雲端版本已變更，已阻止覆蓋");
  tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
  }));
- if(current?.uid===uid){localStorage.setItem(baselineKey(),local);pendingSync=false;status("✅ 變更已自動備份到雲端。");}
+ if(current?.uid===uid){localStorage.setItem(baselineKey(),local);setLocalOwner(uid);pendingSync=false;status("✅ 變更已自動備份到雲端。");}
  }catch(e){conflict=true;pendingSync=true;status("⚠ 備份未確認成功："+e.message+"。手機資料保留，重新連線時會先檢查差異。")}
  finally{busy=false;buttons();if(!conflict&&localData()!==local)queueAutoUpload()}
 }
