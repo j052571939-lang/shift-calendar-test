@@ -336,11 +336,17 @@ async function checkCloud(){
   else{
    const mergedText=stableJSON(merged);
    try{
-    localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(merged));
-    localStorage.setItem(baselineKey(),remote);
+    const previousLocal=localStorage.getItem("shift_assistant_app_preview_01");
+    const previousBase=localStorage.getItem(baselineKey());
+    try{
+     localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(merged));
+     localStorage.setItem(baselineKey(),remote);
+    }catch(writeError){
+     try{if(previousLocal===null)localStorage.removeItem("shift_assistant_app_preview_01");else localStorage.setItem("shift_assistant_app_preview_01",previousLocal);if(previousBase===null)localStorage.removeItem(baselineKey());else localStorage.setItem(baselineKey(),previousBase)}catch(rollbackError){}
+     throw writeError;
+    }
     setLocalOwner(uid);conflict=false;pendingSync=mergedText!==remote;
-    if(pendingSync)queueAutoUpload();
-    status("✅ 不同日期的修改已安全合併，正在同步…");
+    status("☁️ 不同欄位的修改已合併並保存在手機，正在重新確認雲端…");
     location.reload();return;
    }catch(e){conflict=true;status("⚠ 無法安全儲存合併結果，已停止同步。")}
   }
