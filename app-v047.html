@@ -232,7 +232,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkAppUp
 import {initializeApp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {getFirestore,doc,getDoc,setDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-const config={apiKey:"AIzaSyDGk-NfBbKbDw4po4KJl3-zIf6HQlp3dg",authDomain:"shift-assistant-4a6a9.firebaseapp.com",projectId:"shift-assistant-4a6a9",storageBucket:"shift-assistant-4a6a9.firebasestorage.app",messagingSenderId:"319856601116",appId:"1:319856601116:web:3fd69e1b34b3f3577897d9"};
+const config={apiKey:"AIzaSyDGk-NfBbKbDvW4po4KJl3-2lF6HQlp3dg",authDomain:"shift-assistant-4a6a9.firebaseapp.com",projectId:"shift-assistant-4a6a9",storageBucket:"shift-assistant-4a6a9.firebasestorage.app",messagingSenderId:"319856601116",appId:"1:319856601116:web:3fd69e1b34b3f3577897d9"};
 const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app);
 const el=id=>document.getElementById(id),status=msg=>el("cloudSyncStatus").textContent=msg;
 let current=null,busy=false;
