@@ -293,7 +293,7 @@ async function checkCloud(){
  if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已自動建立雲端備份。")}
  return
 }
- if(!snap.data().data||typeof snap.data().data!=="object"||Array.isArray(snap.data().data)||!Object.prototype.hasOwnProperty.call(snap.data().data,"schedule")||!Object.prototype.hasOwnProperty.call(snap.data().data,"overrides")||!Object.prototype.hasOwnProperty.call(snap.data().data,"notes")){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
+ if(!validSyncData(snap.data().data)||!syncSizeOK(snap.data().data)){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
  const remote=stableJSON(snap.data().data),local=localData(),base=readBaseline();
  if(current?.uid!==uid)return;
  if(remote===local){if(localData()!==local){pendingSync=true;status("📱 偵測到新修改，準備再次同步…");return}localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
