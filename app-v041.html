@@ -315,6 +315,7 @@ async function safeAutoUpload(){
  if(busy){pendingSync=true;return}
  const uid=current.uid,local=localData(),base=readBaseline();
  if(!base||!local||local===base){pendingSync=false;return}
+ if(!validSyncData(JSON.parse(local))||!syncSizeOK(JSON.parse(local))){conflict=true;status("⚠ 本機資料格式或大小異常，已停止上傳以保護資料。");return}
  busy=true;buttons();status("☁️ 正在安全備份變更…");
  try{
  await withTimeout(runTransaction(db,async tx=>{
