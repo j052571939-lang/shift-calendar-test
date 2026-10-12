@@ -261,6 +261,10 @@ let current=null,busy=false;
 function buttons(){el("cloudSignIn").hidden=!!current;el("cloudSignOut").hidden=!current;el("cloudUpload").disabled=!current||busy;el("cloudDownload").disabled=!current||busy;el("cloudCheck").disabled=!current||busy}
 function ref(){return doc(db,"users",current.uid)}
 const BASE="shift_assistant_sync_baseline_v2_";
+const OWNER_KEY="shift_assistant_cloud_owner_uid_v1";
+const localOwner=()=>localStorage.getItem(OWNER_KEY);
+const setLocalOwner=uid=>localStorage.setItem(OWNER_KEY,uid);
+const ownerMismatch=()=>!!(localOwner()&&current&&localOwner()!==current.uid);
 const baselineKey=()=>BASE+(current?.uid||"signed-out");
 function canonicalize(v){if(Array.isArray(v))return v.map(canonicalize);if(v&&typeof v==="object"){const out={};for(const k of Object.keys(v).sort())out[k]=canonicalize(v[k]);return out}return v}
 function stableJSON(v){return JSON.stringify(canonicalize(v))}
