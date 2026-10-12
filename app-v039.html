@@ -124,9 +124,9 @@ function validBackup(data){
  const x=data.data;if(!x||typeof x!=='object'||Array.isArray(x))return false;
  if(x.schedule!==null&&(typeof x.schedule!=='object'||Array.isArray(x.schedule)))return false;
  if(!x.overrides||typeof x.overrides!=='object'||Array.isArray(x.overrides)||!x.notes||typeof x.notes!=='object'||Array.isArray(x.notes))return false;
- if(x.schedule){if(!['shift','weekday'].includes(x.schedule.mode))return false;if(x.schedule.mode==='shift'&&(!/^\\d{4}-\\d{2}-\\d{2}$/.test(x.schedule.base||'')||!['day','night'].includes(x.schedule.first)))return false}
- for(const [k,v] of Object.entries(x.notes))if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(k)||typeof v!=='string')return false;
- for(const [k,v] of Object.entries(x.overrides)){if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(k))return false;if(v!=='leave'&&v!=='overtime'&&!(v&&typeof v==='object'&&v.type==='overtime'&&['day','night'].includes(v.shift)))return false}
+ if(x.schedule){if(!['shift','weekday'].includes(x.schedule.mode))return false;if(x.schedule.mode==='shift'&&(!/^\d{4}-\d{2}-\d{2}$/.test(x.schedule.base||'')||!['day','night'].includes(x.schedule.first)))return false}
+ for(const [k,v] of Object.entries(x.notes))if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||typeof v!=='string')return false;
+ for(const [k,v] of Object.entries(x.overrides)){if(!/^\d{4}-\d{2}-\d{2}$/.test(k))return false;if(v!=='leave'&&v!=='overtime'&&!(v&&typeof v==='object'&&v.type==='overtime'&&['day','night'].includes(v.shift)))return false}
  return true
 }
 $('exportBackup').onclick=()=>{
