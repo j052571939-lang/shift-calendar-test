@@ -290,7 +290,7 @@ async function checkCloud(){
  const data=JSON.parse(raw);
  if(!validSyncData(data)||!syncSizeOK(data)){conflict=true;status("⚠ 本機資料格式異常，請先備份。");return}
  await withTimeout(runTransaction(db,async tx=>{const d=doc(db,"users",uid),old=await tx.get(d);if(old.exists())throw new Error("雲端已建立資料，請重新檢查");tx.set(d,{data,updatedAt:serverTimestamp(),schema:1})}));
- if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已自動建立雲端備份。")}
+ if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);setLocalOwner(uid);conflict=false;pendingSync=localData()!==raw;status(pendingSync?"📱 已建立雲端備份，繼續同步新增的修改…":"✅ 已自動建立雲端備份。")}
  return
 }
  if(!validSyncData(snap.data().data)||!syncSizeOK(snap.data().data)){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
