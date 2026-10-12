@@ -257,8 +257,9 @@ const el=id=>document.getElementById(id),status=msg=>el("cloudSyncStatus").textC
 el("advancedExport").onclick=()=>el("exportBackup").click();
 el("advancedImport").onclick=()=>el("importBackup").click();
 el("advancedUpdate").onclick=()=>el("checkAppVersion").click(); const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.14 已載入｜等待登入狀態…")}
-let current=null,busy=false;
-function buttons(){el("cloudSignIn").hidden=!!current;el("cloudSignOut").hidden=!current;el("cloudUpload").disabled=!current||busy;el("cloudDownload").disabled=!current||busy;el("cloudCheck").disabled=!current||busy}
+let current=null,busy=false,authReady=false;
+const authWait=setTimeout(()=>{if(!authReady)status("⚠ Google 登入狀態尚未確認，手機資料安全保留。請確認網路後重新開啟 App。")},15000);
+function buttons(){el("cloudSignIn").hidden=!authReady||!!current;el("cloudSignOut").hidden=!authReady||!current;el("cloudUpload").disabled=!current||busy;el("cloudDownload").disabled=!current||busy;el("cloudCheck").disabled=!current||busy}
 function ref(){return doc(db,"users",current.uid)}
 const BASE="shift_assistant_sync_baseline_v2_";
 const OWNER_KEY="shift_assistant_cloud_owner_uid_v1";
@@ -331,7 +332,7 @@ function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=se
 window.addEventListener("shift-local-saved",queueAutoUpload);
 window.addEventListener("online",()=>{if(current)checkCloud()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
-onAuthStateChanged(auth,u=>{const priorUid=current?.uid;current=u;if(priorUid!==u?.uid){conflict=false;pendingSync=false;clearTimeout(autoTimer)}buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>status("登入狀態讀取失敗："+e.message));
+onAuthStateChanged(auth,u=>{authReady=true;clearTimeout(authWait);const priorUid=current?.uid;current=u;if(priorUid!==u?.uid){conflict=false;pendingSync=false;clearTimeout(autoTimer)}buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>{authReady=true;clearTimeout(authWait);buttons();status("⚠ Google 登入狀態讀取失敗，手機資料保留："+e.message)});
 el("cloudSignIn").onclick=async()=>{try{const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});await signInWithPopup(auth,provider)}catch(e){status("登入失敗："+e.message+"。請確認瀏覽器允許 Google 登入視窗。")}};
 el("cloudSignOut").onclick=async()=>{try{await signOut(auth)}catch(e){status("登出失敗："+e.message)}};
 el("cloudUpload").onclick=async()=>{
