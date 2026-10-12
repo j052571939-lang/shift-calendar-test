@@ -293,6 +293,7 @@ async function checkCloud(){
 }
  if(!snap.data().data||typeof snap.data().data!=="object"||Array.isArray(snap.data().data)||!Object.prototype.hasOwnProperty.call(snap.data().data,"schedule")||!Object.prototype.hasOwnProperty.call(snap.data().data,"overrides")||!Object.prototype.hasOwnProperty.call(snap.data().data,"notes")){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
  const remote=stableJSON(snap.data().data),local=localData(),base=readBaseline();
+ if(current?.uid!==uid)return;
  if(remote===local){localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
  else {conflict=!(base===remote&&local!==remote);
  if(base===remote&&local!==remote){status("📱 偵測到手機新記事，準備安全自動備份…");queueAutoUpload()}
