@@ -24,7 +24,7 @@ service cloud.firestore {
       allow create, update: if isOwner(userId) && validUserDocument();
       allow delete: if false;
     }
-    match /users/{userId}/{document=**} {
+    match /users/{userId}/{collectionId}/{documentId}/{nested=**} {
       allow read, write: if isOwner(userId);
     }
   }
