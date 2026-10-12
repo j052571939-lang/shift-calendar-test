@@ -394,17 +394,29 @@ el("cloudSignIn").onclick=async()=>{try{const provider=new GoogleAuthProvider();
 el("cloudSignOut").onclick=async()=>{try{await signOut(auth)}catch(e){status("登出失敗："+e.message)}};
 el("cloudUpload").onclick=async()=>{
  if(!current||busy)return;
- const raw=localStorage.getItem("shift_assistant_app_preview_01");
- if(!raw){status("沒有本機班表可上傳。");return}
- let data;try{data=JSON.parse(raw)}catch(e){status("本機資料格式錯誤，已取消。");return}
- if(!validSyncData(data)||!syncSizeOK(data)){status("本機資料格式或大小不符合規定，已取消上傳。");return}
- if(ownerMismatch()){status("⚠ Google 帳號與本機資料擁有者不同，已阻止上傳。");return}
- if(!confirm("上傳將覆蓋此 Google 帳號目前的雲端班表與記事。建議先匯出 JSON 備份。確定上傳？"))return;
- busy=true;buttons();status("正在上傳…");
- try{await setDoc(ref(),{data,updatedAt:serverTimestamp(),schema:1});localStorage.setItem(baselineKey(),stableJSON(data));setLocalOwner(current.uid);conflict=false;pendingSync=false;status("雲端上傳成功！本機資料未變更。")}
- catch(e){status("上傳失敗："+e.message)}finally{busy=false;buttons()}
+ const uid=current.uid,raw=localData(),base=readBaseline();
+ if(!raw||!base){status("⚠ 尚無可確認的同步基準，已停止手動上傳。");return}
+ let data;try{data=JSON.parse(raw)}catch(e){status("⚠ 本機資料無法解析，已停止上傳。");return}
+ if(!validSyncData(data)||!syncSizeOK(data)||ownerMismatch()){status("⚠ 本機資料格式、大小或帳號不符，已停止上傳。");return}
+ if(hasUnsavedEditorNote()){status("📝 請先儲存正在編輯的記事，再進行雲端操作。");return}
+ if(!confirm("僅在雲端版本沒有被其他裝置修改時才會上傳，絕不強制覆蓋。確定檢查並上傳？"))return;
+ busy=true;buttons();status("☁️ 正在安全確認雲端版本…");
+ try{
+  await withTimeout(runTransaction(db,async tx=>{
+   const d=doc(db,"users",uid),snap=await tx.get(d);
+   if(!snap.exists()||!validSyncData(snap.data().data)||stableJSON(snap.data().data)!==base)throw new Error("雲端版本已改變，已停止覆蓋");
+   if(current?.uid!==uid||auth.currentUser?.uid!==uid||localData()!==raw)throw new Error("登入或本機資料已改變，已停止上傳");
+   tx.set(d,{data,updatedAt:serverTimestamp(),schema:1});
+  }));
+  if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);setLocalOwner(uid);conflict=false;pendingSync=localData()!==raw;status("✅ 雲端安全備份完成。");if(pendingSync)queueAutoUpload()}
+ }catch(e){conflict=true;status("⚠ 手動上傳未確認成功，已保留原資料，將重新檢查雲端。");retryCloudCheck()}
+ finally{busy=false;buttons()}
 };
 el("cloudDownload").onclick=async()=>{
+ if(hasUnsavedEditorNote()){status("📝 請先儲存正在編輯的記事，再進行雲端操作。");return}
+ const before=localData(),base=readBaseline(),uid=current.uid;
+ if(before&&before!==base){status("⚠ 手機有尚未同步的修改，為避免遺失資料，已停止下載。");return}
+
  if(!current||busy)return;
  if(ownerMismatch()){status("⚠ 帳號與本機資料不一致，已取消還原。");return}
  busy=true;buttons();status("正在檢查雲端資料…");
@@ -413,7 +425,9 @@ el("cloudDownload").onclick=async()=>{
  if(!snap.exists()){status("雲端尚無備份，沒有覆蓋本機資料。");return}
  const data=snap.data().data;
  if(!validSyncData(data)||!syncSizeOK(data)){status("雲端資料格式不符合預期，已取消下載。");return}
+ if(current?.uid!==uid||auth.currentUser?.uid!==uid||localData()!==before){status("⚠ 登入或手機資料已改變，已停止下載。");return}
  if(!confirm("下載將覆蓋這台裝置的班表、請假、加班與記事。請先匯出本機 JSON 備份。確定下載？")){status("已取消下載，本機資料未變更。");return}
+ if(current?.uid!==uid||localData()!==before){status("⚠ 下載期間手機資料已改變，已停止還原。");return}
  localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(data));localStorage.setItem(baselineKey(),stableJSON(data));setLocalOwner(current.uid);
  sessionStorage.setItem("shift_assistant_cloud_restore_notice","✅ 雲端資料下載成功！已寫入這台裝置的班表、請假、加班與記事。請核對班表內容。");location.reload();
  }catch(e){status("下載失敗："+e.message)}finally{busy=false;buttons()}
