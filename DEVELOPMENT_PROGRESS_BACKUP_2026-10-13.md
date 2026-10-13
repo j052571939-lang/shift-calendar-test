@@ -2,11 +2,11 @@
 
 ## 版本與倉庫
 - 測試倉庫：j052571939-lang/shift-calendar-test
-- 測試版：V0.5.28，GitHub `version.json` 為 0.5.28。
+- 測試版：V0.5.29，GitHub `version.json` 為 0.5.29。
 - PWA 固定入口：https://j052571939-lang.github.io/shift-calendar-test/app-v041.html
-- 快照：https://j052571939-lang.github.io/shift-calendar-test/app-v0528.html
-- `app-v041.html` 與 `app-v0528.html` 的 GitHub blob SHA 相同：`2bed01aa4a6c459d0679c48cd3596022f3f7a030`。
-- `sw.js` 快取：`shift-calendar-test-auto-v0528`，包含 V0.5.28。
+- 快照：https://j052571939-lang.github.io/shift-calendar-test/app-v0529.html
+- `app-v041.html` 與 `app-v0529.html` 的 GitHub blob SHA 相同：`1c18fe374906b315752e15c0bd7f4583e5611fcf`。
+- `sw.js` 快取：`shift-calendar-test-auto-v0529`，包含 V0.5.29。
 - PWA manifest 的 `id` / `start_url` 均為 `./app-v041.html`，不要更動。
 - 正式倉庫：`j052571939-lang/my-shift-2040`；正式版 V8.1.8，**未獲明確授權不得修改**。
 
@@ -91,3 +91,11 @@
 - 本次 34 項整合測試與 20 項合併／記事／逾時回歸全部通過；同步核心逐字與 V0.5.27 一致，沿用原 22 項規則與 4 項 SDK 測試結果。實際觸控滾輪、字體大時 iPhone 排版需使用者確認。
 - 目前僅頁面開啟且可見時的提醒；鎖屏／背景通知未完成。正式版與 Firebase 規則未修改。
 - 待驗收：開關可用、滾輪可改、儲存重開能再次修改、外觀設定與欄位對齐，之後最後雙裝置衝突測試與原生 iOS 上架準備。
+
+## 2026-10-13：V0.5.29 任意提前提醒，最多一天
+- 提醒時間改為小時／分鐘兩欄滾輪，0～24 小時；24 小時時分鐘固定為 00。
+- 可切換自訂整數分鐘 0～1440，0 為事件開始時。超過上限、負數、小數或空白不套用並保留原值。
+- 完成只套用表單，仍需按儲存記事與提醒；分享維持分開。
+- 時間附帶資料與備份驗證改為整數範圍；外層資料格式／Firebase schema 不變，雙裝置都應更新 V0.5.29。
+- 本版 43 項整合測試與 20 項記事／逾時回歸通過。Firebase 同步核心逐字不變，沿用既有規則與 SDK 模擬器結果。
+- 實際 iPhone 滾輪與自訂輸入仍需使用者驗收；前景提醒限制、未完成原生鎖屏背景通知的狀態不變。正式 V8.1.8 與 Firebase 規則未修改。
