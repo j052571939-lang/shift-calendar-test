@@ -1,0 +1,10 @@
+{
+  "name": "integrated-note-event-tests",
+  "private": true,
+  "scripts": {
+    "test": "node test-integrated.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}
