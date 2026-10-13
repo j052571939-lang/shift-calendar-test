@@ -1,7 +1,7 @@
 process.env.TZ='Asia/Taipei';
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
 const {JSDOM}=require('jsdom'),ICAL=require('ical.js');
-const source=fs.readFileSync(process.env.APP_FILE||'../../app-v041.html','utf8');
+const source=fs.readFileSync(process.env.APP_FILE||'../../app-v0526.html','utf8');
 const scripts=[...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]);for(const s of scripts)new vm.Script(s.replace(/^import .*;$/gm,''));
 const pure=scripts[0].slice(scripts[0].indexOf('function calendarEscapeText'),scripts[0].indexOf('let calendarPrepared'));
 const c=vm.createContext({TextEncoder});vm.runInContext(pure,c);
