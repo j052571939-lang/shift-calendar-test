@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1729"><link rel="manifest" href="./manifest-v041.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="班表助理"><link rel="icon" type="image/svg+xml" href="./icon-v041.svg"><title>班表助理｜測試版 0.5.25</title>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1729"><link rel="manifest" href="./manifest-v041.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="班表助理"><link rel="icon" type="image/svg+xml" href="./icon-v041.svg"><title>班表助理｜測試版 0.5.26</title>
 <style>
 :root{color-scheme:dark;--bg:#091525;--card:#14243a;--line:#334760;--txt:#f6f8fc;--muted:#aebfd3;--blue:#3c78f2;--orange:#ffb54a;--purple:#b6a0ff;--red:#ff7885}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px -apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;background:#273c57;color:white;padding:11px 13px}button.primary{background:var(--blue);font-weight:700}button:disabled{opacity:.4}input,select,textarea{background:#0c1b2e;border:1px solid var(--line);color:white;border-radius:10px;padding:11px;width:100%;min-width:0}input[type=checkbox]{width:auto;accent-color:var(--blue)}.wrap{max-width:540px;margin:auto;padding:calc(15px + env(safe-area-inset-top)) 12px 60px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.head h1{font-size:23px;margin:0}.small{font-size:12px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:13px}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.row button{white-space:nowrap}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.field label{font-size:13px;color:var(--muted)}.field:last-child{margin-bottom:0}.full{width:100%}.hidden{display:none!important}.week,.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.week div{text-align:center;color:var(--muted);padding:8px 0;font-size:13px}.week div:first-child,.week div:last-child{color:var(--red)}.day{border:1px solid #30455e;background:#101e31;min-height:64px;padding:4px 2px;border-radius:5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;overflow:hidden}.day:disabled{opacity:.1}.day.sel{outline:2px solid #75b0ff}.day .num{font-size:14px;font-weight:700}.day .num.red{color:var(--red)}.pill{font-size:11px;border-radius:5px;padding:2px 3px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pill.daywork{background:#88540b;color:#ffe2ad}.pill.weekday{background:#087f83;color:#e9ffff}.pill.night{background:#463a87;color:#e3ddff}.pill.off{background:#425166;color:#fff}.pill.leave{background:#576577;color:white}.pill.overtime{background:#f5c842;color:#352800;font-weight:700}.holiday{font-size:9px;color:#ff9caa;line-height:1.2;overflow:hidden;max-height:24px}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}.muted{color:var(--muted)}.notice{border-left:3px solid #79a9ff;padding:9px 12px;background:#142844;border-radius:7px;font-size:13px;margin-bottom:12px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.actions button{font-size:13px;padding:10px 4px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.days button{padding:12px 0}.days button.active{background:var(--blue)}.previewlist{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.pv{border:1px solid var(--line);border-radius:8px;padding:8px 2px;text-align:center;font-size:12px;background:#0c1b2e}.pv strong{display:block;font-size:13px;margin-bottom:5px}.pv span{font-size:11px}.sep{border:0;border-top:1px solid var(--line);margin:14px 0}textarea{min-height:80px}h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 10px}#status{font-size:12px;color:#a4d9ba;margin-top:7px}.twoButtons{display:flex;gap:8px}.twoButtons>*{flex:1}
 /* iPhone time controls: prevent intrinsic-width overflow */
@@ -12,7 +12,7 @@
 #settings .cols .field{min-width:0;width:100%}
 #settings input[type="time"]{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px;text-align:left;padding:11px 8px}
 @media(max-width:500px){#settings .cols:has(input[type="time"]){grid-template-columns:minmax(0,1fr)}#settings .cols:has(input[type="time"]) .field{width:100%}}
-/* iPhone form geometry v0.5.25: symmetrical compact native controls */
+/* iPhone form geometry v0.5.26: symmetrical compact native controls */
 #settings .card{overflow:hidden}
 #settings .cols{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;width:100%;max-width:100%}
 #settings .field{min-width:0!important;width:100%!important;max-width:100%!important}
@@ -26,12 +26,12 @@
 /* Single-tap date action sheet */
 .sheetShade{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}.sheetShade.hidden{display:none!important}.sheet{width:100%;max-width:540px;max-height:85vh;overflow:auto;background:#1a2c44;border:1px solid #516582;border-radius:22px;padding:18px;box-shadow:0 12px 50px #0008}.sheet .actions{margin:14px 0}.sheet textarea{margin:8px 0 10px}.sheetTitle{font-size:21px;font-weight:750;margin-bottom:8px}.sheetClose{float:right;background:#324860;padding:7px 13px}
 
-/* integrated iPhone preview v0.5.25 */
+/* integrated iPhone preview v0.5.26 */
 #settings .cols{gap:14px!important}#settings .cols .field{overflow:hidden}#settings input[type="time"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:14px!important;padding:8px 3px!important;overflow:hidden!important}#settings input[type="date"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:15px!important;overflow:hidden!important}#settings .card{overflow:hidden}.day:focus-visible{outline:2px solid #83baff}.day.today{box-shadow:inset 0 0 0 2px #c6e1ff}.day .holiday{color:#ff9aaa}#onboarding{margin-top:8px}.helpList{font-size:14px;line-height:1.9}.smallActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.smallActions button{font-size:13px}.themeLight{--bg:#f4f7fb;--card:#fff;--line:#c6d3e2;--txt:#18263b;--muted:#52637c;color-scheme:light}.themeLight .day{background:#f1f5fb}.themeLight input,.themeLight select,.themeLight textarea{background:#f5f8ff;color:#162338}.themeLight .sheet{background:#fff;color:#18263b}.themeLight .pv{background:#f6f9ff;color:#18263b}.themeLight .notice{color:#f6f8fc}
 .noteDot{font-size:10px;color:#80d5c3;line-height:1.1}.day{min-height:70px}.day .noteDot{max-width:100%;overflow:hidden;white-space:nowrap}
 .pill.overtime{background:#f5c842!important;color:#352800!important}.legend span{white-space:nowrap}#overtimeEditor select{max-width:100%}
 
-/* 0.5.25: readable calendar in light mode and visible month picker */
+/* 0.5.26: readable calendar in light mode and visible month picker */
 #monthTitle{color:var(--txt)!important;min-width:0;flex:1;text-align:center}
 .themeLight .day{color:#18263b!important;background:#f1f5fb}
 .themeLight .day .num{color:#18263b!important}
@@ -43,12 +43,13 @@
 .themeLight #monthTitle{color:#18263b!important}
 .themeLight #monthPicker label{color:#18263b}
 .themeLight #jumpYear,.themeLight #jumpMonth{background:#f5f8ff!important;color:#18263b!important;border:1px solid #94a9c3!important}
+#calendarEventSheet{z-index:1100}#calendarEventSheet input[type="date"],#calendarEventSheet input[type="time"]{min-height:46px;min-width:0;max-width:100%;width:100%;box-sizing:border-box}#calendarEventStatus{line-height:1.6;margin-top:10px}#calendarEventSheet .small{line-height:1.7}
 </style></head><body><div class="wrap">
 <section id="home">
-<div class="head"><div><h1>班表助理</h1><div class="small">iPhone 介面測試版 0.5.25</div></div><button id="openSettings">⚙ 班表設定</button></div>
-<div class="notice">班表助理 0.5.25 測試版｜正式 V8.1.8 不受影響｜目前尚未連動 iPhone 系統通知。</div><div id="onboarding" class="card hidden"><h2>歡迎使用班表助理</h2><p class="muted">尚未建立班表。請先設定規則，月曆目前只顯示日期與假日。</p><div class="twoButtons"><button id="quickSetup" class="primary">快速建立班表</button><button id="helpBtn">使用指南</button></div></div><div class="smallActions"><button id="themeToggle">◐ 深／淺色</button><button id="helpBtn2">使用指南</button><button id="refreshHolidays">更新假日資料</button><button id="checkAppVersion" type="button" hidden>檢查 App 更新</button><button id="shareMonth" class="primary">📤 分享本月班表</button><button id="exportBackup" hidden>匯出備份</button><div id="backupStatus" role="status" aria-live="polite" hidden style="width:100%;font-size:13px;line-height:1.6;color:#c6d6e8;padding:4px 8px"></div><button id="importBackup" hidden>匯入還原</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none"><button id="clearSchedule">清除班表規則</button></div>
+<div class="head"><div><h1>班表助理</h1><div class="small">iPhone 介面測試版 0.5.26</div></div><button id="openSettings">⚙ 班表設定</button></div>
+<div class="notice">班表助理 0.5.26 測試版｜正式 V8.1.8 不受影響｜目前尚未連動 iPhone 系統通知。</div><div id="onboarding" class="card hidden"><h2>歡迎使用班表助理</h2><p class="muted">尚未建立班表。請先設定規則，月曆目前只顯示日期與假日。</p><div class="twoButtons"><button id="quickSetup" class="primary">快速建立班表</button><button id="helpBtn">使用指南</button></div></div><div class="smallActions"><button id="themeToggle">◐ 深／淺色</button><button id="helpBtn2">使用指南</button><button id="refreshHolidays">更新假日資料</button><button id="checkAppVersion" type="button" hidden>檢查 App 更新</button><button id="shareMonth" class="primary">📤 分享本月班表</button><button id="exportBackup" hidden>匯出備份</button><div id="backupStatus" role="status" aria-live="polite" hidden style="width:100%;font-size:13px;line-height:1.6;color:#c6d6e8;padding:4px 8px"></div><button id="importBackup" hidden>匯入還原</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none"><button id="clearSchedule">清除班表規則</button></div>
 <div class="card"><div class="row"><button id="prevMonth">‹</button><button id="monthTitle" type="button" title="點此快速選擇年月" style="background:transparent;font-weight:700;font-size:21px;padding:8px 3px;white-space:nowrap"></button><button id="nextMonth">›</button><button id="today">今天</button></div><div id="monthPicker" style="display:none;padding:12px 0"><div class="row" style="gap:8px"><label style="flex:1">年份<select id="jumpYear" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><label style="flex:1">月份<select id="jumpMonth" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><button id="jumpGo" class="primary">跳轉</button></div></div><div id="holidayDataStatus" class="small" style="margin:4px 0 8px;line-height:1.5"></div><div id="appliedRules" class="small" style="margin:12px 0;line-height:1.5"></div><div class="week"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div id="calendar" class="calendar"></div><div class="legend"><span>🟠 早班</span><span>🟣 夜班</span><span><span style="display:inline-block;width:12px;height:12px;background:#087f83;border-radius:3px;vertical-align:-1px;margin-right:3px"></span>常日班</span><span>⚪ 休假</span><span>🔴 假日</span><span>🟡 加班</span><span>📝 記事</span></div></div>
-<div class="card"><h2 id="summaryTitle">所選日期記事與提醒</h2><div id="todayInfo" class="muted"></div><button id="editTodayNote" style="margin-top:12px">編輯所選日期記事</button></div>
+<div class="card"><h2 id="summaryTitle">所選日期記事與提醒</h2><div id="todayInfo" class="muted"></div><div class="smallActions"><button id="editTodayNote">編輯所選日期記事</button><button id="openCalendarEvent" type="button">📅 匯出記事到行事曆</button></div></div>
 <div class="card hidden"><h2>選擇日期</h2><div id="dateInfo" class="muted"></div><div class="actions" style="margin-top:12px"><button id="leave">改請假</button><button id="overtime">改加班</button><button id="restore">恢復原班表</button></div><div class="field" style="margin-top:15px"><label for="note">當日記事</label><textarea id="note" placeholder="記錄今天的事情…"></textarea></div><button id="saveNote" class="primary full">儲存記事</button><div id="status"></div></div>
 </section>
 <section id="settings" class="hidden">
@@ -61,7 +62,7 @@
 <div class="twoButtons"><button id="previewBtn" class="primary">預覽未來 30 天</button><button id="resetDraft">清除設定草稿</button></div></div>
 <div id="previewCard" class="card hidden"><h2>30 天排班預覽</h2><p id="previewSummary" class="small"></p><div id="previewList" class="previewlist"></div><p class="small">此處預覽從今天起的 30 天；官方假日資料以已載入的年度為準。</p><button id="confirmSave" class="primary full">確認儲存並返回月曆</button></div>
 </section>
-</div><div id="helpSheet" class="sheetShade hidden" role="dialog" aria-modal="true"><div class="sheet"><button id="helpClose" class="sheetClose">關閉 ✕</button><h2>使用指南</h2><div class="helpList">① 首次使用按「快速建立班表」設定輪班或常日班。<br>② 按「預覽未來 30 天」確認，再按「確認儲存」。<br>③ 在月曆輕點日期，立即開啟請假、加班、恢復及記事選單。<br>④ 班表設定、請假、加班及記事儲存在此手機的班表助理 App 中，不會自動同步到其他手機。Safari 網頁版與主畫面 App 的資料也可能分開儲存；更換手機或重新安裝前，請先「匯出備份」。<br>⑤ 此測試版不會建立 iPhone 鬧鐘；官方假日以已載入的年份資料為準。<br>⑥ 換手機前，請先「匯出備份」並確認 JSON 已存入 iCloud Drive 或 Google 雲端硬碟；「已產生備份檔」不代表已上傳雲端。<br>⑦ App 更新：保持網路連線，從 iPhone 多工畫面將班表助理往上滑掉，再由主畫面重新開啟。下拉月曆不會更新 App；若仍顯示舊版，請按「檢查 App 更新」。更新前建議先匯出備份。</div></div></div><div id="dateSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-label="日期操作選單"><div class="sheet"><button id="sheetClose" class="sheetClose" type="button">關閉 ✕</button><div id="sheetTitle" class="sheetTitle"></div><div id="sheetInfo" class="muted"></div><div class="actions"><button id="sheetLeave" type="button">改請假</button><button id="sheetOvertime" type="button">改加班</button><button id="sheetRestore" type="button">恢復原班表</button></div><div id="overtimeEditor" class="hidden" style="padding:12px 0"><label class="small" for="overtimeShift">加班班別</label><select id="overtimeShift" style="margin:8px 0 10px"><option value="day">早班加班</option><option value="night">夜班加班</option></select><button id="confirmOvertime" class="primary full" type="button">確認加班班別</button></div><label class="small" for="sheetNote">當日記事</label><textarea id="sheetNote" placeholder="記錄這一天的事情…"></textarea><button id="sheetSaveNote" class="primary full" type="button">儲存記事</button></div></div><script>
+</div><div id="helpSheet" class="sheetShade hidden" role="dialog" aria-modal="true"><div class="sheet"><button id="helpClose" class="sheetClose">關閉 ✕</button><h2>使用指南</h2><div class="helpList">① 首次使用按「快速建立班表」設定輪班或常日班。<br>② 按「預覽未來 30 天」確認，再按「確認儲存」。<br>③ 在月曆輕點日期，立即開啟請假、加班、恢復及記事選單。<br>④ 班表設定、請假、加班及記事儲存在此手機的班表助理 App 中，不會自動同步到其他手機。Safari 網頁版與主畫面 App 的資料也可能分開儲存；更換手機或重新安裝前，請先「匯出備份」。<br>⑤ 此測試版不會建立 iPhone 鬧鐘；官方假日以已載入的年份資料為準。<br>⑥ 換手機前，請先「匯出備份」並確認 JSON 已存入 iCloud Drive 或 Google 雲端硬碟；「已產生備份檔」不代表已上傳雲端。<br>⑦ App 更新：保持網路連線，從 iPhone 多工畫面將班表助理往上滑掉，再由主畫面重新開啟。下拉月曆不會更新 App；若仍顯示舊版，請按「檢查 App 更新」。更新前建議先匯出備份。</div></div></div><div id="dateSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-label="日期操作選單"><div class="sheet"><button id="sheetClose" class="sheetClose" type="button">關閉 ✕</button><div id="sheetTitle" class="sheetTitle"></div><div id="sheetInfo" class="muted"></div><div class="actions"><button id="sheetLeave" type="button">改請假</button><button id="sheetOvertime" type="button">改加班</button><button id="sheetRestore" type="button">恢復原班表</button></div><div id="overtimeEditor" class="hidden" style="padding:12px 0"><label class="small" for="overtimeShift">加班班別</label><select id="overtimeShift" style="margin:8px 0 10px"><option value="day">早班加班</option><option value="night">夜班加班</option></select><button id="confirmOvertime" class="primary full" type="button">確認加班班別</button></div><label class="small" for="sheetNote">當日記事</label><textarea id="sheetNote" placeholder="記錄這一天的事情…"></textarea><button id="sheetSaveNote" class="primary full" type="button">儲存記事</button><button id="sheetCalendarEvent" class="full" type="button" style="margin-top:10px">📅 匯出記事到行事曆</button></div></div><div id="calendarEventSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-labelledby="calendarEventHeading"><div class="sheet"><button id="calendarEventClose" class="sheetClose" type="button">關閉 ✕</button><h2 id="calendarEventHeading">記事 → 行事曆</h2><p class="small">建立一個事件，匯入行事曆後由行事曆提醒你。休假日也可以使用。</p><form id="calendarEventForm"><div class="field"><label for="calendarEventTitle">事件名稱</label><input id="calendarEventTitle" maxlength="160" required placeholder="例如：回診、接家人"></div><div class="cols"><div class="field"><label for="calendarEventDate">日期</label><input id="calendarEventDate" type="date" required></div><div class="field"><label for="calendarEventTime">開始時間</label><input id="calendarEventTime" type="time" required></div></div><div class="field"><label for="calendarEventDuration">事件長度</label><select id="calendarEventDuration"><option value="15">15 分鐘</option><option value="30">30 分鐘</option><option value="60" selected>1 小時</option><option value="120">2 小時</option></select></div><div class="field"><label for="calendarEventDescription">事件備註（可自行刪減）</label><textarea id="calendarEventDescription" maxlength="20000"></textarea></div><p><label><input id="calendarEventRemind" type="checkbox"> 在行事曆設定提醒</label></p><div class="field"><label for="calendarEventLead">提醒時間</label><select id="calendarEventLead" disabled><option value="0">事件開始時</option><option value="5">提前 5 分鐘</option><option value="10">提前 10 分鐘</option><option value="15" selected>提前 15 分鐘</option><option value="30">提前 30 分鐘</option><option value="60">提前 1 小時</option><option value="1440">提前 1 天</option></select></div><p class="small" id="calendarEventZone"></p><button id="calendarEventExport" type="submit" class="primary full">建立並分享行事曆檔案</button><button id="calendarEventDownload" type="button" class="full hidden" style="margin-top:8px">下載行事曆檔案</button></form><p id="calendarEventStatus" class="small" role="status" aria-live="polite">匯出後，請在行事曆確認儲存與提醒設定。班表助理不會直接建立系統通知；匯入的事件也不會隨記事修改而自動更新。重複匯入可能重複建立事件。</p><p class="small">iPhone 若只出現檔案預覽，可將 .ics 檔案寄給自己，再從 Apple「郵件」App 開啟附件加入行事曆。</p></div></div><script>
 'use strict';
 const $=id=>document.getElementById(id), KEY='shift_assistant_app_preview_01';
 const ids=['mode','team','first','base','rotationBase','on','off','rotation','dayStart','dayEnd','nightStart','nightEnd','dayAlarm','nightAlarm','holidayOff','makeupWork'];
@@ -113,8 +114,10 @@ $('sheetLeave').onclick=()=>{if(change('leave'))openDateSheet()};
 $('sheetOvertime').onclick=()=>{$('overtimeEditor').classList.remove('hidden');const o=overrides[selected];$('overtimeShift').value=o&&typeof o==='object'&&o.shift?o.shift:(saved.first||'day')};
 $('confirmOvertime').onclick=()=>{const old=overrides[selected],oldNote=notes[selected],v=$('sheetNote').value.trim();overrides[selected]={type:'overtime',shift:$('overtimeShift').value};if(v)notes[selected]=v;else delete notes[selected];if(persist()){render();openDateSheet()}else{if(old===undefined)delete overrides[selected];else overrides[selected]=old;if(oldNote===undefined)delete notes[selected];else notes[selected]=oldNote}};
 $('sheetRestore').onclick=()=>{if(change(null))openDateSheet()};
+$('sheetCalendarEvent').onclick=()=>openCalendarEvent();
+$('openCalendarEvent').onclick=()=>openCalendarEvent();
 $('sheetSaveNote').onclick=()=>{const v=$('sheetNote').value.trim(),old=notes[selected];if(v)notes[selected]=v;else delete notes[selected];if(persist()){$('note').value=v;render();closeDateSheet()}else{if(old===undefined)delete notes[selected];else notes[selected]=old}};
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDateSheet()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('calendarEventSheet').classList.contains('hidden'))closeCalendarEvent();else if(!$('dateSheet').classList.contains('hidden'))closeDateSheet()}});
 $('editTodayNote').onclick=()=>{openDateSheet()};
 $('quickSetup').onclick=openSettings;
 $('helpBtn').onclick=$('helpBtn2').onclick=()=>{$('helpSheet').classList.remove('hidden')};
@@ -199,9 +202,9 @@ $('backupFile').onchange=async()=>{
 $('clearSchedule').onclick=()=>{if(!saved)return alert('目前尚未設定班表');if(!confirm('確定清除目前班表規則？記事和請假／加班紀錄會保留。'))return;const old=saved;saved=null;if(persist())render();else saved=old};
 if(localStorage.getItem('shift_assistant_theme')==='light')document.body.classList.add('themeLight');
 load();restoreHolidayCache();render();backupStatus();loadHolidays();
-/* v0.5.25 diagnostic: no new service worker registration */
+/* v0.5.26 diagnostic: no new service worker registration */
 
-const APP_VERSION='0.5.25';
+const APP_VERSION='0.5.26';
 document.querySelectorAll('.head .small, .notice, #cloudSyncPanel h3').forEach(node=>{node.textContent=node.textContent.replace(/(?:V)?0\.5\.\d+/g,m=>(m.startsWith('V')?'V':'')+APP_VERSION)});
 document.title='班表助理｜測試版 '+APP_VERSION;
 const UPDATE_ATTEMPT='shift_assistant_auto_update_attempt_v1';
@@ -232,6 +235,87 @@ window.addEventListener('load',()=>{
  setTimeout(()=>checkAppUpdate(false),900);
 });
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkAppUpdate(false)});
+// Calendar export: no change to saved schedule/overrides/notes or cloud schema.
+function calendarEscapeText(v){return String(v).replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g,'')}
+function calendarFoldLine(line){const encoder=new TextEncoder();let out='',part='',bytes=0;for(const char of line){const n=encoder.encode(char).length;if(bytes+n>75){out+=part+'\r\n';part=' ';bytes=1}part+=char;bytes+=n}return out+part}
+function calendarUTC(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z')}
+function calendarEventData(input,now=new Date()){
+ const title=String(input.title||'').trim(),description=String(input.description||'');
+ if(!title||title.length>160)throw Error('請填寫事件名稱（最多 160 字）。');
+ if(description.length>20000)throw Error('事件備註太長，請刪減後再匯出。');
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(input.date)||!/^\d{2}:\d{2}$/.test(input.time))throw Error('請選擇有效的日期與開始時間。');
+ const [y,m,d]=input.date.split('-').map(Number),[h,min]=input.time.split(':').map(Number);
+ const start=new Date(y,m-1,d,h,min,0,0);
+ if(y<2020||y>2060||start.getFullYear()!==y||start.getMonth()!==m-1||start.getDate()!==d||start.getHours()!==h||start.getMinutes()!==min)throw Error('日期或時間無效，請重新選擇。');
+ const duration=Number(input.duration),lead=Number(input.lead);
+ if(![15,30,60,120].includes(duration))throw Error('請選擇事件長度。');
+ if(typeof input.remind!=='boolean'||![0,5,10,15,30,60,1440].includes(lead))throw Error('提醒設定無效。');
+ if(input.remind&&start.getTime()-lead*60000<=now.getTime())throw Error('提醒時間已過，請調整事件時間或提前分鐘數。');
+ return {title,description,start,end:new Date(start.getTime()+duration*60000),remind:input.remind,lead};
+}
+function calendarBuildICS(event,uid,now=new Date()){
+ if(!/^[a-zA-Z0-9-]{1,80}@shift-assistant\.local$/.test(uid))throw Error('事件識別碼無效。');
+ const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Shift Assistant//Note Calendar Export//ZH-TW','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+calendarUTC(now),'DTSTART:'+calendarUTC(event.start),'DTEND:'+calendarUTC(event.end),'SUMMARY:'+calendarEscapeText(event.title),'DESCRIPTION:'+calendarEscapeText(event.description)];
+ if(event.remind)lines.push('BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:'+(event.lead===0?'PT0M':'-PT'+event.lead+'M'),'DESCRIPTION:'+calendarEscapeText(event.title),'END:VALARM');
+ lines.push('END:VEVENT','END:VCALENDAR');return lines.map(calendarFoldLine).join('\r\n')+'\r\n';
+}
+let calendarPrepared=null,calendarExportBusy=false,calendarReturnFocus=null;
+function calendarFormInput(){return {title:$('calendarEventTitle').value,description:$('calendarEventDescription').value,date:$('calendarEventDate').value,time:$('calendarEventTime').value,duration:$('calendarEventDuration').value,remind:$('calendarEventRemind').checked,lead:$('calendarEventLead').value}}
+function calendarPrepareFile(){
+ if(!$('calendarEventForm').reportValidity())return null;
+ const input=calendarFormInput(),event=calendarEventData(input),fingerprint=JSON.stringify(input);
+ if(calendarPrepared?.fingerprint===fingerprint)return calendarPrepared;
+ const uid=crypto.randomUUID()+'@shift-assistant.local',ics=calendarBuildICS(event,uid);
+ const name='shift-event-'+input.date+'.ics';
+ calendarPrepared={fingerprint,file:new File([ics],name,{type:'text/calendar;charset=utf-8'}),name};return calendarPrepared;
+}
+function openCalendarEvent(){
+ const openSheet=!$('dateSheet').classList.contains('hidden');
+ const note=openSheet?$('sheetNote').value:notes[selected]||'';
+ if(!note.trim()){alert('請先填寫記事，再建立行事曆事件。');return}
+ // Validate before saving a note or opening a dialog; no automatic server writes here.
+ if(note.length>20000){alert('記事超過事件備註長度，請先刪減或選擇較短的記事。');return}
+ calendarReturnFocus=document.activeElement;
+ $('calendarEventSheet').classList.remove('hidden');
+ if(openSheet&&!closeDateSheet()){$('calendarEventSheet').classList.add('hidden');return}
+ $('calendarEventTitle').value=note.trim().split(/\r?\n/)[0].slice(0,160);
+ $('calendarEventDescription').value=note;
+ $('calendarEventDate').value=selected;$('calendarEventTime').value='';
+ $('calendarEventDuration').value='60';$('calendarEventRemind').checked=false;$('calendarEventLead').value='15';$('calendarEventLead').disabled=true;
+ $('calendarEventZone').textContent='使用這台裝置的時區：'+(Intl.DateTimeFormat().resolvedOptions().timeZone||'本地時區')+'。匯入後會按行事曆時區顯示。';
+ $('calendarEventStatus').textContent='請選擇事件時間；提醒設定只用於這次匯出，不會修改原記事或上班提醒。';
+ $('calendarEventDownload').classList.add('hidden');calendarPrepared=null;
+ $('calendarEventTitle').focus();
+}
+function closeCalendarEvent(){
+ $('calendarEventSheet').classList.add('hidden');calendarPrepared=null;
+ if(calendarReturnFocus?.isConnected)calendarReturnFocus.focus();
+ window.dispatchEvent(new Event('shift-editor-closed'));
+}
+function calendarDownloadFile(prepared){
+ const url=URL.createObjectURL(prepared.file),a=document.createElement('a');a.href=url;a.download=prepared.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+ $('calendarEventStatus').textContent='已啟動檔案下載。請在行事曆匯入並確認事件及提醒；目前尚未確認加入成功。';
+}
+$('calendarEventRemind').onchange=()=>{$('calendarEventLead').disabled=!$('calendarEventRemind').checked};
+$('calendarEventClose').onclick=closeCalendarEvent;
+$('calendarEventSheet').onclick=e=>{if(e.target===$('calendarEventSheet'))closeCalendarEvent()};
+$('calendarEventForm').onsubmit=async e=>{
+ e.preventDefault();if(calendarExportBusy)return;
+ try{
+ const prepared=calendarPrepareFile();if(!prepared)return;
+ calendarExportBusy=true;$('calendarEventExport').disabled=true;$('calendarEventDownload').disabled=true;
+ let canShare=false;try{canShare=!!navigator.share&&!!navigator.canShare?.({files:[prepared.file]})}catch(ignore){}
+ if(canShare){
+  try{await navigator.share({files:[prepared.file]});$('calendarEventStatus').textContent='分享操作已完成。請在行事曆確認儲存與提醒；分享成功不代表事件已加入。'}
+  catch(error){if(error.name==='AbortError'){$('calendarEventStatus').textContent='已取消分享，記事仍保留。'}else{$('calendarEventStatus').textContent='無法分享此檔案，請使用下方下載按鈕。'}}
+  $('calendarEventDownload').classList.remove('hidden');
+ }else{calendarDownloadFile(prepared);$('calendarEventDownload').classList.remove('hidden')}
+ }catch(error){$('calendarEventStatus').textContent=error.message||'無法建立行事曆事件，記事仍保留。'}
+ finally{calendarExportBusy=false;$('calendarEventExport').disabled=false;$('calendarEventDownload').disabled=false}
+};
+$('calendarEventDownload').onclick=()=>{try{const prepared=calendarPrepareFile();if(prepared)calendarDownloadFile(prepared)}catch(error){$('calendarEventStatus').textContent=error.message}};
+// END calendar export
+
 </script>
 <section class="card" id="cloudSyncPanel" style="margin:12px 0;padding:16px">
 <h3>☁️ 資料同步</h3>
@@ -256,7 +340,7 @@ const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app);
 const el=id=>document.getElementById(id),status=msg=>el("cloudSyncStatus").textContent=msg;
 el("advancedExport").onclick=()=>el("exportBackup").click();
 el("advancedImport").onclick=()=>el("importBackup").click();
-el("advancedUpdate").onclick=()=>el("checkAppVersion").click(); const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.25 已載入｜等待登入狀態…")}
+el("advancedUpdate").onclick=()=>el("checkAppVersion").click(); const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.26 已載入｜等待登入狀態…")}
 let current=null,busy=false,authReady=false;
 const authWait=setTimeout(()=>{if(!authReady)status("⚠ Google 登入狀態尚未確認，手機資料安全保留。請確認網路後重新開啟 App。")},15000);
 function buttons(){el("cloudSignIn").hidden=!authReady||!!current;el("cloudSignOut").hidden=!authReady||!current;el("cloudUpload").disabled=!current||busy;el("cloudDownload").disabled=!current||busy;el("cloudCheck").disabled=!current||busy}
@@ -277,6 +361,7 @@ const TIMEOUT_MS=12000;
 function withTimeout(p){return Promise.race([p,new Promise((_,reject)=>setTimeout(()=>reject(new Error("雲端連線逾時，資料未變更。")),TIMEOUT_MS))])}
 let pendingSync=false,autoTimer=null,conflict=false,recheckTimer=null;
 function hasUnsavedEditorNote(){
+ if(el("calendarEventSheet")&&!el("calendarEventSheet").classList.contains("hidden"))return true;
  const sheet=el("dateSheet");
  return !!sheet&&!sheet.classList.contains("hidden")&&el("sheetNote").value.trim()!==(notes[selected]||'');
 }
