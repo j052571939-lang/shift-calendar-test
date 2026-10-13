@@ -1,0 +1,11 @@
+{
+  "name": "shift-calendar-export-checks",
+  "private": true,
+  "scripts": {
+    "test": "node test-calendar.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0",
+    "ical.js": "2.2.1"
+  }
+}
