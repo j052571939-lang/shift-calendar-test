@@ -2,11 +2,11 @@
 
 ## 版本與倉庫
 - 測試倉庫：j052571939-lang/shift-calendar-test
-- 測試版：V0.5.26，GitHub `version.json` 為 0.5.26。
+- 測試版：V0.5.27，GitHub `version.json` 為 0.5.27。
 - PWA 固定入口：https://j052571939-lang.github.io/shift-calendar-test/app-v041.html
-- 快照：https://j052571939-lang.github.io/shift-calendar-test/app-v0526.html
-- `app-v041.html` 與 `app-v0526.html` 的 GitHub blob SHA 相同：`c82d6c69b212ff4ec4cdec749c667f76f7e386ee`。
-- `sw.js` 快取：`shift-calendar-test-auto-v0526`，包含 V0.5.26。
+- 快照：https://j052571939-lang.github.io/shift-calendar-test/app-v0527.html
+- `app-v041.html` 與 `app-v0527.html` 的 GitHub blob SHA 相同：`14e5bd613a963a916867099879cc88c15f7f4e64`。
+- `sw.js` 快取：`shift-calendar-test-auto-v0527`，包含 V0.5.27。
 - PWA manifest 的 `id` / `start_url` 均為 `./app-v041.html`，不要更動。
 - 正式倉庫：`j052571939-lang/my-shift-2040`；正式版 V8.1.8，**未獲明確授權不得修改**。
 
@@ -70,3 +70,15 @@
 - 不支援已匯入事件自動更新或雙向同步；重複匯入可能重複建立事件。沒有讀取手機行事曆的能力。
 - 原實機第 2、3 項已回報通過；真實伺服器提交後逾時、第 1 項雙裝置衝突仍待實測。新增的 .ics 匯入與通知也需實機確認。
 - 尚未完成 iOS 原生封裝／簽署／直接行事曆整合與 App Store 送審；正式 V8.1.8 和 Firebase 規則未修改。
+
+## 2026-10-13：方向修正，V0.5.27
+- 使用者明確否定另行匯出／生成行事曆檔案，要求班表本身貼近行事曆；記事內整合日期、開始時間、提醒；儲存／建立與分享必須分開，日期／時間欄位需對稱。
+- V0.5.27 已移除 .ics 匯出流程，改為原記事編輯窗內的一次儲存，月曆顯示記事時間，分享按鈕獨立。
+- 日期沿用所選月曆日期（唯讀），時間選填；兩欄等寬／48px 等高。未做真實 iPhone 視覺驗收。
+- 時間設定以 notes 的 @event:日期 -> JSON string 相容保存，外層 Firestore schema 不變，舊文字格式不變。使用內容版本指紋而不重複儲存完整記事。
+- 同一記事文字和提醒附帶資料作為一組合併；同日不同修改停止自動合併。備份／還原支援附帶資料，原子回復與容量限制已檢查。
+- 26 項新增整合測試＋原 46 項回歸檢查均通過，共 72 項。詳細記錄與可重跑測試：tests/note-event/README.md。
+- **目前只提供頁面開啟且可見時的班表內提醒；鎖屏、關閉 App 或背景系統通知沒有完成，不能將其聲稱為完整行事曆通知。**
+- 沒有外部行事曆整合，沒有匯出記事；原匯出測試改固定歷史快照 app-v0526.html，不能當現行功能。
+- 每日一則記事的開始時間與提醒；同日多事件、重複事件等尚未提供。新增能力仍需實機確認後，再完成最後雙裝置冲突驗收。
+- 正式 V8.1.8 未修改；Firebase 規則未修改／發布；沒有清除使用者資料或要求重裝。
