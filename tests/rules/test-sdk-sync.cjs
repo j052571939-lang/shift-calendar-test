@@ -1,0 +1,25 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const {initializeTestEnvironment}=require('@firebase/rules-unit-testing');
+const sdk=require('firebase/firestore');
+(async()=>{
+ if(!process.env.FIRESTORE_EMULATOR_HOST)throw Error('Local emulator required; refuse production access');
+ const env=await initializeTestEnvironment({projectId:'demo-shift-stability',firestore:{rules:fs.readFileSync('firestore.rules','utf8')}});
+ const h=fs.readFileSync('../../app-v041.html','utf8');const m=[...h.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).find(x=>x.includes('function safeAutoUpload'));
+ const code=m.slice(m.indexOf('const BASE='),m.indexOf('onAuthStateChanged(auth,'));
+ const key='shift_assistant_app_preview_01',baseKey='shift_assistant_sync_baseline_v2_alice',orig={schedule:{team:'B'},overrides:{},notes:{'2026-10-13':'原文'}};
+ const clone=x=>JSON.parse(JSON.stringify(x));let count=0;
+ const root=env.authenticatedContext('alice').firestore();
+ async function reset(){await sdk.setDoc(sdk.doc(root,'users/alice'),{data:orig,schema:1,updatedAt:sdk.serverTimestamp()})}
+ async function cloud(){return (await sdk.getDoc(sdk.doc(root,'users/alice'))).data().data}
+ function device(local){const storage=new Map([[key,JSON.stringify(local)],[baseKey,JSON.stringify(orig)]]),nodes={},messages=[],timers=new Map();let timerId=0,loseReply=false,readFail=false,writes=0;
+ const db=env.authenticatedContext('alice').firestore();const ctx=vm.createContext({TextEncoder,current:{uid:'alice'},auth:{currentUser:{uid:'alice'}},authReady:true,busy:false,db,notes:{},selected:'2026-10-13',navigator:{onLine:true},el:id=>nodes[id]??={value:'',classList:{contains:()=>true}},status:x=>messages.push(x),buttons:()=>{},setTimeout:(fn,ms)=>{timers.set(++timerId,{fn,ms});return timerId},clearTimeout:id=>timers.delete(id),localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},location:{reload:()=>{}},window:{addEventListener(){}},document:{addEventListener(){},hidden:false},doc:sdk.doc,serverTimestamp:sdk.serverTimestamp,getDocFromServer:r=>readFail?Promise.reject(Error('simulated unavailable')):sdk.getDocFromServer(r),runTransaction:async(...args)=>{const [database,callback]=args;const r=await sdk.runTransaction(database,tx=>callback({get:r=>tx.get(r),set:(r,v)=>tx.set(r,{data:clone(v.data),schema:v.schema,updatedAt:v.updatedAt})}));writes++;if(loseReply)throw Error('simulated reply loss after commit');return r}});
+ vm.runInContext(code,ctx);return {call:n=>ctx[n](),local:()=>JSON.parse(storage.get(key)),baseline:()=>JSON.parse(storage.get(baseKey)),flags:()=>vm.runInContext('({conflict,pendingSync})',ctx),replyLoss:()=>loseReply=true,failRead:v=>readFail=v,writes:()=>writes,messages};}
+ const test=async(name,fn)=>{await reset();await fn();count++;console.log('PASS '+name)};
+ try{
+ await test('real SDK concurrent different-date edits merge without loss',async()=>{const l=clone(orig),r=clone(orig);l.notes['2026-10-14']='裝置A';r.notes['2026-10-15']='裝置B';const a=device(l),b=device(r);await Promise.all([a.call('safeAutoUpload'),b.call('safeAutoUpload')]);assert.equal(Number(a.flags().conflict)+Number(b.flags().conflict),1);const loser=a.flags().conflict?a:b;await loser.call('checkCloud');assert.equal(loser.local().notes['2026-10-14'],'裝置A');assert.equal(loser.local().notes['2026-10-15'],'裝置B');await loser.call('safeAutoUpload');const merged=await cloud();assert.equal(merged.notes['2026-10-14'],'裝置A');assert.equal(merged.notes['2026-10-15'],'裝置B')});
+ await test('real SDK same-date conflict keeps loser local and winner cloud',async()=>{const l=clone(orig),r=clone(orig);l.notes['2026-10-13']='裝置A';r.notes['2026-10-13']='裝置B';const a=device(l),b=device(r);await Promise.all([a.call('safeAutoUpload'),b.call('safeAutoUpload')]);const loser=a.flags().conflict?a:b;const before=await cloud();await loser.call('checkCloud');assert.equal(loser.flags().conflict,true);assert.deepEqual(await cloud(),before);assert.notEqual(loser.local().notes['2026-10-13'],before.notes['2026-10-13'])});
+ await test('real SDK commit then lost reply recovers without second transaction',async()=>{const l=clone(orig);l.notes['2026-10-14']='新增記事';const a=device(l);a.replyLoss();await a.call('safeAutoUpload');assert.equal(a.flags().conflict,true);assert.deepEqual(await cloud(),l);await a.call('checkCloud');assert.equal(a.flags().conflict,false);assert.deepEqual(a.baseline(),l);assert.equal(a.writes(),1)});
+ await test('real SDK read recovery preserves unsynced local notes',async()=>{const l=clone(orig);l.notes['2026-10-14']='離線記事';const a=device(l);a.failRead(true);await a.call('checkCloud');assert.deepEqual(a.local(),l);a.failRead(false);await a.call('checkCloud');await a.call('safeAutoUpload');assert.deepEqual(await cloud(),l)});
+ console.log(count+' SDK integration checks passed against local Firestore. No production access.');
+ }finally{await env.cleanup()}
+})().catch(e=>{console.error(e);process.exitCode=1});
