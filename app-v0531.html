@@ -1,0 +1,549 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1729"><link rel="manifest" href="./manifest-v041.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="班表助理"><link rel="icon" type="image/svg+xml" href="./icon-v041.svg"><title>班表助理｜測試版 0.5.31</title>
+<style>
+:root{color-scheme:dark;--bg:#091525;--card:#14243a;--line:#334760;--txt:#f6f8fc;--muted:#aebfd3;--blue:#3c78f2;--orange:#ffb54a;--purple:#b6a0ff;--red:#ff7885}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px -apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;background:#273c57;color:white;padding:11px 13px}button.primary{background:var(--blue);font-weight:700}button:disabled{opacity:.4}input,select,textarea{background:#0c1b2e;border:1px solid var(--line);color:white;border-radius:10px;padding:11px;width:100%;min-width:0}input[type=checkbox]{width:auto;accent-color:var(--blue)}.wrap{max-width:540px;margin:auto;padding:calc(15px + env(safe-area-inset-top)) 12px 60px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.head h1{font-size:calc(23px * var(--font-scale,1));margin:0}.small{font-size:calc(12px * var(--font-scale,1));color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:13px}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.row button{white-space:nowrap}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.field label{font-size:calc(13px * var(--font-scale,1));color:var(--muted)}.field:last-child{margin-bottom:0}.full{width:100%}.hidden{display:none!important}.week,.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.week div{text-align:center;color:var(--muted);padding:8px 0;font-size:calc(13px * var(--font-scale,1))}.week div:first-child,.week div:last-child{color:var(--red)}.day{border:1px solid #30455e;background:#101e31;min-height:64px;padding:4px 2px;border-radius:5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;overflow:hidden}.day:disabled{opacity:.1}.day.sel{outline:2px solid #75b0ff}.day .num{font-size:calc(14px * var(--font-scale,1));font-weight:700}.day .num.red{color:var(--red)}.pill{font-size:calc(11px * var(--font-scale,1));border-radius:5px;padding:2px 3px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pill.daywork{background:#88540b;color:#ffe2ad}.pill.weekday{background:#087f83;color:#e9ffff}.pill.night{background:#463a87;color:#e3ddff}.pill.off{background:#425166;color:#fff}.pill.leave{background:#576577;color:white}.pill.overtime{background:#f5c842;color:#352800;font-weight:700}.holiday{font-size:calc(9px * var(--font-scale,1));color:#ff9caa;line-height:1.2;overflow:hidden;max-height:24px}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:calc(12px * var(--font-scale,1));color:var(--muted);margin-top:10px}.muted{color:var(--muted)}.notice{border-left:3px solid #79a9ff;padding:9px 12px;background:#142844;border-radius:7px;font-size:calc(13px * var(--font-scale,1));margin-bottom:12px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.actions button{font-size:calc(13px * var(--font-scale,1));padding:10px 4px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.days button{padding:12px 0}.days button.active{background:var(--blue)}.previewlist{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.pv{border:1px solid var(--line);border-radius:8px;padding:8px 2px;text-align:center;font-size:calc(12px * var(--font-scale,1));background:#0c1b2e}.pv strong{display:block;font-size:calc(13px * var(--font-scale,1));margin-bottom:5px}.pv span{font-size:calc(11px * var(--font-scale,1))}.sep{border:0;border-top:1px solid var(--line);margin:14px 0}textarea{min-height:80px}h2{font-size:calc(18px * var(--font-scale,1));margin:0 0 12px}h3{font-size:calc(15px * var(--font-scale,1));margin:0 0 10px}#status{font-size:calc(12px * var(--font-scale,1));color:#a4d9ba;margin-top:7px}.twoButtons{display:flex;gap:8px}.twoButtons>*{flex:1}
+/* iPhone time controls: prevent intrinsic-width overflow */
+.cols>*{min-width:0}.cols input,.cols select{min-width:0;max-width:100%;box-sizing:border-box}input[type="time"]{display:block;width:100%;min-width:0;max-width:100%;font-size:calc(16px * var(--font-scale,1));padding:10px 6px}@media(max-width:430px){.cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cols input[type="time"]{font-size:calc(15px * var(--font-scale,1));padding:10px 4px}}@media(max-width:360px){.cols{grid-template-columns:minmax(0,1fr)}}
+/* Mobile form layout v3: Safari date/time intrinsic widths */
+#settings .card{min-width:0;overflow:hidden}
+#settings .field{min-width:0;max-width:100%}
+#settings input[type="date"]{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;-webkit-appearance:none;appearance:none;font-size:calc(16px * var(--font-scale,1));text-align:left}
+#settings .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px;row-gap:4px}
+#settings .cols .field{min-width:0;width:100%}
+#settings input[type="time"]{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:calc(16px * var(--font-scale,1));text-align:left;padding:11px 8px}
+@media(max-width:500px){#settings .cols:has(input[type="time"]){grid-template-columns:minmax(0,1fr)}#settings .cols:has(input[type="time"]) .field{width:100%}}
+/* iPhone form geometry v0.5.31: symmetrical compact native controls */
+#settings .card{overflow:hidden}
+#settings .cols{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;width:100%;max-width:100%}
+#settings .field{min-width:0!important;width:100%!important;max-width:100%!important}
+#settings .field>input,#settings .field>select{display:block;width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+#settings input[type="date"],#settings input[type="time"]{font-size:calc(14px * var(--font-scale,1))!important;min-height:48px!important;height:48px!important;padding:8px 5px!important;letter-spacing:-.4px}
+#settings input[type="date"]{text-align:left}
+#settings input[type="time"]{text-align:left}
+#settings .cols:has(input[type="time"]){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media(max-width:380px){#settings .cols{gap:8px!important}#settings input[type="time"]{font-size:calc(13px * var(--font-scale,1))!important;padding:6px 3px!important}}
+
+/* Single-tap date action sheet */
+.sheetShade{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}.sheetShade.hidden{display:none!important}.sheet{width:100%;max-width:540px;max-height:85vh;overflow:auto;background:#1a2c44;border:1px solid #516582;border-radius:22px;padding:18px;box-shadow:0 12px 50px #0008}.sheet .actions{margin:14px 0}.sheet textarea{margin:8px 0 10px}.sheetTitle{font-size:calc(21px * var(--font-scale,1));font-weight:750;margin-bottom:8px}.sheetClose{float:right;background:#324860;padding:7px 13px}
+
+/* integrated iPhone preview v0.5.31 */
+#settings .cols{gap:14px!important}#settings .cols .field{overflow:hidden}#settings input[type="time"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:calc(14px * var(--font-scale,1))!important;padding:8px 3px!important;overflow:hidden!important}#settings input[type="date"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:calc(15px * var(--font-scale,1))!important;overflow:hidden!important}#settings .card{overflow:hidden}.day:focus-visible{outline:2px solid #83baff}.day.today{box-shadow:inset 0 0 0 2px #c6e1ff}.day .holiday{color:#ff9aaa}#onboarding{margin-top:8px}.helpList{font-size:calc(14px * var(--font-scale,1));line-height:1.9}.smallActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.smallActions button{font-size:calc(13px * var(--font-scale,1))}.themeLight{--bg:#f4f7fb;--card:#fff;--line:#c6d3e2;--txt:#18263b;--muted:#52637c;color-scheme:light}.themeLight .day{background:#f1f5fb}.themeLight input,.themeLight select,.themeLight textarea{background:#f5f8ff;color:#162338}.themeLight .sheet{background:#fff;color:#18263b}.themeLight .pv{background:#f6f9ff;color:#18263b}.themeLight .notice{color:#f6f8fc}
+.noteDot{font-size:calc(10px * var(--font-scale,1));color:#80d5c3;line-height:1.1}.day{min-height:70px}.day .noteDot{max-width:100%;overflow:hidden;white-space:nowrap}
+.pill.overtime{background:#f5c842!important;color:#352800!important}.legend span{white-space:nowrap}#overtimeEditor select{max-width:100%}
+
+/* 0.5.31: readable calendar in light mode and visible month picker */
+#monthTitle{color:var(--txt)!important;min-width:0;flex:1;text-align:center}
+.themeLight .day{color:#18263b!important;background:#f1f5fb}
+.themeLight .day .num{color:#18263b!important}
+.themeLight .day .num.red{color:#e04458!important}
+.themeLight .day .holiday{color:#ba2e45!important}
+.themeLight .day .noteDot{color:#087f83!important}
+.themeLight .day.sel{background:#dceafd!important}
+.themeLight .day:disabled{opacity:.25}
+.themeLight #monthTitle{color:#18263b!important}
+.themeLight #monthPicker label{color:#18263b}
+.themeLight #jumpYear,.themeLight #jumpMonth{background:#f5f8ff!important;color:#18263b!important;border:1px solid #94a9c3!important}
+#dateSheet .noteEventControls .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}#dateSheet .noteEventControls .field{margin:0;min-width:0}#dateSheet .noteEventControls input{display:block;width:100%;min-width:0;max-width:100%;height:48px;min-height:48px;box-sizing:border-box;font-size:calc(15px * var(--font-scale,1));padding:8px 5px;appearance:none}#dateSheet .noteEventControls label{min-height:20px;line-height:20px}#noteReminderBanner{position:fixed;top:calc(12px + env(safe-area-inset-top));left:12px;right:12px;max-width:516px;margin:auto;z-index:1300;background:#1c3a52;border:2px solid #83c5ef;border-radius:16px;padding:16px;box-shadow:0 8px 30px #0008}#noteReminderBanner p{white-space:pre-wrap;overflow-wrap:anywhere;max-height:28vh;overflow:auto}#noteEventFeedback{line-height:1.6}
+.themeLight #noteReminderBanner{background:#eaf4ff;color:#18263b}
+#noteWheelSheet{z-index:1200}.noteWheelPanel{text-align:center}.noteWheelColumns{display:flex;position:relative;gap:12px}.noteWheelColumns:before{content:"";position:absolute;top:88px;left:0;right:0;height:44px;border-top:1px solid #87abcf;border-bottom:1px solid #87abcf;pointer-events:none}.noteWheel{height:220px;overflow-y:auto;scroll-snap-type:y mandatory;padding:88px 0;flex:1;scrollbar-width:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}.noteWheel::-webkit-scrollbar{display:none}.noteWheelItem{display:block;width:100%;height:44px;padding:0;background:transparent;color:var(--muted);font-size:calc(24px * var(--font-scale,1));scroll-snap-align:center;border-radius:0}.noteWheelItem.active{color:#83baff;font-weight:700}.themeLight .noteWheelItem{color:#52637c}.themeLight .noteWheelItem.active{color:#195aa7}#dateSheet .noteEventControls #sheetEventTimePicker{width:100%;min-width:0;height:48px;min-height:48px;padding:8px 5px;font-size:calc(15px * var(--font-scale,1));box-sizing:border-box;border:1px solid var(--line);text-align:center}#sheetEventLeadPicker{width:100%;min-height:48px}body[data-background="slate"]{--bg:#171c25;--card:#262e3a;--line:#485260}body[data-background="forest"]{--bg:#0b211e;--card:#173630;--line:#3a6157}body.themeLight[data-background="slate"]{--bg:#edf0f3;--card:#fff;--line:#c2cad3}body.themeLight[data-background="forest"]{--bg:#edf7f1;--card:#fff;--line:#bad6c5}.themeLight #sheetEventTimePicker{background:#f5f8ff;color:#18263b}.noteWheelItem{font-size:24px!important}
+body{font-size:calc(16px * var(--font-scale,1))}
+@media(max-width:360px){#dateSheet .noteEventControls .cols{grid-template-columns:minmax(0,1fr)}}
+
+.wrap{padding-bottom:calc(100px + env(safe-area-inset-bottom))}.bottomNav{position:fixed;bottom:0;left:0;right:0;max-width:540px;margin:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line);z-index:100}.bottomNav button{min-height:48px;background:transparent;color:var(--muted);padding:8px 3px}.bottomNav button[aria-current="page"]{background:var(--blue);color:white;font-weight:700}#actualTodayNote p,#todayInfo p{white-space:pre-wrap;overflow-wrap:anywhere}#todayPage .smallActions button{white-space:normal}
+
+/* Shared palette surfaces: all six colors support both modes. */
+body .day,body.themeLight .day{background:var(--surface)}body .day.sel,body.themeLight .day.sel{background:var(--surface)!important;outline:2px solid #75b0ff}body input,body select,body textarea,body .pv,body.themeLight input,body.themeLight select,body.themeLight textarea,body.themeLight .pv{background:var(--control);color:var(--txt)}body .sheet,body.themeLight .sheet{background:var(--card);color:var(--txt)}body .notice,body.themeLight .notice{background:var(--surface);color:var(--txt)}body #sheetEventTimePicker,body.themeLight #sheetEventTimePicker{background:var(--control);color:var(--txt)}
+</style></head><body><div id="noteReminderBanner" class="hidden" role="alert" aria-live="assertive"></div><div class="wrap"><section id="todayPage"><div class="head"><div><h1>今天</h1><div class="small">班表助理 V0.5.31</div></div><button id="todaySetup">班表設定</button></div><div id="todayWelcome" class="notice hidden">尚未建立班表，請先設定輪班或常日班。</div><div class="card"><h2 id="actualTodayTitle"></h2><div id="actualTodayInfo" class="muted"></div></div><div class="card"><h2>記事與提醒</h2><div id="actualTodayNote" class="muted"></div><div class="smallActions"><button id="actualTodayEdit" class="primary">編輯今天記事與提醒</button><button id="actualTodayShare">分享今天記事</button></div></div><div class="notice">記事提醒目前需保持 App 開啟；尚未支援背景、鎖屏通知或 iPhone 系統鬧鐘。</div></section>
+<section id="home" class="hidden">
+<div class="head"><div><h1>班表助理</h1><div class="small">iPhone 介面測試版 0.5.31</div></div><button id="openSettings">⚙ 設定</button></div>
+<div class="notice">班表助理 0.5.31 測試版｜正式 V8.1.8 不受影響｜目前尚未連動 iPhone 系統通知。</div><div id="onboarding" class="card hidden"><h2>歡迎使用班表助理</h2><p class="muted">尚未建立班表。請先設定規則，月曆目前只顯示日期與假日。</p><div class="twoButtons"><button id="quickSetup" class="primary">快速建立班表</button><button id="helpBtn">使用指南</button></div></div><div class="smallActions"><button id="shareMonth" class="primary">📤 分享本月班表</button></div>
+<div class="card"><div class="row"><button id="prevMonth">‹</button><button id="monthTitle" type="button" title="點此快速選擇年月" style="background:transparent;font-weight:700;font-size:calc(21px * var(--font-scale,1));padding:8px 3px;white-space:nowrap"></button><button id="nextMonth">›</button><button id="today">今天</button></div><div id="monthPicker" style="display:none;padding:12px 0"><div class="row" style="gap:8px"><label style="flex:1">年份<select id="jumpYear" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><label style="flex:1">月份<select id="jumpMonth" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><button id="jumpGo" class="primary">跳轉</button></div></div><div id="holidayDataStatus" class="small" style="margin:4px 0 8px;line-height:1.5"></div><div id="appliedRules" class="small" style="margin:12px 0;line-height:1.5"></div><div class="week"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div id="calendar" class="calendar"></div><div class="legend"><span>🟠 早班</span><span>🟣 夜班</span><span><span style="display:inline-block;width:12px;height:12px;background:#087f83;border-radius:3px;vertical-align:-1px;margin-right:3px"></span>常日班</span><span>⚪ 休假</span><span>🔴 假日</span><span>🟡 加班</span><span>📝 記事</span></div></div>
+<div class="card"><h2 id="summaryTitle">所選日期記事與提醒</h2><div id="todayInfo" class="muted"></div><div class="smallActions"><button id="editTodayNote">編輯所選日期記事</button><button id="shareSelectedNote" type="button">分享記事</button></div></div>
+<div class="card hidden"><h2>選擇日期</h2><div id="dateInfo" class="muted"></div><div class="actions" style="margin-top:12px"><button id="leave">改請假</button><button id="overtime">改加班</button><button id="restore">恢復原班表</button></div><div class="field" style="margin-top:15px"><label for="note">當日記事</label><textarea id="note" placeholder="記錄今天的事情…"></textarea></div><button id="saveNote" class="primary full">儲存記事</button><div id="status"></div></div>
+</section>
+<section id="settings" class="hidden">
+<div class="head"><button id="back">‹ 返回設定</button><h1>班表設定</h1><span class="small">獨立頁面</span></div>
+<div class="notice">更改班表規則後，月曆依新規則重算；舊加班／請假標記會清除，記事保留。</div>
+<div class="card"><div class="field"><label>班表類型</label><select id="mode"><option value="shift">輪班制</option><option value="weekday">常日班／固定星期</option></select></div>
+<div id="shiftFields"><div class="cols"><div class="field"><label>班別名稱</label><select id="team"><option value="">請選擇</option><option>A</option><option>B</option><option>C</option><option>D</option><option>自訂</option></select></div><div class="field"><label>第一輪班別</label><select id="first"><option value="night">夜班</option><option value="day">早班</option></select></div></div><div class="field"><label>循環開始日（第一個上班日）</label><input type="date" id="base"></div><div class="field"><label>日夜班輪換基準月（獨立於第一個上班日）</label><input type="month" id="rotationBase"><p class="small">例：9月起夜班、每2個月切換，填2026-09；11月自動轉早班。未填時沿用第一個上班日的月份。</p></div><div class="cols"><div class="field"><label>連續上班天數</label><select id="on"><option>2</option><option>3</option><option>4</option></select></div><div class="field"><label>連續休假天數</label><select id="off"><option>2</option><option>3</option><option>4</option></select></div></div><div class="field"><label>早夜班切換週期</label><select id="rotation"><option value="1">每 1 個月</option><option value="2">每 2 個月</option><option value="3">每 3 個月</option><option value="0">固定班別不切換</option></select></div></div>
+<div id="weekdayFields" class="hidden"><h3>每週固定上班日</h3><div id="weekdayButtons" class="days"></div><p><label><input id="holidayOff" type="checkbox" checked=""> 國定假日依官方辦公日曆排休</label></p><p><label><input id="makeupWork" type="checkbox"> 官方補班日自動上班</label></p></div>
+<hr class="sep"><h3>上下班與提醒時間</h3><div class="cols"><div class="field"><label>早班上班</label><input id="dayStart" type="time"></div><div class="field"><label>早班下班</label><input id="dayEnd" type="time"></div><div class="field"><label>夜班上班</label><input id="nightStart" type="time"></div><div class="field"><label>夜班下班</label><input id="nightEnd" type="time"></div><div class="field"><label>早班提醒</label><input id="dayAlarm" type="time"></div><div class="field"><label>夜班提醒</label><input id="nightAlarm" type="time"></div></div>
+<div class="twoButtons"><button id="previewBtn" class="primary">預覽未來 30 天</button><button id="resetDraft">清除設定草稿</button></div></div>
+<div id="previewCard" class="card hidden"><h2>30 天排班預覽</h2><p id="previewSummary" class="small"></p><div id="previewList" class="previewlist"></div><p class="small">此處預覽從今天起的 30 天；官方假日資料以已載入的年度為準。</p><button id="confirmSave" class="primary full">確認儲存並返回月曆</button></div>
+</section>
+<section id="settingsPage" class="hidden"><div class="head"><h1>設定</h1><span class="small">班表助理 V0.5.31</span></div><div class="card"><h2>班表規則</h2><button id="editRules" class="primary full">設定輪班與上班提醒時間</button></div><div class="card"><div style="margin:16px 0"><h3>外觀</h3><div class="field"><label for="themeModeChoice">顯示模式</label><select id="themeModeChoice"><option value="system">跟隨系統</option><option value="light">淺色</option><option value="dark">深色</option></select></div><div class="cols"><div class="field"><label for="backgroundChoice">背景選擇</label><select id="backgroundChoice"><option value="navy">藍色</option><option value="slate">灰色</option><option value="forest">森林綠</option><option value="sakura">櫻花粉</option><option value="lavender">薰衣草紫</option><option value="sand">暖沙色</option></select></div><div class="field"><label for="fontSizeChoice">字體大小</label><select id="fontSizeChoice"><option value="0.9">小</option><option value="1">標準</option><option value="1.15">大</option><option value="1.3">特大</option></select></div></div><p id="displayPreferenceStatus" class="small">所有配色皆支援深／淺色；跟隨系統會隨手機外觀自動切換。</p></div></div><div id="settingsActions" class="smallActions"><button id="themeToggle">◐ 深／淺色</button><button id="helpBtn2">使用指南</button><button id="refreshHolidays">更新假日資料</button><button id="checkAppVersion" type="button" hidden="">檢查 App 更新</button><button id="exportBackup" hidden="">匯出備份</button><div id="backupStatus" role="status" aria-live="polite" hidden="" style="width:100%;font-size:calc(13px * var(--font-scale,1));line-height:1.6;color:#c6d6e8;padding:4px 8px"></div><button id="importBackup" hidden="">匯入還原</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none"><button id="clearSchedule">清除班表規則</button></div><section class="card" id="cloudSyncPanel">
+<h3>☁️ 資料同步</h3>
+<div id="cloudSyncStatus" role="status" aria-live="polite" style="margin:8px 0">正在連接雲端…</div>
+<div class="row" style="flex-wrap:wrap;gap:8px"><button id="cloudSignIn" type="button">使用 Google 登入並同步</button><button id="cloudSignOut" type="button" hidden="">登出</button></div>
+<details style="margin-top:12px"><summary style="cursor:pointer">進階設定</summary><h3>資料與更新</h3>
+<p style="font-size:calc(12px * var(--font-scale,1))">只有處理資料衝突或需要額外備份時才使用。覆蓋前請先匯出 JSON。</p>
+<div class="row" style="flex-wrap:wrap;gap:8px">
+<button id="cloudUpload" type="button" disabled="">⬆ 上傳本機資料</button>
+<button id="cloudDownload" type="button" disabled="">⬇ 下載雲端資料</button>
+<button id="cloudCheck" type="button" disabled="">🔎 檢查差異</button>
+<button id="advancedExport" type="button">匯出 JSON 備份</button>
+<button id="advancedImport" type="button">匯入 JSON 備份</button>
+<button id="advancedUpdate" type="button">檢查 App 更新</button>
+</div></details></section></section><nav class="bottomNav" aria-label="主要頁面"><button id="navToday" type="button" aria-current="page">今天</button><button id="navCalendar" type="button">班表</button><button id="navSettings" type="button">設定</button></nav></div><div id="helpSheet" class="sheetShade hidden" role="dialog" aria-modal="true"><div class="sheet"><button id="helpClose" class="sheetClose">關閉 ✕</button><h2>使用指南</h2><div class="helpList">底部「今天」查看當日班別、記事與提醒；「班表」操作月曆；「設定」調整規則、外觀與資料同步。<br>① 首次使用按「快速建立班表」設定輪班或常日班。<br>② 按「預覽未來 30 天」確認，再按「確認儲存」。<br>③ 在月曆輕點日期，立即開啟請假、加班、恢復及記事選單。<br>④ 班表設定、請假、加班及記事儲存在此手機的班表助理 App 中，登入 Google 後會自動備份與同步；離線變更會在恢復連線後同步。Safari 網頁版與主畫面 App 的資料也可能分開儲存；更換手機或重新安裝前，請先「匯出備份」。<br>⑤ 此測試版不會建立 iPhone 鬧鐘；官方假日以已載入的年份資料為準。<br>⑥ 換手機前，請先「匯出備份」並確認 JSON 已存入 iCloud Drive 或 Google 雲端硬碟；「已產生備份檔」不代表已上傳雲端。<br>⑦ App 更新：保持網路連線，從 iPhone 多工畫面將班表助理往上滑掉，再由主畫面重新開啟。下拉月曆不會更新 App；若仍顯示舊版，請按「檢查 App 更新」。更新前建議先匯出備份。</div></div></div><div id="dateSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-label="日期操作選單"><div class="sheet"><button id="sheetClose" class="sheetClose" type="button">關閉 ✕</button><div id="sheetTitle" class="sheetTitle"></div><div id="sheetInfo" class="muted"></div><div class="actions"><button id="sheetLeave" type="button">改請假</button><button id="sheetOvertime" type="button">改加班</button><button id="sheetRestore" type="button">恢復原班表</button></div><div id="overtimeEditor" class="hidden" style="padding:12px 0"><label class="small" for="overtimeShift">加班班別</label><select id="overtimeShift" style="margin:8px 0 10px"><option value="day">早班加班</option><option value="night">夜班加班</option></select><button id="confirmOvertime" class="primary full" type="button">確認加班班別</button></div><label class="small" for="sheetNote">當日記事</label><textarea id="sheetNote" placeholder="記錄這一天的事情…"></textarea><div class="noteEventControls" style="margin:12px 0"><div class="cols"><div class="field"><label for="sheetEventDate">記事日期</label><input id="sheetEventDate" type="date" readonly="" aria-readonly="true"></div><div class="field"><label for="sheetEventTime">開始時間（選填）</label><input id="sheetEventTime" type="hidden"><button id="sheetEventTimePicker" type="button" aria-haspopup="dialog">選擇時間</button></div></div><div class="field" style="margin-top:12px"><label for="sheetEventRemind">提醒這則記事</label><select id="sheetEventRemind"><option value="off">關閉提醒</option><option value="on">開啟提醒</option></select></div><div class="field"><label for="sheetEventLeadPicker">提醒時間</label><input id="sheetEventLead" type="hidden" value="15" disabled=""></div><button id="sheetEventLeadPicker" type="button" aria-haspopup="dialog" disabled="">提前 15 分鐘</button><p id="sheetEventHint" class="small" style="line-height:1.6"></p></div><button id="sheetSaveNote" class="primary full" type="button">儲存記事與提醒</button><button id="sheetShareNote" class="full" type="button" style="margin-top:10px">分享已儲存記事</button></div></div><div id="noteWheelSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-labelledby="noteWheelHeading"><div class="sheet noteWheelPanel"><h2 id="noteWheelHeading">開始時間</h2><p class="small">上下滑動滾輪選擇，再按完成。</p><div id="noteTimeColumns" class="noteWheelColumns"><div id="noteHourWheel" class="noteWheel" tabindex="0" aria-label="小時"></div><div id="noteMinuteWheel" class="noteWheel" tabindex="0" aria-label="分鐘"></div></div><div id="noteLeadColumn" class="hidden"><div id="noteLeadWheels" class="noteWheelColumns"><div id="noteLeadHourWheel" class="noteWheel" tabindex="0" aria-label="提前小時"></div><div id="noteLeadMinuteWheel" class="noteWheel" tabindex="0" aria-label="提前分鐘"></div></div><div id="noteLeadCustomPanel" class="field hidden" style="padding:16px 0"><label for="noteLeadCustom">自訂提前分鐘數</label><input id="noteLeadCustom" type="number" inputmode="numeric" min="0" max="1440" step="1"><p class="small">0＝開始時提醒；最多 1440 分鐘＝1 天。</p></div><p class="small">最多提前 24 小時；選 24 小時時，分鐘為 00。</p><button id="noteLeadModeSwitch" type="button" class="full">改用自訂分鐘</button></div><div class="twoButtons" style="margin-top:14px"><button id="noteWheelCancel" type="button">取消</button><button id="noteWheelDone" type="button" class="primary">完成</button></div><button id="noteWheelClear" type="button" class="full" style="margin-top:10px">清除時間與提醒</button></div></div><script>
+'use strict';
+const $=id=>document.getElementById(id), KEY='shift_assistant_app_preview_01';
+const ids=['mode','team','first','base','rotationBase','on','off','rotation','dayStart','dayEnd','nightStart','nightEnd','dayAlarm','nightAlarm','holidayOff','makeupWork'];
+const defaults={mode:'shift',team:'',first:'night',base:'',rotationBase:'',on:'2',off:'2',rotation:'2',dayStart:'00:00',dayEnd:'00:00',nightStart:'00:00',nightEnd:'00:00',dayAlarm:'00:00',nightAlarm:'00:00',holidayOff:true,makeupWork:false,weekdays:[1,2,3,4,5]};
+let saved=null,overrides={},notes={},holidays={},draft=null,weekdays=[1,2,3,4,5],previewed=false;
+const now=new Date(), todayKey=key(now);let selected=todayKey,viewYear=now.getFullYear(),viewMonth=now.getMonth();
+function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function parse(k){const a=k.split('-').map(Number);return new Date(a[0],a[1]-1,a[2])}
+function diff(a,b){return Math.round((Date.UTC(a.getFullYear(),a.getMonth(),a.getDate())-Date.UTC(b.getFullYear(),b.getMonth(),b.getDate()))/86400000)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function load(){try{const a=JSON.parse(localStorage.getItem(KEY)||'null');if(a){saved=a.schedule||null;overrides=a.overrides||{};notes=a.notes||{}}}catch(e){}}
+const BACKUP_META_KEY='shift_assistant_backup_meta_v1';
+function backupSnapshot(){return JSON.stringify({schedule:saved,overrides,notes})}
+function backupStatus(){const el=$('backupStatus');if(!el)return;let meta=null;try{meta=JSON.parse(localStorage.getItem(BACKUP_META_KEY)||'null')}catch(e){};const hasData=!!saved||Object.keys(overrides).length>0||Object.keys(notes).length>0;if(!hasData){el.textContent='換機備份：目前沒有班表資料。';return}if(!meta){el.textContent='⚠ 尚無本機備份紀錄，建議匯出 JSON 並存到 iCloud Drive 或 Google 雲端硬碟。';return}const time=new Date(meta.at);const label=isNaN(time.getTime())?'未知時間':time.toLocaleString('zh-TW');el.textContent=meta.snapshot===backupSnapshot()?'備份紀錄：'+label+' 已產生備份檔，請確認已存入雲端。':'⚠ 資料已變更，上次匯出：'+label+'。請重新匯出並儲存備份。'}
+function persist(){try{localStorage.setItem(KEY,backupSnapshot());backupStatus();window.dispatchEvent(new Event("shift-local-saved"));return true}catch(e){alert('無法儲存，請確認 Safari 沒有停用網站儲存空間');return false}}
+function shift(k,s){if(!s||s.mode==='shift'&&(!s.base||!s.team))return {type:'blank',label:'未設定'};const d=parse(k);if(s.mode==='weekday'){let work=(s.weekdays||[]).includes((d.getDay()+6)%7+1);const rec=holidays[k];if(rec&&s.holidayOff&&rec.off)work=false;if(rec&&s.makeupWork&&!rec.off&&[0,6].includes(d.getDay()))work=true;return work?{type:'weekday',label:'常日班',time:s.dayStart+'–'+s.dayEnd,alarm:s.dayAlarm}:{type:'off',label:'休假'}}const base=parse(s.base);const n=diff(d,base),cycle=Number(s.on)+Number(s.off);if(!cycle)return {type:'blank',label:'未設定'};if(((n%cycle)+cycle)%cycle>=Number(s.on))return {type:'off',label:'休假'};const anchor=s.rotationBase?parse(s.rotationBase+'-01'):base;let months=(d.getFullYear()-anchor.getFullYear())*12+d.getMonth()-anchor.getMonth();let first=s.first;let night=first==='night';if(Number(s.rotation)>0&&((Math.floor(months/Number(s.rotation))%2)+2)%2===1)night=!night;return night?{type:'night',label:'夜班',time:s.nightStart+'–次日 '+s.nightEnd,alarm:s.nightAlarm}:{type:'daywork',label:'早班',time:s.dayStart+'–'+s.dayEnd,alarm:s.dayAlarm}}
+function status(k,s,withOverrides=true){const v=shift(k,s);if(withOverrides&&overrides[k]&&s){if(overrides[k]==='leave')return {type:'leave',label:'請假'};if(overrides[k]==='overtime'||overrides[k]&&overrides[k].type==='overtime'){const o=overrides[k];const choice=typeof o==='object'?o.shift:null;if(!choice)return {type:'overtime',label:'加班（待選班別）'};const night=choice==='night';return {type:'overtime',label:night?'夜班加班':'早班加班',time:night?s.nightStart+'–次日 '+s.nightEnd:s.dayStart+'–'+s.dayEnd,alarm:night?s.nightAlarm:s.dayAlarm}}}return v}
+function info(k,v){const rec=holidays[k];let lines=[esc(k)+'｜'+esc(v.label)];if(v.time)lines.push('上班時間：'+esc(v.time));if(v.alarm)lines.push('提醒設定：'+esc(v.alarm)+'（尚未連動 iPhone 通知）');if(rec&&rec.name)lines.push('假日：'+esc(rec.name));if(saved&&saved.mode==='weekday'){const d=parse(k),day=(d.getDay()+6)%7+1;lines.push('星期'+['','一','二','三','四','五','六','日'][day]+'｜已套用星期設定：'+((saved.weekdays||[]).includes(day)?'上班':'休假'));if(overrides[k])lines.push('本日有手動班別調整')}if(rec&&rec.off&& !rec.name)lines.push('官方辦公日曆：休息日');return lines.join('<br>')}
+// Integrated note event; metadata remains a string entry in notes so old clients preserve it.
+function noteEventKey(date){return '@event:'+date}
+function noteTextVersion(text){let a=2166136261,b=5381;for(let i=0;i<text.length;i++){a=Math.imul(a^text.charCodeAt(i),16777619);b=Math.imul(b,33)^text.charCodeAt(i)}return text.length+':'+(a>>>0).toString(16)+':'+(b>>>0).toString(16)}
+function parseNoteEvent(raw,date,text,matchText=true){
+ try{const v=JSON.parse(raw);if(!v||typeof v!=='object'||Array.isArray(v)||Object.keys(v).some(k=>!['id','textVersion','date','time','remind','lead','at','savedAt','zone'].includes(k)))return null;
+ if((matchText&&(typeof text!=='string'||!text.trim()||v.textVersion!==noteTextVersion(text)))||typeof v.textVersion!=='string'||!/^\d{1,8}:[0-9a-f]{1,8}:[0-9a-f]{1,8}$/.test(v.textVersion)||v.date!==date||!/^\d{4}-\d{2}-\d{2}$/.test(v.date)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(v.time)||typeof v.remind!=='boolean'||(!Number.isInteger(v.lead)||v.lead<0||v.lead>1440)||typeof v.id!=='string'||!/^[a-zA-Z0-9-]{1,80}$/.test(v.id)||typeof v.zone!=='string'||v.zone.length>80||!Number.isFinite(v.at)||!Number.isFinite(v.savedAt)||v.at<0||v.savedAt<0)return null;
+ const [y,m,d]=v.date.split('-').map(Number),dt=new Date(y,m-1,d);if(y<2020||y>2060||dt.getFullYear()!==y||dt.getMonth()!==m-1||dt.getDate()!==d)return null;return v;
+ }catch(e){return null}
+}
+function validStoredNoteEvent(raw,date){try{return !!parseNoteEvent(raw,date,undefined,false)}catch(e){return false}}
+function selectedNoteEvent(date=selected){return parseNoteEvent(notes[noteEventKey(date)],date,notes[date])}
+function noteEventEditorValue(){return {time:$('sheetEventTime').value,remind:$('sheetEventRemind').value==='on',lead:Number($('sheetEventLead').value)}}
+function fillNoteEventEditor(){const v=selectedNoteEvent();$('sheetEventDate').value=selected;$('sheetEventTime').value=v?.time||'';$('sheetEventRemind').value=v?.remind?'on':'off';$('sheetEventLead').value=String(v?.lead??15);$('sheetEventLead').disabled=$('sheetEventRemind').value!=='on';updateNotePickerLabels();$('sheetEventHint').textContent=v?'此事件時區：'+v.zone+'。網頁版提醒需保持班表開啟；鎖屏／背景通知尚未支援。':'可只儲存記事；需要事件時間或提醒時再填。網頁版提醒需保持班表開啟。'}
+function noteEventEditorDirty(){if($('dateSheet').classList.contains('hidden'))return false;const old=selectedNoteEvent(),now=noteEventEditorValue();return now.time!==(old?.time||'')||now.remind!==!!old?.remind||now.lead!==(old?.lead??15)}
+function buildNoteEvent(text,editor){
+ if(!text){if(editor.time||editor.remind)throw Error('請先填寫記事內容，或清除事件時間與提醒後刪除記事。');return null}
+ if(!editor.time){if(editor.remind)throw Error('請先設定開始時間，再開啟提醒。');return null}
+ if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(editor.time)||(!Number.isInteger(editor.lead)||editor.lead<0||editor.lead>1440))throw Error('事件時間或提醒設定無效。');
+ const old=selectedNoteEvent(),[y,m,d]=selected.split('-').map(Number),[h,min]=editor.time.split(':').map(Number),start=new Date(y,m-1,d,h,min);
+ if(start.getFullYear()!==y||start.getMonth()!==m-1||start.getDate()!==d||start.getHours()!==h||start.getMinutes()!==min)throw Error('事件日期或時間無效。');
+ if(old&&old.textVersion===noteTextVersion(text)&&old.time===editor.time&&old.remind===editor.remind&&old.lead===editor.lead)return old;
+ const candidate={id:crypto.randomUUID(),textVersion:noteTextVersion(text),date:selected,time:editor.time,remind:editor.remind,lead:editor.lead,at:old&&old.time===editor.time?old.at:start.getTime(),savedAt:Date.now(),zone:old&&old.time===editor.time?old.zone:Intl.DateTimeFormat().resolvedOptions().timeZone||'本地時區'};
+ return candidate;
+}
+function commitNoteEdit(overrideChange){
+ const inSheet=!$('dateSheet').classList.contains('hidden'),text=(inSheet?$('sheetNote').value:$('note').value).trim(),oldNote=notes[selected],metaKey=noteEventKey(selected),oldRaw=notes[metaKey],oldOverride=overrides[selected];
+ let metadata;try{metadata=inSheet?buildNoteEvent(text,noteEventEditorValue()):(text?selectedNoteEvent():null)}catch(e){alert(e.message);return false}
+ if(!inSheet&&metadata&&metadata.textVersion!==noteTextVersion(text))metadata=null;
+ if(text)notes[selected]=text;else delete notes[selected];
+ if(metadata)notes[metaKey]=JSON.stringify(metadata);else delete notes[metaKey];
+ if(overrideChange!==undefined){if(overrideChange===null)delete overrides[selected];else overrides[selected]=overrideChange}
+ if(metadata&&new TextEncoder().encode(backupSnapshot()).length>800000){if(oldNote===undefined)delete notes[selected];else notes[selected]=oldNote;if(oldRaw===undefined)delete notes[metaKey];else notes[metaKey]=oldRaw;if(oldOverride===undefined)delete overrides[selected];else overrides[selected]=oldOverride;alert('記事與提醒超過同步容量，請刪減記事後再儲存。');return false}
+ if(!persist()){if(oldNote===undefined)delete notes[selected];else notes[selected]=oldNote;if(oldRaw===undefined)delete notes[metaKey];else notes[metaKey]=oldRaw;if(oldOverride===undefined)delete overrides[selected];else overrides[selected]=oldOverride;return false}
+ render();$('status').textContent='記事與提醒設定已儲存';checkNoteReminders();return true;
+}
+function noteEventSummary(date){const v=selectedNoteEvent(date);return v?'<div style="margin-top:10px">事件時間：<strong>'+esc(v.time)+'</strong><br>記事提醒：'+(v.remind?noteLeadLabel(v.lead)+(v.at-v.lead*60000<=Date.now()?'（時間已過，不補發）':'（班表開啟時）'):'關閉')+'</div>':''}
+const noteRemindersDelivered=new Set();
+function checkNoteReminders(){
+ const now=Date.now();if(document.hidden)return;
+ const candidates=[];
+ for(const date of Object.keys(notes)){if(!/^\d{4}-\d{2}-\d{2}$/.test(date))continue;const v=selectedNoteEvent(date);if(!v?.remind)continue;const due=v.at-v.lead*60000;
+ if(due>now||due<v.savedAt||now-due>90000)continue;
+ const marker=v.id;let delivered=noteRemindersDelivered.has(marker);try{delivered=delivered||localStorage.getItem('shift_note_delivered_'+marker)==='1'}catch(e){}
+ if(delivered)continue;candidates.push({date,v});noteRemindersDelivered.add(marker);try{localStorage.setItem('shift_note_delivered_'+marker,'1')}catch(e){}
+ }
+ if(!candidates.length)return;
+ const box=$('noteReminderBanner');box.replaceChildren();
+ const title=document.createElement('strong');title.textContent='記事提醒';box.appendChild(title);
+ for(const {date,v} of candidates){const p=document.createElement('p');p.textContent=date+' '+v.time+'｜'+notes[date];box.appendChild(p)}
+ const close=document.createElement('button');close.textContent='知道了';close.onclick=()=>box.classList.add('hidden');box.appendChild(close);box.classList.remove('hidden');
+}
+function savedNoteShareText(){const note=notes[selected];if(!note?.trim())throw Error('這一天還沒有記事。');if(!$('dateSheet').classList.contains('hidden')&&($('sheetNote').value.trim()!==note||noteEventEditorDirty()))throw Error('請先儲存記事，再分享。');const v=selectedNoteEvent();return selected+(v?' '+v.time:'')+'\n'+note}
+async function shareSavedNote(){try{const text=savedNoteShareText();if(navigator.share){await navigator.share({title:'班表記事',text})}else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert('記事已複製，可貼到你要分享的地方。')}else alert('此瀏覽器無法分享，請選取記事文字自行複製。')}catch(e){if(e.name!=='AbortError')alert(e.message||'無法分享；記事仍保留。')}}
+$('sheetEventRemind').onchange=()=>{$('sheetEventLead').disabled=$('sheetEventRemind').value!=='on';updateNotePickerLabels()};
+$('shareSelectedNote').onclick=shareSavedNote;$('sheetShareNote').onclick=shareSavedNote;
+setInterval(checkNoteReminders,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNoteReminders()});
+// END integrated note event
+let noteWheelMode='time',noteWheelFocus=null,noteLeadCustomMode=false;
+function noteLeadLabel(n){if(n===0)return '開始時';if(n===1440)return '提前 1 天';const h=Math.floor(n/60),m=n%60;return '提前 '+(h?h+' 小時':'')+(h&&m?' ':'')+(m?m+' 分鐘':'')}
+function updateNotePickerLabels(){const time=$('sheetEventTime').value;$('sheetEventTimePicker').textContent=time||'選擇時間';$('sheetEventLeadPicker').textContent=noteLeadLabel(Number($('sheetEventLead').value));$('sheetEventLeadPicker').disabled=$('sheetEventRemind').value!=='on'}
+function fillNoteWheel(id,values,label){const wheel=$(id);wheel.replaceChildren();for(const [i,v] of values.entries()){const item=document.createElement('button');item.type='button';item.className='noteWheelItem';item.dataset.index=String(i);item.textContent=label(v);item.setAttribute('aria-label',label(v));item.onclick=()=>{wheel.scrollTop=i*44;markNoteWheel(wheel)};wheel.appendChild(item)}wheel.addEventListener('scroll',()=>markNoteWheel(wheel));wheel.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const i=Math.round(wheel.scrollTop/44)+(e.key==='ArrowDown'?1:-1);wheel.scrollTop=Math.max(0,Math.min(values.length-1,i))*44;markNoteWheel(wheel)}})}
+function noteWheelIndex(wheel){return Math.max(0,Math.min(wheel.children.length-1,Math.round(wheel.scrollTop/44)))}
+function markNoteWheel(wheel){const i=noteWheelIndex(wheel);[...wheel.children].forEach((node,n)=>{node.classList.toggle('active',n===i);node.setAttribute('aria-pressed',n===i?'true':'false')});if(wheel.id==='noteLeadHourWheel'){const max=i===24;$('noteLeadMinuteWheel').style.overflowY=max?'hidden':'auto';$('noteLeadMinuteWheel').setAttribute('aria-label',max?'分鐘固定 00':'提前分鐘');[...$('noteLeadMinuteWheel').children].forEach((item,n)=>item.disabled=max&&n!==0);if(max){$('noteLeadMinuteWheel').scrollTop=0;markNoteWheel($('noteLeadMinuteWheel'))}}}
+function openNoteWheel(mode){noteWheelMode=mode;noteWheelFocus=document.activeElement;$('noteWheelHeading').textContent=mode==='time'?'開始時間':'提醒時間';$('noteTimeColumns').classList.toggle('hidden',mode!=='time');$('noteLeadColumn').classList.toggle('hidden',mode==='time');$('noteWheelClear').classList.toggle('hidden',mode!=='time');$('noteWheelSheet').classList.remove('hidden');if(mode==='time'){const now=new Date(),value=$('sheetEventTime').value||String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'),parts=value.split(':').map(Number);$('noteHourWheel').scrollTop=parts[0]*44;$('noteMinuteWheel').scrollTop=parts[1]*44;markNoteWheel($('noteHourWheel'));markNoteWheel($('noteMinuteWheel'));$('noteHourWheel').focus()}else{const value=Number($('sheetEventLead').value);noteLeadCustomMode=false;$('noteLeadWheels').classList.remove('hidden');$('noteLeadCustomPanel').classList.add('hidden');$('noteLeadModeSwitch').textContent='改用自訂分鐘';$('noteLeadCustom').value=String(value);$('noteLeadHourWheel').scrollTop=Math.floor(value/60)*44;$('noteLeadMinuteWheel').scrollTop=(value%60)*44;markNoteWheel($('noteLeadHourWheel'));markNoteWheel($('noteLeadMinuteWheel'));$('noteLeadHourWheel').focus()}}
+function closeNoteWheel(){ $('noteWheelSheet').classList.add('hidden');if(noteWheelFocus?.isConnected)noteWheelFocus.focus() }
+function applyNoteWheel(){if(noteWheelMode==='time')$('sheetEventTime').value=String(noteWheelIndex($('noteHourWheel'))).padStart(2,'0')+':'+String(noteWheelIndex($('noteMinuteWheel'))).padStart(2,'0');else{let value;if(noteLeadCustomMode){const raw=$('noteLeadCustom').value;if(!/^\d{1,4}$/.test(raw)){alert('請輸入 0～1440 的整數分鐘。');return}value=Number(raw)}else{const hours=noteWheelIndex($('noteLeadHourWheel')),minutes=hours===24?0:noteWheelIndex($('noteLeadMinuteWheel'));value=hours*60+minutes}if(!Number.isInteger(value)||value<0||value>1440){alert('最多提前 1 天（1440 分鐘）。');return}$('sheetEventLead').value=String(value)}updateNotePickerLabels();closeNoteWheel()}
+function switchNoteLeadMode(){noteLeadCustomMode=!noteLeadCustomMode;if(noteLeadCustomMode){const hours=noteWheelIndex($('noteLeadHourWheel'));$('noteLeadCustom').value=String(hours*60+(hours===24?0:noteWheelIndex($('noteLeadMinuteWheel'))))}else{const raw=$('noteLeadCustom').value,value=Number(raw);if(!/^\d{1,4}$/.test(raw)||value>1440){noteLeadCustomMode=true;alert('請輸入 0～1440 的整數分鐘。');return}$('noteLeadHourWheel').scrollTop=Math.floor(value/60)*44;$('noteLeadMinuteWheel').scrollTop=value%60*44;markNoteWheel($('noteLeadHourWheel'));markNoteWheel($('noteLeadMinuteWheel'))}$('noteLeadWheels').classList.toggle('hidden',noteLeadCustomMode);$('noteLeadCustomPanel').classList.toggle('hidden',!noteLeadCustomMode);$('noteLeadModeSwitch').textContent=noteLeadCustomMode?'改用滾輪':'改用自訂分鐘';(noteLeadCustomMode?$('noteLeadCustom'):$('noteLeadHourWheel')).focus()}
+fillNoteWheel('noteHourWheel',Array.from({length:24},(_,i)=>i),n=>String(n).padStart(2,'0')+' 時');fillNoteWheel('noteMinuteWheel',Array.from({length:60},(_,i)=>i),n=>String(n).padStart(2,'0')+' 分');fillNoteWheel('noteLeadHourWheel',Array.from({length:25},(_,i)=>i),n=>String(n).padStart(2,'0')+' 小時');fillNoteWheel('noteLeadMinuteWheel',Array.from({length:60},(_,i)=>i),n=>String(n).padStart(2,'0')+' 分鐘');$('noteLeadModeSwitch').onclick=switchNoteLeadMode;
+$('sheetEventTimePicker').onclick=()=>openNoteWheel('time');$('sheetEventLeadPicker').onclick=()=>openNoteWheel('lead');$('noteWheelCancel').onclick=closeNoteWheel;$('noteWheelDone').onclick=applyNoteWheel;$('noteWheelClear').onclick=()=>{$('sheetEventTime').value='';$('sheetEventRemind').value='off';$('sheetEventLead').disabled=true;updateNotePickerLabels();closeNoteWheel()};$('noteWheelSheet').onclick=e=>{if(e.target===$('noteWheelSheet'))closeNoteWheel()};
+function displayPreferences(){try{const p=JSON.parse(localStorage.getItem('shift_assistant_display_v1')||'{}');return {background:['navy','slate','forest','sakura','lavender','sand'].includes(p.background)?p.background:'navy',font:['0.9','1','1.15','1.3'].includes(p.font)?p.font:'1'}}catch(e){return {background:'navy',font:'1'}}}
+const appearancePalettes={
+navy:{dark:['#091525','#14243a','#334760','#101e31','#0c1b2e'],light:['#eaf2ff','#f9fbff','#aebfd9','#f0f5ff','#f5f8ff']},
+slate:{dark:['#171c25','#262e3a','#485260','#202733','#1d242e'],light:['#edf0f3','#ffffff','#c2cad3','#f1f3f6','#f6f7f9']},
+forest:{dark:['#0b211e','#173630','#3a6157','#102a25','#102a25'],light:['#edf7f1','#f9fffb','#bad6c5','#eaf4ee','#f4fbf6']},
+sakura:{dark:['#291b26','#3d2938','#75536b','#33232f','#30202c'],light:['#fff0f5','#fffafd','#dfb8ca','#fce8f0','#fff5f9']},
+lavender:{dark:['#211c32','#302945','#625780','#29223c','#282139'],light:['#f2edff','#fcfaff','#c6b9e2','#eee7fa','#f7f3ff']},
+sand:{dark:['#282219','#3a3227','#71634e','#30291f','#30281e'],light:['#faf3e7','#fffcf5','#d8c7aa','#f4ead8','#fcf7ed']}
+};
+let appearanceMode='dark',appearanceMedia=null;
+function savedAppearanceMode(){try{const mode=localStorage.getItem('shift_assistant_theme');return ['light','dark','system'].includes(mode)?mode:'system'}catch(e){return 'system'}}
+function applyAppearanceMode(mode){appearanceMode=mode;const light=mode==='light'||mode==='system'&&!!appearanceMedia?.matches;document.body.classList.toggle('themeLight',light);document.body.style.colorScheme=light?'light':'dark';if($('themeModeChoice'))$('themeModeChoice').value=mode;applyDisplayPreferences(displayPreferences());}
+function chooseAppearanceMode(mode){if(!['system','light','dark'].includes(mode))return;applyAppearanceMode(mode);try{localStorage.setItem('shift_assistant_theme',mode);$('displayPreferenceStatus').textContent='顯示模式已儲存到這台裝置。'}catch(e){$('displayPreferenceStatus').textContent='外觀已套用，但無法儲存；下次開啟可能回復。'}}
+function setupAppearanceMode(){if(typeof window.matchMedia==='function'){appearanceMedia=window.matchMedia('(prefers-color-scheme: light)');const change=()=>{if(appearanceMode==='system')applyAppearanceMode('system')};if(appearanceMedia.addEventListener)appearanceMedia.addEventListener('change',change);else if(appearanceMedia.addListener)appearanceMedia.addListener(change)}applyAppearanceMode(savedAppearanceMode());$('themeModeChoice').onchange=()=>chooseAppearanceMode($('themeModeChoice').value);}
+function applyDisplayPreferences(p){document.body.dataset.background=p.background;document.documentElement.style.setProperty('--font-scale',p.font);const light=document.body.classList.contains('themeLight'),colors=(appearancePalettes[p.background]||appearancePalettes.navy)[light?'light':'dark'];for(const [i,name] of ['--bg','--card','--line','--surface','--control'].entries())document.body.style.setProperty(name,colors[i]);document.body.style.setProperty('--txt',light?'#18263b':'#f6f8fc');document.body.style.setProperty('--muted',light?'#52637c':'#aebfd3');const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=colors[0];}
+function setupDisplayPreferences(){const p=displayPreferences();$('backgroundChoice').value=p.background;$('fontSizeChoice').value=p.font;const save=()=>{const value={background:$('backgroundChoice').value,font:$('fontSizeChoice').value};applyDisplayPreferences(value);try{localStorage.setItem('shift_assistant_display_v1',JSON.stringify(value));$('displayPreferenceStatus').textContent='外觀設定已儲存到這台裝置。'}catch(e){$('displayPreferenceStatus').textContent='外觀已套用，但無法儲存；下次開啟可能回復。'}};$('backgroundChoice').onchange=save;$('fontSizeChoice').onchange=save}
+setupAppearanceMode();setupDisplayPreferences();
+
+
+function renderTodayCard(){const v=status(selected,saved),n=notes[selected];let reminder='當日無上班提醒';if(v.alarm&&v.type!=='leave'&&v.type!=='off')reminder='上班提醒設定：'+esc(v.alarm)+'（尚未連動 iPhone 通知）';if(v.type==='overtime'&&!v.alarm)reminder='已標記加班，尚未選擇班別與提醒時間';$('summaryTitle').textContent=selected+'｜記事與提醒';$('todayInfo').innerHTML='<div><strong>記事</strong><p>'+(n?esc(n).replace(/\\n/g,'<br>'):'當日尚無記事')+'</p>'+noteEventSummary(selected)+'</div><div style="margin-top:12px"><strong>上班提醒</strong><p>'+reminder+'</p></div>'}
+function render(){updateHolidayYearStatus();const wk=['一','二','三','四','五','六','日'];$('appliedRules').textContent=saved?.mode==='weekday'?'已套用：常日班｜星期'+(saved.weekdays||[]).map(x=>wk[x-1]).join('、')+'｜官方假日排休 '+(saved.holidayOff?'開':'關')+'｜補班 '+(saved.makeupWork?'開':'關'):saved?.mode==='shift'?'已套用：'+saved.team+'組｜輪班制｜做'+saved.on+'休'+saved.off:'尚未套用班表規則';$('onboarding').classList.toggle('hidden',!!saved);const first=new Date(viewYear,viewMonth,1),offset=first.getDay(),length=new Date(viewYear,viewMonth+1,0).getDate();$('monthTitle').textContent=viewYear+' 年 '+(viewMonth+1)+' 月';let html='';for(let i=0;i<offset;i++)html+='<button class="day" disabled></button>';for(let n=1;n<=length;n++){const d=new Date(viewYear,viewMonth,n),k=key(d),v=status(k,saved),rec=holidays[k],red=d.getDay()===0||d.getDay()===6||(rec&&rec.name);html+='<button class="day '+(selected===k?'sel':'')+'" data-date="'+k+'"><span class="num '+(red?'red':'')+'">'+n+'</span>'+(v.type!=='blank'?'<span class="pill '+v.type+'">'+esc(v.type==='overtime'?'加班':v.label)+'</span>':'')+(rec&&rec.name?'<span class="holiday">'+esc(rec.name)+'</span>':'')+(notes[k]?'<span class="noteDot" aria-label="有記事">'+(selectedNoteEvent(k)?esc(selectedNoteEvent(k).time)+' 記事':'● 記事')+'</span>':'')+'</button>'}$('calendar').innerHTML=html;document.querySelectorAll('[data-date]').forEach(b=>b.onclick=()=>{if(!$('dateSheet').classList.contains('hidden')&&!closeDateSheet())return;selected=b.dataset.date;render();openDateSheet()});renderTodayCard();renderActualToday();$('dateInfo').innerHTML=info(selected,status(selected,saved));$('note').value=notes[selected]||'';$('status').textContent=saved?'':'尚未設定班表：請按右上角「班表設定」';}
+function readDraft(){const s={};for(const id of ids)s[id]=$(id).type==='checkbox'?$(id).checked:$(id).value;s.weekdays=[...weekdays];return s}
+function writeDraft(s){for(const id of ids){if($(id).type==='checkbox')$(id).checked=!!s[id];else $(id).value=s[id]??defaults[id]}weekdays=[...(s.weekdays||defaults.weekdays)];drawWeekdays();toggleMode()}
+function drawWeekdays(){const names=['一','二','三','四','五','六','日'];$('weekdayButtons').innerHTML=names.map((n,i)=>'<button type="button" class="'+(weekdays.includes(i+1)?'active':'')+'" data-week="'+(i+1)+'">'+n+'</button>').join('');document.querySelectorAll('[data-week]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.week);weekdays=weekdays.includes(n)?weekdays.filter(x=>x!==n):[...weekdays,n].sort();drawWeekdays();hidePreview()})}
+function toggleMode(){$('shiftFields').classList.toggle('hidden',$('mode').value!=='shift');$('weekdayFields').classList.toggle('hidden',$('mode').value!=='weekday')}
+function hidePreview(){previewed=false;$('previewCard').classList.add('hidden')}
+let activePage='today',rulesEditing=false;
+function renderActualToday(){const k=key(new Date()),v=status(k,saved);$('actualTodayTitle').textContent=k+'｜'+v.label;$('actualTodayInfo').innerHTML=info(k,v);$('todayWelcome').classList.toggle('hidden',!!saved);$('actualTodayNote').innerHTML='<p>'+esc(notes[k]||'今天尚無記事')+'</p>'+noteEventSummary(k);}
+function showPage(page){if(!['today','calendar','settings'].includes(page))return false;if(!closeDateSheet())return false;closeNoteWheel();activePage=page;for(const [p,id] of [['today','todayPage'],['calendar','home'],['settings','settingsPage']])$(id).classList.toggle('hidden',p!==page||(p==='settings'&&rulesEditing));$('settings').classList.toggle('hidden',page!=='settings'||!rulesEditing);for(const [p,id] of [['today','navToday'],['calendar','navCalendar'],['settings','navSettings']]){if(p===page)$(id).setAttribute('aria-current','page');else $(id).removeAttribute('aria-current')}render();window.scrollTo(0,0);return true}
+function openSettings(){if(!closeDateSheet())return;if(!rulesEditing){writeDraft(saved||defaults);hidePreview();rulesEditing=true}showPage('settings')}
+function closeSettings(){rulesEditing=false;showPage('calendar')}
+$('back').onclick=()=>{if(JSON.stringify(readDraft())!==JSON.stringify(saved||defaults)&&!confirm('返回會放棄尚未儲存的班表設定，確定返回？'))return;rulesEditing=false;showPage('settings');window.dispatchEvent(new Event('shift-editor-closed'))};$('editRules').onclick=openSettings;$('todaySetup').onclick=openSettings;
+$('navToday').onclick=()=>showPage('today');$('navCalendar').onclick=()=>showPage('calendar');$('navSettings').onclick=()=>showPage('settings');
+function editActualToday(){if(!closeDateSheet())return;selected=key(new Date());render();openDateSheet()}
+$('actualTodayEdit').onclick=editActualToday;
+$('actualTodayShare').onclick=()=>{if(!closeDateSheet())return;const prior=selected;selected=key(new Date());try{$('shareSelectedNote').click()}finally{selected=prior}};
+setInterval(()=>{if(!document.hidden)renderActualToday()},60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderActualToday()});
+
+$('openSettings').onclick=()=>showPage('settings');$('mode').onchange=()=>{toggleMode();hidePreview()};for(const id of ids)$(id).addEventListener('change',hidePreview);
+$('previewBtn').onclick=()=>{const s=readDraft();if(s.mode==='weekday'&&!s.weekdays.length){alert('請至少選擇一個上班星期');return}if(s.mode==='shift'&&(!s.base||!s.team)){alert('請先選擇班別並設定第一個上班日');return}const d=new Date(now.getFullYear(),now.getMonth(),now.getDate());let html='';for(let i=0;i<30;i++){const k=key(d),v=(JSON.stringify(s)===JSON.stringify(saved)?status(k,s):shift(k,s));html+='<div class="pv"><strong>'+ (d.getMonth()+1)+'/'+d.getDate()+'</strong><span>'+esc(v.label)+(JSON.stringify(s)===JSON.stringify(saved)&&overrides[k]?'（手動設定）':'')+'</span></div>';d.setDate(d.getDate()+1)}$('previewList').innerHTML=html;$('previewSummary').textContent=s.mode==='shift'?'做 '+s.on+' 休 '+s.off+'｜起始日 '+s.base+'｜'+(s.rotation==='0'?'固定班別':'每 '+s.rotation+' 個月切換'):'固定上班星期 '+s.weekdays.join('、');$('previewCard').classList.remove('hidden');previewed=true;$('previewCard').scrollIntoView({behavior:'smooth',block:'start'})};
+$('confirmSave').onclick=()=>{if(!previewed)return;const s=readDraft();const old=saved,oldOverrides=overrides;const ruleFields=s.mode==='shift'?['mode','team','base','on','off','rotation','rotationBase','first']:['mode','weekdays','holidayOff','makeupWork'];const changed=!saved||ruleFields.some(k=>JSON.stringify(s[k])!==JSON.stringify(saved[k]));saved=s;if(changed)overrides={};if(persist()){closeSettings();alert(changed?'新班表已套用；舊班表的手動加班／請假已清除，記事保留。':'班表設定已儲存。')}else {saved=old;overrides=oldOverrides}};
+$('resetDraft').onclick=()=>{if(confirm('清除目前設定草稿？不會修改已儲存的班表。')){writeDraft(defaults);hidePreview()}};
+$('monthTitle').onclick=()=>{const p=$('monthPicker');const visible=p.style.display!=='none';p.style.display=visible?'none':'block';if(!visible){$('jumpYear').innerHTML=Array.from({length:41},(_,i)=>2020+i).map(y=>'<option value="'+y+'">'+y+' 年</option>').join('');$('jumpMonth').innerHTML=Array.from({length:12},(_,i)=>'<option value="'+i+'">'+(i+1)+' 月</option>').join('');$('jumpYear').value=String(viewYear);$('jumpMonth').value=String(viewMonth)}};$('jumpGo').onclick=()=>{viewYear=Number($('jumpYear').value);viewMonth=Number($('jumpMonth').value);$('monthPicker').style.display='none';render()};$('prevMonth').onclick=()=>{viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--}render()};$('nextMonth').onclick=()=>{viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++}render()};$('today').onclick=()=>{viewYear=now.getFullYear();viewMonth=now.getMonth();selected=todayKey;render()};
+$('leave').onclick=()=>change('leave');$('overtime').onclick=()=>change('overtime');$('restore').onclick=()=>change(null);
+function change(v){if(!saved){alert('請先建立班表');return false}return commitNoteEdit(v)}
+$('saveNote').onclick=()=>commitNoteEdit();
+const HOLIDAY_CACHE_KEY='shift_assistant_official_holidays_cache_v1';
+let holidayAvailableYears=[];let holidaySourceLabel='尚未載入';
+function updateHolidayYearStatus(){const y=String(viewYear),has=holidayAvailableYears.includes(y);const el=$('holidayDataStatus');if(!el)return;el.textContent=has?'假日資料：'+y+' 年已有官方辦公日曆｜'+holidaySourceLabel:'⚠ '+y+' 年尚無官方辦公日曆｜'+(saved?.mode==='weekday'?'常日班國定假日排休可能不正確；':'')+'輪班規則照常計算';}
+function applyHolidayData(data,source){if(!data||!data.years||typeof data.years!=='object')return false;const next={};const years=[];for(const [year,entry] of Object.entries(data.years)){if(!entry||!entry.days||typeof entry.days!=='object')continue;years.push(year);Object.assign(next,entry.days)}if(!years.length)return false;holidays=next;holidayAvailableYears=years;holidaySourceLabel=source;render();return true}
+function restoreHolidayCache(){try{const cached=JSON.parse(localStorage.getItem(HOLIDAY_CACHE_KEY)||'null');if(cached&&applyHolidayData(cached.data,'離線快取'))return}catch(e){}holidayAvailableYears=[];holidaySourceLabel='尚未載入';updateHolidayYearStatus()}
+async function loadHolidays(manual=false){try{const r=await fetch('./data/official_calendar.json',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();if(!applyHolidayData(data,'已同步'))throw Error('資料格式不正確');try{localStorage.setItem(HOLIDAY_CACHE_KEY,JSON.stringify({data,updatedAt:new Date().toISOString()}))}catch(e){}if(manual)alert('假日資料已更新。')}catch(e){if(!Object.keys(holidays).length)restoreHolidayCache();if(manual)alert(Object.keys(holidays).length?'無法連線更新，已使用上次取得的假日資料。':'無法連線更新，也沒有離線假日資料；常日班的國定假日排休可能不正確，請連網後更新。')}}
+$('refreshHolidays').onclick=()=>loadHolidays(true);
+
+function openDateSheet(){$('overtimeEditor').classList.add('hidden');$('sheetTitle').textContent=selected+'｜'+status(selected,saved).label;$('sheetInfo').innerHTML=info(selected,status(selected,saved));$('sheetNote').value=notes[selected]||'';$('dateSheet').classList.remove('hidden');fillNoteEventEditor()}
+function closeDateSheet(){if($('dateSheet').classList.contains('hidden'))return true;if(($('sheetNote').value.trim()!==(notes[selected]||'')||noteEventEditorDirty())&&!commitNoteEdit())return false;$('dateSheet').classList.add('hidden');window.dispatchEvent(new Event('shift-editor-closed'));return true}
+$('sheetClose').onclick=closeDateSheet;
+$('dateSheet').onclick=e=>{if(e.target===$('dateSheet'))closeDateSheet()};
+$('sheetLeave').onclick=()=>{if(change('leave'))openDateSheet()};
+$('sheetOvertime').onclick=()=>{$('overtimeEditor').classList.remove('hidden');const o=overrides[selected];$('overtimeShift').value=o&&typeof o==='object'&&o.shift?o.shift:(saved.first||'day')};
+$('confirmOvertime').onclick=()=>{if(commitNoteEdit({type:'overtime',shift:$('overtimeShift').value}))openDateSheet()};
+$('sheetRestore').onclick=()=>{if(change(null))openDateSheet()};
+$('sheetSaveNote').onclick=()=>{if(commitNoteEdit())closeDateSheet()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('noteWheelSheet').classList.contains('hidden'))closeNoteWheel();else closeDateSheet()}});
+$('editTodayNote').onclick=()=>{openDateSheet()};
+$('quickSetup').onclick=openSettings;
+$('helpBtn').onclick=$('helpBtn2').onclick=()=>{$('helpSheet').classList.remove('hidden')};
+$('helpClose').onclick=()=>{$('helpSheet').classList.add('hidden')};
+$('helpSheet').onclick=e=>{if(e.target===$('helpSheet'))$('helpSheet').classList.add('hidden')};
+$('themeToggle').onclick=()=>chooseAppearanceMode(document.body.classList.contains('themeLight')?'dark':'light');
+
+function validBackup(data){
+ if(!data||typeof data!=='object'||Array.isArray(data)||data.format!=='shift-assistant-backup'||data.schema!==1)return false;
+ const x=data.data;if(!x||typeof x!=='object'||Array.isArray(x))return false;
+ if(!Object.prototype.hasOwnProperty.call(x,'schedule')||x.schedule!==null&&(typeof x.schedule!=='object'||Array.isArray(x.schedule)))return false;
+ if(!x.overrides||typeof x.overrides!=='object'||Array.isArray(x.overrides)||!x.notes||typeof x.notes!=='object'||Array.isArray(x.notes))return false;
+ const validDate=k=>{if(typeof k!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(k))return false;const [y,m,d]=k.split('-').map(Number);const dt=new Date(y,m-1,d);return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d};
+ const validMonth=k=>{if(typeof k!=='string'||!/^\d{4}-\d{2}$/.test(k))return false;const m=Number(k.slice(5));return m>=1&&m<=12};
+ const validTime=k=>typeof k==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(k);
+ if(x.schedule){
+  const c=x.schedule;
+  if(!['shift','weekday'].includes(c.mode))return false;
+  if(c.mode==='shift'&&(!['A','B','C','D','自訂'].includes(c.team)||!validDate(c.base)||!['day','night'].includes(c.first)||!['2','3','4'].includes(String(c.on))||!['2','3','4'].includes(String(c.off))||!['0','1','2','3'].includes(String(c.rotation))||(c.rotationBase&&!validMonth(c.rotationBase))))return false;
+  if(c.mode==='weekday'&&(!Array.isArray(c.weekdays)||c.weekdays.some(n=>!Number.isInteger(n)||n<1||n>7)||new Set(c.weekdays).size!==c.weekdays.length||typeof c.holidayOff!=='boolean'||typeof c.makeupWork!=='boolean'))return false;
+  for(const k of ['dayStart','dayEnd','nightStart','nightEnd','dayAlarm','nightAlarm'])if(!validTime(c[k]))return false;
+ }
+ for(const [k,v] of Object.entries(x.notes)){if(typeof v!=='string')return false;if(k.startsWith('@event:')){const date=k.slice(7);if(!validDate(date)||!validStoredNoteEvent(v,date))return false}else if(!validDate(k))return false}
+ for(const [k,v] of Object.entries(x.overrides)){if(!validDate(k))return false;if(v!=='leave'&&v!=='overtime'&&!(v&&typeof v==='object'&&v.type==='overtime'&&['day','night'].includes(v.shift)))return false}
+ return true
+}
+
+async function shareMonthImage(){
+ if(!saved){alert('請先建立班表，再分享整月班表。');return}
+ const y=viewYear,m=viewMonth,days=new Date(y,m+1,0).getDate(),offset=(new Date(y,m,1).getDay()+6)%7;
+ const W=1120,pad=36,gap=7,cell=(W-pad*2-gap*6)/7,header=182,rowH=134,rows=Math.ceil((offset+days)/7),H=header+rows*(rowH+gap)+70;
+ const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
+ if(!ctx){alert('無法產生班表圖片。');return}
+ ctx.fillStyle='#f4f7fc';ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#172943';ctx.font='bold 49px -apple-system, sans-serif';ctx.fillText('班表助理｜'+y+' 年 '+(m+1)+' 月',pad,68);
+ ctx.fillStyle='#52647d';ctx.font='27px -apple-system, sans-serif';ctx.fillText('整月班表',pad,111);
+ const weeks=['一','二','三','四','五','六','日'];
+ ctx.font='bold 27px -apple-system, sans-serif';weeks.forEach((t,i)=>{ctx.fillStyle=i>=5?'#c74255':'#52647d';ctx.textAlign='center';ctx.fillText(t,pad+i*(cell+gap)+cell/2,160)});ctx.textAlign='left';
+ function fit(t,max){let out=String(t);while(out.length>0&&ctx.measureText(out).width>max)out=out.slice(0,-1);return out===String(t)?out:out+'…'}
+ for(let n=1;n<=days;n++){
+  const idx=offset+n-1,col=idx%7,row=Math.floor(idx/7),x=pad+col*(cell+gap),top=header+row*(rowH+gap),k=key(new Date(y,m,n)),v=status(k,saved),rec=holidays[k];
+  ctx.fillStyle='#fff';ctx.fillRect(x,top,cell,rowH);ctx.strokeStyle='#d8e0eb';ctx.strokeRect(x,top,cell,rowH);
+  ctx.fillStyle=col>=5||rec&&rec.name?'#cf4158':'#253751';ctx.font='bold 29px -apple-system, sans-serif';ctx.fillText(String(n),x+11,top+34);
+  if(v.type!=='blank'){
+   const color={daywork:'#b66b12',night:'#6e58ad',off:'#607084',leave:'#667789',overtime:'#926f00'}[v.type]||'#51647c';
+   ctx.fillStyle=color;ctx.fillRect(x+6,top+46,cell-12,34);ctx.fillStyle='#fff';ctx.font='bold 22px -apple-system, sans-serif';ctx.textAlign='center';
+   ctx.fillText(fit(v.type==='overtime'?'加班':v.label,cell-20),x+cell/2,top+71);ctx.textAlign='left'
+  }
+  if(rec&&rec.name){ctx.fillStyle='#c23b53';ctx.font='19px -apple-system, sans-serif';ctx.fillText(fit(rec.name,cell-16),x+8,top+105)}
+ }
+ ctx.fillStyle='#52647d';ctx.font='21px -apple-system, sans-serif';ctx.fillText('早班／夜班／休假／加班／請假｜僅供班表分享，不含記事與個人資料',pad,H-29);
+ const filename='班表助理-'+y+'年'+(m+1)+'月.png';
+ c.toBlob(async blob=>{
+  if(!blob){alert('圖片建立失敗。');return}
+  const file=new File([blob],filename,{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+   try{await navigator.share({files:[file]});return}catch(e){if(e.name==='AbortError')return}
+  }
+  const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=filename;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+  alert('已產生班表圖片。若未開啟分享選單，請從下載項目開啟圖片，再分享至 LINE。')
+ },'image/png');
+}
+$('shareMonth').onclick=shareMonthImage;
+
+$('exportBackup').onclick=()=>{
+ try{const data={format:'shift-assistant-backup',schema:1,exportedAt:new Date().toISOString(),data:{schedule:saved,overrides,notes}};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='班表助理備份-'+key(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);try{localStorage.setItem(BACKUP_META_KEY,JSON.stringify({at:new Date().toISOString(),snapshot:backupSnapshot()}))}catch(e){}backupStatus()
+ }catch(e){alert('無法建立備份檔，請稍後再試。')}
+};
+$('importBackup').onclick=()=>{$('backupFile').value='';$('backupFile').click()};
+$('backupFile').onchange=async()=>{
+ const file=$('backupFile').files?.[0];if(!file)return;
+ if(file.size>5*1024*1024){alert('備份檔超過 5 MB，無法匯入。');return}
+ let backup;try{backup=JSON.parse(await file.text())}catch(e){alert('無法讀取備份檔，請選擇有效的 JSON 檔案。');return}
+ if(!validBackup(backup)){alert('備份檔格式不符，未變更目前資料。');return}
+ if(!confirm('匯入將覆蓋目前班表、請假、加班及記事。建議先匯出目前資料。確定繼續？'))return;
+ const old={schedule:saved,overrides,notes};
+ saved=backup.data.schedule;overrides=backup.data.overrides;notes=backup.data.notes;
+ if(persist()){render();backupStatus();alert('備份還原成功。')}else{saved=old.schedule;overrides=old.overrides;notes=old.notes}
+};
+$('clearSchedule').onclick=()=>{if(!saved)return alert('目前尚未設定班表');if(!confirm('確定清除目前班表規則？記事和請假／加班紀錄會保留。'))return;const old=saved;saved=null;if(persist())render();else saved=old};
+
+load();restoreHolidayCache();render();backupStatus();loadHolidays();
+/* v0.5.31 diagnostic: no new service worker registration */
+
+const APP_VERSION='0.5.31';
+document.querySelectorAll('.head .small, .notice, #cloudSyncPanel h3').forEach(node=>{node.textContent=node.textContent.replace(/(?:V)?0\.5\.\d+/g,m=>(m.startsWith('V')?'V':'')+APP_VERSION)});
+document.title='班表助理｜測試版 '+APP_VERSION;
+const UPDATE_ATTEMPT='shift_assistant_auto_update_attempt_v1';
+let checkingVersion=false;
+function versionNewer(a,b){const x=a.split('.').map(Number),y=b.split('.').map(Number);return x.some((v,i)=>v!==y[i]&&x.slice(0,i).every((z,j)=>z===y[j])&&v>y[i])}
+async function checkAppUpdate(manual=false){
+ if(checkingVersion||!navigator.onLine)return;
+ checkingVersion=true;
+ try{
+ const response=await fetch('./version.json?ts='+Date.now(),{cache:'no-store'});
+ if(!response.ok)throw new Error('版本資訊無法取得');
+ const info=await response.json();
+ if(typeof info.version!=='string'||!/^\d+\.\d+\.\d+$/.test(info.version))return;
+ if(!versionNewer(info.version,APP_VERSION)){if(manual)alert('目前程式版本 V'+APP_VERSION+'，已是最新版。');return}
+ const prev=JSON.parse(sessionStorage.getItem(UPDATE_ATTEMPT)||'null');
+ if(prev&&prev.version===info.version&&Date.now()-prev.at<180000){if(manual)alert('新版正在等待 iPhone 載入，請稍後重新開啟 App。');return}
+ sessionStorage.setItem(UPDATE_ATTEMPT,JSON.stringify({version:info.version,at:Date.now()}));
+ if('serviceWorker' in navigator){const reg=await navigator.serviceWorker.getRegistration();if(reg)await reg.update().catch(()=>{})}
+ location.replace('./app-v041.html?autoUpdate='+encodeURIComponent(info.version)+'&t='+Date.now());
+ }catch(e){if(manual)alert('檢查更新失敗：'+e.message)}
+ finally{checkingVersion=false}
+}
+$('checkAppVersion').onclick=()=>checkAppUpdate(true);
+window.addEventListener('load',()=>{
+ if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});
+ const prev=JSON.parse(sessionStorage.getItem(UPDATE_ATTEMPT)||'null');
+ if(prev&&(!versionNewer(prev.version,APP_VERSION)||Date.now()-prev.at>180000))sessionStorage.removeItem(UPDATE_ATTEMPT);
+ setTimeout(()=>checkAppUpdate(false),900);
+});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkAppUpdate(false)});
+
+</script>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {getFirestore,doc,getDoc,getDocFromServer,setDoc,runTransaction,serverTimestamp} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+const config={apiKey:"AIzaSyDGk-NfBbKbDvW4po4KJl3-2lF6HQlp3dg",authDomain:"shift-assistant-4a6a9.firebaseapp.com",projectId:"shift-assistant-4a6a9",storageBucket:"shift-assistant-4a6a9.firebasestorage.app",messagingSenderId:"319856601116",appId:"1:319856601116:web:3fd69e1b34b3f3577897d9"};
+const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app);
+const el=id=>document.getElementById(id),status=msg=>el("cloudSyncStatus").textContent=msg;
+el("advancedExport").onclick=()=>el("exportBackup").click();
+el("advancedImport").onclick=()=>el("importBackup").click();
+el("advancedUpdate").onclick=()=>el("checkAppVersion").click(); const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.31 已載入｜等待登入狀態…")}
+let current=null,busy=false,authReady=false;
+const authWait=setTimeout(()=>{if(!authReady)status("⚠ Google 登入狀態尚未確認，手機資料安全保留。請確認網路後重新開啟 App。")},15000);
+function buttons(){el("cloudSignIn").hidden=!authReady||!!current;el("cloudSignOut").hidden=!authReady||!current;el("cloudUpload").disabled=!current||busy;el("cloudDownload").disabled=!current||busy;el("cloudCheck").disabled=!current||busy}
+function ref(){return doc(db,"users",current.uid)}
+const BASE="shift_assistant_sync_baseline_v2_";
+const OWNER_KEY="shift_assistant_cloud_owner_uid_v1";
+const localOwner=()=>localStorage.getItem(OWNER_KEY);
+const setLocalOwner=uid=>localStorage.setItem(OWNER_KEY,uid);
+const ownerMismatch=()=>!!(localOwner()&&current&&localOwner()!==current.uid);
+const baselineKey=()=>BASE+(current?.uid||"signed-out");
+function canonicalize(v){if(Array.isArray(v))return v.map(canonicalize);if(v&&typeof v==="object"){const out={};for(const k of Object.keys(v).sort())out[k]=canonicalize(v[k]);return out}return v}
+function stableJSON(v){return JSON.stringify(canonicalize(v))}
+function validSyncData(d){return !!d&&typeof d==="object"&&!Array.isArray(d)&&Object.prototype.hasOwnProperty.call(d,"schedule")&&(d.schedule===null||typeof d.schedule==="object"&&!Array.isArray(d.schedule))&&d.overrides!==null&&typeof d.overrides==="object"&&!Array.isArray(d.overrides)&&d.notes!==null&&typeof d.notes==="object"&&!Array.isArray(d.notes)}
+function syncSizeOK(d){try{return new TextEncoder().encode(JSON.stringify(d)).length<=800000}catch(e){return false}}
+function localData(){try{return stableJSON(JSON.parse(localStorage.getItem("shift_assistant_app_preview_01")||"null"))}catch(e){return null}}
+function readBaseline(){try{const v=localStorage.getItem(baselineKey());return v?stableJSON(JSON.parse(v)):null}catch(e){return null}}
+const TIMEOUT_MS=12000;
+function withTimeout(p){return Promise.race([p,new Promise((_,reject)=>setTimeout(()=>reject(new Error("雲端連線逾時，資料未變更。")),TIMEOUT_MS))])}
+let pendingSync=false,autoTimer=null,conflict=false,recheckTimer=null;
+function hasUnsavedEditorNote(){
+ if(typeof rulesEditing!=="undefined"&&rulesEditing)return true;
+ const sheet=el("dateSheet");
+ return !!sheet&&!sheet.classList.contains("hidden")&&(el("sheetNote").value.trim()!==(notes[selected]||'')||(typeof noteEventEditorDirty==='function'&&noteEventEditorDirty()));
+}
+function safeThreeWayMerge(baseText,localText,remoteText){
+ try{
+ const b=JSON.parse(baseText),l=JSON.parse(localText),r=JSON.parse(remoteText);
+ if(!validSyncData(b)||!validSyncData(l)||!validSyncData(r))return null;
+ const eq=(a,z)=>stableJSON(a)===stableJSON(z);
+ const out={schedule:null,overrides:{},notes:{}};
+ if(eq(l.schedule,r.schedule))out.schedule=l.schedule;
+ else if(eq(l.schedule,b.schedule))out.schedule=r.schedule;
+ else if(eq(r.schedule,b.schedule))out.schedule=l.schedule;
+ else return null;
+ for(const field of ['overrides','notes']){
+  const keys=new Set([...Object.keys(b[field]),...Object.keys(l[field]),...Object.keys(r[field])]);
+  if(field==='notes'){const dates=new Set([...keys].map(k=>k.startsWith('@event:')?k.slice(7):k));for(const key of dates){const meta='@event:'+key;const pair=x=>({text:x[field][key],metadata:x[field][meta]});const bv=pair(b),lv=pair(l),rv=pair(r);let v;if(eq(lv,rv))v=lv;else if(eq(lv,bv))v=rv;else if(eq(rv,bv))v=lv;else return null;if(v.text!==undefined)out[field][key]=v.text;if(v.metadata!==undefined)out[field][meta]=v.metadata}continue}
+  for(const key of keys){
+   const bv=Object.prototype.hasOwnProperty.call(b[field],key)?b[field][key]:undefined;
+   const lv=Object.prototype.hasOwnProperty.call(l[field],key)?l[field][key]:undefined;
+   const rv=Object.prototype.hasOwnProperty.call(r[field],key)?r[field][key]:undefined;
+   let v;
+   if(eq(lv,rv))v=lv;
+   else if(eq(lv,bv))v=rv;
+   else if(eq(rv,bv))v=lv;
+   else return null;
+   if(v!==undefined)out[field][key]=v;
+  }
+ }
+ return validSyncData(out)&&syncSizeOK(out)?out:null;
+ }catch(e){return null}
+}
+function retryCloudCheck(){clearTimeout(recheckTimer);if(!current||!navigator.onLine)return;recheckTimer=setTimeout(()=>{if(current&&!busy&&navigator.onLine)checkCloud();else if(current&&navigator.onLine)retryCloudCheck()},12000)}
+async function checkCloud(){
+ if(!current||busy)return;
+ clearTimeout(recheckTimer);recheckTimer=null;
+ if(ownerMismatch()){conflict=true;status("⚠ 這台手機的班表已綁定其他 Google 帳號。為保護資料，已停止自動同步。");return}
+ if(!navigator.onLine){status("📱 離線中，班表仍保留在手機。");return}
+ const uid=current.uid;
+ busy=true;buttons();status("☁️ 正在確認同步狀態…");
+ try{
+ const snap=await withTimeout(getDocFromServer(doc(db,"users",uid)));
+ if(current?.uid!==uid)return;
+ if(!snap.exists()){
+ const raw=localData();
+ if(localStorage.getItem("shift_assistant_app_preview_01")===null){conflict=false;status("☁️ 已登入，等待設定班表。");return}
+ const data=JSON.parse(raw);
+ if(!validSyncData(data)||!syncSizeOK(data)){conflict=true;status("⚠ 本機資料格式異常，請先備份。");return}
+ await withTimeout(runTransaction(db,async tx=>{const d=doc(db,"users",uid),old=await tx.get(d);if(old.exists())throw new Error("雲端已建立資料，請重新檢查");tx.set(d,{data,updatedAt:serverTimestamp(),schema:1})}));
+ if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);setLocalOwner(uid);conflict=false;pendingSync=localData()!==raw;status(pendingSync?"📱 已建立雲端備份，繼續同步新增的修改…":"✅ 已自動建立雲端備份。")}
+ return
+}
+ if(!validSyncData(snap.data().data)||!syncSizeOK(snap.data().data)){conflict=true;status("⚠ 雲端資料格式異常，已保留手機資料。");return}
+ const remote=stableJSON(snap.data().data),local=localData(),base=readBaseline();
+ if(current?.uid!==uid)return;
+ if(remote===local){if(localData()!==local){pendingSync=true;status("📱 偵測到新修改，稍後重新檢查雲端…");retryCloudCheck();return}localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已同步至雲端。")}
+ else {conflict=!(base===remote&&local!==remote);
+ if(base===remote&&local!==remote){status("📱 偵測到手機新記事，準備安全自動備份…");queueAutoUpload()}
+ else if(base&&base!==local&&base!==remote){
+  conflict=true;
+  const merged=hasUnsavedEditorNote()?null:safeThreeWayMerge(base,local,remote);
+  if(!merged){status(hasUnsavedEditorNote()?"📝 記事正在編輯，已暫停雲端合併，請先儲存或關閉編輯視窗。":"⚠ 相同資料有不同修改，已保留手機與雲端原始版本，停止自動同步。");}
+  else if(localData()!==local){status("⚠ 合併期間手機資料有新修改，已暫停避免覆蓋。");}
+  else{
+   const mergedText=stableJSON(merged);
+   try{
+    const previousLocal=localStorage.getItem("shift_assistant_app_preview_01");
+    const previousBase=localStorage.getItem(baselineKey());
+    try{
+     localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(merged));
+     localStorage.setItem(baselineKey(),remote);
+    }catch(writeError){
+     try{if(previousLocal===null)localStorage.removeItem("shift_assistant_app_preview_01");else localStorage.setItem("shift_assistant_app_preview_01",previousLocal);if(previousBase===null)localStorage.removeItem(baselineKey());else localStorage.setItem(baselineKey(),previousBase)}catch(rollbackError){}
+     throw writeError;
+    }
+    setLocalOwner(uid);conflict=false;pendingSync=mergedText!==remote;
+    status("☁️ 不同欄位的修改已合併並保存在手機，正在重新確認雲端…");
+    location.reload();return;
+   }catch(e){conflict=true;status("⚠ 無法安全儲存合併結果，已停止同步。")}
+  }
+ }
+ else if(base===local&&base!==null){conflict=true;if(hasUnsavedEditorNote()){conflict=true;status("📝 記事正在編輯，已暫停雲端還原。請先儲存或關閉編輯視窗。")}else if(localData()!==local){conflict=true;status("⚠ 本機剛有新修改，已暫停還原以保護資料。")}else{localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已自動同步其他裝置的修改。");location.reload();return}}
+ else if(base===remote)status("📱 本機有更新，雲端未變更；請先核對再手動上傳。");
+ else if(!base&&!localStorage.getItem("shift_assistant_app_preview_01")){conflict=true;if(hasUnsavedEditorNote()){conflict=true;status("📝 記事正在編輯，已暫停還原。");return}localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(snap.data().data));localStorage.setItem(baselineKey(),remote);setLocalOwner(uid);conflict=false;pendingSync=false;status("✅ 已從雲端還原班表。");location.reload();return}
+ else {conflict=true;status("⚠ 本機與雲端不同，已停止自動同步。請保留備份。")}
+ }
+ }catch(e){conflict=true;status("⚠ 暫時無法連接雲端，手機資料已保留；稍後自動重試。");retryCloudCheck()}
+ finally{busy=false;buttons();if(pendingSync&&!conflict&&readBaseline()&&localData()!==readBaseline())queueAutoUpload()}
+}
+el("cloudCheck").onclick=checkCloud;
+async function safeAutoUpload(){
+ if(!current||conflict||ownerMismatch())return;
+ if(!navigator.onLine){status("📱 離線中，資料已保存在手機；恢復網路後自動同步。");return}
+ if(busy){pendingSync=true;return}
+ const uid=current.uid,local=localData(),base=readBaseline();
+ if(!base||!local||local===base){pendingSync=false;return}
+ if(auth.currentUser?.uid!==uid){status("⚠ 登入帳號已變更，已取消這次備份。");return}
+ if(!validSyncData(JSON.parse(local))||!syncSizeOK(JSON.parse(local))){conflict=true;status("⚠ 本機資料格式或大小異常，已停止上傳以保護資料。");return}
+ busy=true;buttons();status("☁️ 正在安全備份變更…");
+ try{
+ await withTimeout(runTransaction(db,async tx=>{
+ const d=doc(db,"users",uid),snap=await tx.get(d);
+ if(!snap.exists()||!validSyncData(snap.data().data)||stableJSON(snap.data().data)!==base)throw new Error("雲端版本已變更，已阻止覆蓋");
+ if(auth.currentUser?.uid!==uid)throw new Error("登入帳號已變更，已停止寫入");
+ tx.set(d,{data:JSON.parse(local),updatedAt:serverTimestamp(),schema:1});
+ }));
+ if(current?.uid===uid){localStorage.setItem(baselineKey(),local);setLocalOwner(uid);pendingSync=localData()!==local;status(pendingSync?"📱 有新修改，繼續自動備份…":"✅ 變更已自動備份到雲端。");}
+ }catch(e){conflict=true;pendingSync=true;status("⚠ 雲端備份尚未確認，手機資料已保留；將重新檢查雲端版本。");retryCloudCheck()}
+ finally{busy=false;buttons();if(!conflict&&localData()!==local&&!recheckTimer)queueAutoUpload()}
+}
+function queueAutoUpload(){pendingSync=true;clearTimeout(autoTimer);autoTimer=setTimeout(()=>{if(current&&!conflict&&!ownerMismatch())safeAutoUpload();else if(!current)status("📱 已儲存在手機，登入 Google 後自動備份。")},2200)}
+window.addEventListener("shift-local-saved",queueAutoUpload);
+window.addEventListener("shift-editor-closed",()=>{if(current&&navigator.onLine&&!busy)checkCloud();else if(current&&navigator.onLine)retryCloudCheck()});
+window.addEventListener("online",()=>{clearTimeout(recheckTimer);if(current)checkCloud();else if(!authReady)status("☁️ 網路已恢復，等待 Google 登入狀態…")});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&current)checkCloud()});
+onAuthStateChanged(auth,u=>{authReady=true;clearTimeout(authWait);const priorUid=current?.uid;current=u;if(priorUid!==u?.uid){conflict=false;pendingSync=false;clearTimeout(autoTimer)}buttons();status(restoreMessage|| (u?"☁️ 正在自動同步…":"登入 Google 帳號，即可自動備份及換機還原。"));if(u)checkCloud()},e=>{authReady=true;clearTimeout(authWait);buttons();status("⚠ Google 登入狀態讀取失敗，手機資料保留："+e.message)});
+el("cloudSignIn").onclick=async()=>{try{const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});await signInWithPopup(auth,provider)}catch(e){status("登入失敗："+e.message+"。請確認瀏覽器允許 Google 登入視窗。")}};
+el("cloudSignOut").onclick=async()=>{try{await signOut(auth)}catch(e){status("登出失敗："+e.message)}};
+el("cloudUpload").onclick=async()=>{
+ if(!current||busy)return;
+ const uid=current.uid,raw=localData(),base=readBaseline();
+ if(!raw||!base){status("⚠ 尚無可確認的同步基準，已停止手動上傳。");return}
+ let data;try{data=JSON.parse(raw)}catch(e){status("⚠ 本機資料無法解析，已停止上傳。");return}
+ if(!validSyncData(data)||!syncSizeOK(data)||ownerMismatch()){status("⚠ 本機資料格式、大小或帳號不符，已停止上傳。");return}
+ if(hasUnsavedEditorNote()){status("📝 請先儲存正在編輯的記事，再進行雲端操作。");return}
+ if(!confirm("僅在雲端版本沒有被其他裝置修改時才會上傳，絕不強制覆蓋。確定檢查並上傳？"))return;
+ busy=true;buttons();status("☁️ 正在安全確認雲端版本…");
+ try{
+  await withTimeout(runTransaction(db,async tx=>{
+   const d=doc(db,"users",uid),snap=await tx.get(d);
+   if(!snap.exists()||!validSyncData(snap.data().data)||stableJSON(snap.data().data)!==base)throw new Error("雲端版本已改變，已停止覆蓋");
+   if(current?.uid!==uid||auth.currentUser?.uid!==uid||localData()!==raw)throw new Error("登入或本機資料已改變，已停止上傳");
+   tx.set(d,{data,updatedAt:serverTimestamp(),schema:1});
+  }));
+  if(current?.uid===uid){localStorage.setItem(baselineKey(),raw);setLocalOwner(uid);conflict=false;pendingSync=localData()!==raw;status("✅ 雲端安全備份完成。");if(pendingSync)queueAutoUpload()}
+ }catch(e){conflict=true;status("⚠ 手動上傳未確認成功，已保留原資料，將重新檢查雲端。");retryCloudCheck()}
+ finally{busy=false;buttons()}
+};
+el("cloudDownload").onclick=async()=>{
+ if(!current||busy)return;
+ if(hasUnsavedEditorNote()){status("📝 請先儲存正在編輯的記事，再進行雲端操作。");return}
+ const before=localData(),base=readBaseline(),uid=current.uid;
+ if(before&&before!==base){status("⚠ 手機有尚未同步的修改，為避免遺失資料，已停止下載。");return}
+ if(before&&!base){status("⚠ 尚無同步基準，為避免覆蓋手機資料，已停止下載。");return}
+
+ if(ownerMismatch()){status("⚠ 帳號與本機資料不一致，已取消還原。");return}
+ busy=true;buttons();status("正在檢查雲端資料…");
+ try{
+ const snap=await withTimeout(getDocFromServer(doc(db,"users",uid)));
+ if(!snap.exists()){status("雲端尚無備份，沒有覆蓋本機資料。");return}
+ const data=snap.data().data;
+ if(!validSyncData(data)||!syncSizeOK(data)){status("雲端資料格式不符合預期，已取消下載。");return}
+ if(current?.uid!==uid||auth.currentUser?.uid!==uid||localData()!==before){status("⚠ 登入或手機資料已改變，已停止下載。");return}
+ if(!confirm("下載將覆蓋這台裝置的班表、請假、加班與記事。請先匯出本機 JSON 備份。確定下載？")){status("已取消下載，本機資料未變更。");return}
+ if(current?.uid!==uid||auth.currentUser?.uid!==uid||localData()!==before||hasUnsavedEditorNote()){status("⚠ 下載期間帳號、手機資料或記事編輯狀態已改變，已停止還原。");return}
+ localStorage.setItem("shift_assistant_app_preview_01",JSON.stringify(data));localStorage.setItem(baselineKey(),stableJSON(data));setLocalOwner(current.uid);
+ sessionStorage.setItem("shift_assistant_cloud_restore_notice","✅ 雲端資料下載成功！已寫入這台裝置的班表、請假、加班與記事。請核對班表內容。");location.reload();
+ }catch(e){status("下載失敗："+e.message)}finally{busy=false;buttons()}
+};
+</script>
+
+</body></html>
