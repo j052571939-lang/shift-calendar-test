@@ -1,0 +1,12 @@
+{
+  "name": "shift-calendar-stability-tests",
+  "private": true,
+  "scripts": {
+    "test": "node prepare.cjs && firebase emulators:exec --only firestore --project demo-shift-stability \"node test-rules.cjs && node test-sdk-sync.cjs\""
+  },
+  "devDependencies": {
+    "firebase-tools": "14.27.0",
+    "firebase": "11.10.0",
+    "@firebase/rules-unit-testing": "4.0.1"
+  }
+}
