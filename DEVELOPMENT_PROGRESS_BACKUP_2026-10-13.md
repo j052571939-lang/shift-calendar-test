@@ -2,11 +2,11 @@
 
 ## 版本與倉庫
 - 測試倉庫：j052571939-lang/shift-calendar-test
-- 測試版：V0.5.25，GitHub `version.json` 為 0.5.25。
+- 測試版：V0.5.26，GitHub `version.json` 為 0.5.26。
 - PWA 固定入口：https://j052571939-lang.github.io/shift-calendar-test/app-v041.html
-- 快照：https://j052571939-lang.github.io/shift-calendar-test/app-v0525.html
-- `app-v041.html` 與 `app-v0525.html` 的 GitHub blob SHA 相同：`90ff7c3c9d7667131123c140f0644baf47237fc6`。
-- `sw.js` 快取：`shift-calendar-test-auto-v0525`，包含 V0.5.25。
+- 快照：https://j052571939-lang.github.io/shift-calendar-test/app-v0526.html
+- `app-v041.html` 與 `app-v0526.html` 的 GitHub blob SHA 相同：`c82d6c69b212ff4ec4cdec749c667f76f7e386ee`。
+- `sw.js` 快取：`shift-calendar-test-auto-v0526`，包含 V0.5.26。
 - PWA manifest 的 `id` / `start_url` 均為 `./app-v041.html`，不要更動。
 - 正式倉庫：`j052571939-lang/my-shift-2040`；正式版 V8.1.8，**未獲明確授權不得修改**。
 
@@ -59,3 +59,14 @@
 - 後續功能需求：記事可選擇提醒開關、事件時間與提醒時間；休假日的個人事件也可提醒，與上班提醒獨立。可評估班表內行事曆式記事及 iPhone 行事曆整合。
 - 以上為新需求紀錄，尚未實作。依既定方向，先穩定與準備上架，避免把提醒開关 UI 誤稱為已能背景通知。
 - 僅更新開發進度文件；App 保持 V0.5.25，正式版和 Firebase 規則未修改。公開開發文件不存放使用者記事內容或截圖。
+
+## 2026-10-13：V0.5.26 記事行事曆匯出
+- 使用者最新範圍：首版只補記事行事曆通知相關功能，其他新功能上架後再加；先由助手檢查測試修正，再完成第 1 項雙裝置實機驗收。
+- V0.5.26 已提供事件名稱、事件時間／長度、可刪減備註、提醒開關／提前時間，以及本機產生 .ics 檔案分享或下載。沒有更動記事同步 schema。
+- 注意：完成的是 PWA 行事曆檔案匯出，不是原生 EventKit 直接寫入或 PWA 背景通知。需要使用者確認匯入到行事曆及提醒；此步尚未實機驗收。不能標記「行事曆通知已完成」。
+- 匯出不修改原記事；日期視窗未儲存記事先正常儲存，失敗保留草稿。事件對話框開啟期間暫停雲端還原／合併以避免表單丟失。
+- 29 項新增格式／安全／DOM 測試，加原有 46 項回歸檢查，在新版本全部通過，共 75 項。使用 Firebase SDK 11.10.0 與官方本機模擬器；未讀寫正式 Firebase。
+- 詳細測試與限制：tests/calendar/README.md；可重跑 scripts：tests/calendar/test-calendar.cjs。
+- 不支援已匯入事件自動更新或雙向同步；重複匯入可能重複建立事件。沒有讀取手機行事曆的能力。
+- 原實機第 2、3 項已回報通過；真實伺服器提交後逾時、第 1 項雙裝置衝突仍待實測。新增的 .ics 匯入與通知也需實機確認。
+- 尚未完成 iOS 原生封裝／簽署／直接行事曆整合與 App Store 送審；正式 V8.1.8 和 Firebase 規則未修改。
