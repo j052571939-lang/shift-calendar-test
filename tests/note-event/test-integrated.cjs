@@ -1,6 +1,6 @@
 process.env.TZ='Asia/Taipei';
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict'),{JSDOM}=require('jsdom');
-const src=fs.readFileSync(process.env.APP_FILE||'../../app-v041.html','utf8');const scripts=[...src.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]);for(const s of scripts)new vm.Script(s.replace(/^import .*;$/gm,''));
+const src=fs.readFileSync(process.env.APP_FILE||require('path').join(__dirname,'../../app-v041.html'),'utf8');const scripts=[...src.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]);for(const s of scripts)new vm.Script(s.replace(/^import .*;$/gm,''));
 let clock=new Date('2026-10-13T01:00:00Z').getTime(),intervals=[],count=0;
 const dom=new JSDOM(src,{url:'https://example.invalid/app-v041.html',runScripts:'outside-only'}),w=dom.window,$=id=>w.document.getElementById(id);
 const NativeDate=w.Date;w.Date=class extends NativeDate{constructor(...args){super(...(args.length?args:[clock]))}static now(){return clock}};w.TextEncoder=TextEncoder;w.alert=()=>{};w.confirm=()=>true;w.fetch=()=>Promise.reject(Error('offline'));w.setInterval=fn=>{intervals.push(fn);return intervals.length};Object.defineProperty(w.document,'hidden',{get:()=>false,configurable:true});
