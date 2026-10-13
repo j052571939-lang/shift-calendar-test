@@ -7,6 +7,7 @@ service cloud.firestore {
     function validBackup(d) {
       return d is map
         && d.keys().hasAll(['schedule', 'overrides', 'notes'])
+        && d.keys().hasOnly(['schedule', 'overrides', 'notes'])
         && (d.schedule == null || d.schedule is map)
         && d.overrides is map
         && d.notes is map;
