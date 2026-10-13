@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
-const html=fs.readFileSync(__dirname+'/../app-v041.html','utf8');
+const html=fs.readFileSync(process.env.APP_FILE||__dirname+'/../app-v041.html','utf8');
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
 for(const s of scripts)new vm.Script(s.replace(/^import .*;$/gm,''));
 let checks=0;function test(name,f){f();checks++;console.log('PASS '+name)}
@@ -18,7 +18,7 @@ test('conflicting schedule stops',()=>{const l=copy(base),r=copy(base);l.schedul
 test('identical simultaneous edits merge',()=>{const l=copy(base);l.notes['2026-10-13']='相同';assert.equal(merge(base,l,l).notes['2026-10-13'],'相同')});
 const nodes={};function node(id){return nodes[id]??=( {value:'',textContent:'',classList:{hidden:false,contains(){return this.hidden},add(){this.hidden=true},remove(){this.hidden=false}}} )}
 const ui=vm.createContext({$:node,alert:()=>{},window:{dispatchEvent(){}},Event:function(){},saved:{team:'B'},selected:'2026-10-13',notes:{'2026-10-13':'舊記事'},overrides:{},persist:()=>true,render:()=>{},openDateSheet:()=>{}});
-const lines=scripts[0].split('\n');vm.runInContext(lines.find(s=>s.startsWith('function change('))+'\n'+lines.find(s=>s.startsWith('function closeDateSheet('))+'\n'+lines.find(s=>s.startsWith("$('confirmOvertime').onclick=")),ui);
+const integrated=scripts[0].includes('function commitNoteEdit');if(integrated){ui.noteEventKey=k=>'@event:'+k;ui.selectedNoteEvent=()=>null;ui.noteEventEditorValue=()=>({time:'',remind:false,lead:15});ui.noteEventEditorDirty=()=>false;ui.buildNoteEvent=()=>null;ui.checkNoteReminders=()=>{};vm.runInContext(scripts[0].slice(scripts[0].indexOf('function commitNoteEdit'),scripts[0].indexOf('function noteEventSummary')),ui)};const lines=scripts[0].split('\n');vm.runInContext(lines.find(s=>s.startsWith('function change('))+'\n'+lines.find(s=>s.startsWith('function closeDateSheet('))+'\n'+lines.find(s=>s.startsWith("$('confirmOvertime').onclick=")),ui);
 for(const [label,action] of [['leave',()=>ui.change('leave')],['overtime',()=>node('confirmOvertime').onclick()],['close',()=>ui.closeDateSheet()]])test('unsaved note survives '+label,()=>{ui.notes={'2026-10-13':'舊記事'};node('sheetNote').value='尚未儲存的新記事';node('dateSheet').classList.hidden=false;node('overtimeShift').value='night';action();assert.equal(ui.notes['2026-10-13'],'尚未儲存的新記事')});
 test('failed persistence rolls note and leave back',()=>{ui.notes={'2026-10-13':'原文'};ui.overrides={};ui.persist=()=>false;node('sheetNote').value='草稿';node('dateSheet').classList.hidden=false;assert.equal(ui.change('leave'),false);assert.equal(ui.notes['2026-10-13'],'原文');assert.equal(ui.overrides['2026-10-13'],undefined)});
 console.log(checks+' isolated checks passed; Firebase live and iPhone UI not tested.');
