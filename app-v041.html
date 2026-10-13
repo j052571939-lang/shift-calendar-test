@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1729"><link rel="manifest" href="./manifest-v041.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="班表助理"><link rel="icon" type="image/svg+xml" href="./icon-v041.svg"><title>班表助理｜測試版 0.5.26</title>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1729"><link rel="manifest" href="./manifest-v041.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="班表助理"><link rel="icon" type="image/svg+xml" href="./icon-v041.svg"><title>班表助理｜測試版 0.5.27</title>
 <style>
 :root{color-scheme:dark;--bg:#091525;--card:#14243a;--line:#334760;--txt:#f6f8fc;--muted:#aebfd3;--blue:#3c78f2;--orange:#ffb54a;--purple:#b6a0ff;--red:#ff7885}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px -apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;background:#273c57;color:white;padding:11px 13px}button.primary{background:var(--blue);font-weight:700}button:disabled{opacity:.4}input,select,textarea{background:#0c1b2e;border:1px solid var(--line);color:white;border-radius:10px;padding:11px;width:100%;min-width:0}input[type=checkbox]{width:auto;accent-color:var(--blue)}.wrap{max-width:540px;margin:auto;padding:calc(15px + env(safe-area-inset-top)) 12px 60px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.head h1{font-size:23px;margin:0}.small{font-size:12px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:13px}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.row button{white-space:nowrap}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.field label{font-size:13px;color:var(--muted)}.field:last-child{margin-bottom:0}.full{width:100%}.hidden{display:none!important}.week,.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.week div{text-align:center;color:var(--muted);padding:8px 0;font-size:13px}.week div:first-child,.week div:last-child{color:var(--red)}.day{border:1px solid #30455e;background:#101e31;min-height:64px;padding:4px 2px;border-radius:5px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;overflow:hidden}.day:disabled{opacity:.1}.day.sel{outline:2px solid #75b0ff}.day .num{font-size:14px;font-weight:700}.day .num.red{color:var(--red)}.pill{font-size:11px;border-radius:5px;padding:2px 3px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pill.daywork{background:#88540b;color:#ffe2ad}.pill.weekday{background:#087f83;color:#e9ffff}.pill.night{background:#463a87;color:#e3ddff}.pill.off{background:#425166;color:#fff}.pill.leave{background:#576577;color:white}.pill.overtime{background:#f5c842;color:#352800;font-weight:700}.holiday{font-size:9px;color:#ff9caa;line-height:1.2;overflow:hidden;max-height:24px}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}.muted{color:var(--muted)}.notice{border-left:3px solid #79a9ff;padding:9px 12px;background:#142844;border-radius:7px;font-size:13px;margin-bottom:12px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.actions button{font-size:13px;padding:10px 4px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.days button{padding:12px 0}.days button.active{background:var(--blue)}.previewlist{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.pv{border:1px solid var(--line);border-radius:8px;padding:8px 2px;text-align:center;font-size:12px;background:#0c1b2e}.pv strong{display:block;font-size:13px;margin-bottom:5px}.pv span{font-size:11px}.sep{border:0;border-top:1px solid var(--line);margin:14px 0}textarea{min-height:80px}h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 10px}#status{font-size:12px;color:#a4d9ba;margin-top:7px}.twoButtons{display:flex;gap:8px}.twoButtons>*{flex:1}
 /* iPhone time controls: prevent intrinsic-width overflow */
@@ -12,7 +12,7 @@
 #settings .cols .field{min-width:0;width:100%}
 #settings input[type="time"]{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px;text-align:left;padding:11px 8px}
 @media(max-width:500px){#settings .cols:has(input[type="time"]){grid-template-columns:minmax(0,1fr)}#settings .cols:has(input[type="time"]) .field{width:100%}}
-/* iPhone form geometry v0.5.26: symmetrical compact native controls */
+/* iPhone form geometry v0.5.27: symmetrical compact native controls */
 #settings .card{overflow:hidden}
 #settings .cols{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;width:100%;max-width:100%}
 #settings .field{min-width:0!important;width:100%!important;max-width:100%!important}
@@ -26,12 +26,12 @@
 /* Single-tap date action sheet */
 .sheetShade{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}.sheetShade.hidden{display:none!important}.sheet{width:100%;max-width:540px;max-height:85vh;overflow:auto;background:#1a2c44;border:1px solid #516582;border-radius:22px;padding:18px;box-shadow:0 12px 50px #0008}.sheet .actions{margin:14px 0}.sheet textarea{margin:8px 0 10px}.sheetTitle{font-size:21px;font-weight:750;margin-bottom:8px}.sheetClose{float:right;background:#324860;padding:7px 13px}
 
-/* integrated iPhone preview v0.5.26 */
+/* integrated iPhone preview v0.5.27 */
 #settings .cols{gap:14px!important}#settings .cols .field{overflow:hidden}#settings input[type="time"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:14px!important;padding:8px 3px!important;overflow:hidden!important}#settings input[type="date"]{width:100%!important;max-width:100%!important;min-width:0!important;font-size:15px!important;overflow:hidden!important}#settings .card{overflow:hidden}.day:focus-visible{outline:2px solid #83baff}.day.today{box-shadow:inset 0 0 0 2px #c6e1ff}.day .holiday{color:#ff9aaa}#onboarding{margin-top:8px}.helpList{font-size:14px;line-height:1.9}.smallActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.smallActions button{font-size:13px}.themeLight{--bg:#f4f7fb;--card:#fff;--line:#c6d3e2;--txt:#18263b;--muted:#52637c;color-scheme:light}.themeLight .day{background:#f1f5fb}.themeLight input,.themeLight select,.themeLight textarea{background:#f5f8ff;color:#162338}.themeLight .sheet{background:#fff;color:#18263b}.themeLight .pv{background:#f6f9ff;color:#18263b}.themeLight .notice{color:#f6f8fc}
 .noteDot{font-size:10px;color:#80d5c3;line-height:1.1}.day{min-height:70px}.day .noteDot{max-width:100%;overflow:hidden;white-space:nowrap}
 .pill.overtime{background:#f5c842!important;color:#352800!important}.legend span{white-space:nowrap}#overtimeEditor select{max-width:100%}
 
-/* 0.5.26: readable calendar in light mode and visible month picker */
+/* 0.5.27: readable calendar in light mode and visible month picker */
 #monthTitle{color:var(--txt)!important;min-width:0;flex:1;text-align:center}
 .themeLight .day{color:#18263b!important;background:#f1f5fb}
 .themeLight .day .num{color:#18263b!important}
@@ -43,13 +43,14 @@
 .themeLight #monthTitle{color:#18263b!important}
 .themeLight #monthPicker label{color:#18263b}
 .themeLight #jumpYear,.themeLight #jumpMonth{background:#f5f8ff!important;color:#18263b!important;border:1px solid #94a9c3!important}
-#calendarEventSheet{z-index:1100}#calendarEventSheet input[type="date"],#calendarEventSheet input[type="time"]{min-height:46px;min-width:0;max-width:100%;width:100%;box-sizing:border-box}#calendarEventStatus{line-height:1.6;margin-top:10px}#calendarEventSheet .small{line-height:1.7}
-</style></head><body><div class="wrap">
+#dateSheet .noteEventControls .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}#dateSheet .noteEventControls .field{margin:0;min-width:0}#dateSheet .noteEventControls input{display:block;width:100%;min-width:0;max-width:100%;height:48px;min-height:48px;box-sizing:border-box;font-size:15px;padding:8px 5px;appearance:none}#dateSheet .noteEventControls label{min-height:20px;line-height:20px}#noteReminderBanner{position:fixed;top:calc(12px + env(safe-area-inset-top));left:12px;right:12px;max-width:516px;margin:auto;z-index:1300;background:#1c3a52;border:2px solid #83c5ef;border-radius:16px;padding:16px;box-shadow:0 8px 30px #0008}#noteReminderBanner p{white-space:pre-wrap;overflow-wrap:anywhere;max-height:28vh;overflow:auto}#noteEventFeedback{line-height:1.6}
+.themeLight #noteReminderBanner{background:#eaf4ff;color:#18263b}
+</style></head><body><div id="noteReminderBanner" class="hidden" role="alert" aria-live="assertive"></div><div class="wrap">
 <section id="home">
-<div class="head"><div><h1>班表助理</h1><div class="small">iPhone 介面測試版 0.5.26</div></div><button id="openSettings">⚙ 班表設定</button></div>
-<div class="notice">班表助理 0.5.26 測試版｜正式 V8.1.8 不受影響｜目前尚未連動 iPhone 系統通知。</div><div id="onboarding" class="card hidden"><h2>歡迎使用班表助理</h2><p class="muted">尚未建立班表。請先設定規則，月曆目前只顯示日期與假日。</p><div class="twoButtons"><button id="quickSetup" class="primary">快速建立班表</button><button id="helpBtn">使用指南</button></div></div><div class="smallActions"><button id="themeToggle">◐ 深／淺色</button><button id="helpBtn2">使用指南</button><button id="refreshHolidays">更新假日資料</button><button id="checkAppVersion" type="button" hidden>檢查 App 更新</button><button id="shareMonth" class="primary">📤 分享本月班表</button><button id="exportBackup" hidden>匯出備份</button><div id="backupStatus" role="status" aria-live="polite" hidden style="width:100%;font-size:13px;line-height:1.6;color:#c6d6e8;padding:4px 8px"></div><button id="importBackup" hidden>匯入還原</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none"><button id="clearSchedule">清除班表規則</button></div>
+<div class="head"><div><h1>班表助理</h1><div class="small">iPhone 介面測試版 0.5.27</div></div><button id="openSettings">⚙ 班表設定</button></div>
+<div class="notice">班表助理 0.5.27 測試版｜正式 V8.1.8 不受影響｜目前尚未連動 iPhone 系統通知。</div><div id="onboarding" class="card hidden"><h2>歡迎使用班表助理</h2><p class="muted">尚未建立班表。請先設定規則，月曆目前只顯示日期與假日。</p><div class="twoButtons"><button id="quickSetup" class="primary">快速建立班表</button><button id="helpBtn">使用指南</button></div></div><div class="smallActions"><button id="themeToggle">◐ 深／淺色</button><button id="helpBtn2">使用指南</button><button id="refreshHolidays">更新假日資料</button><button id="checkAppVersion" type="button" hidden>檢查 App 更新</button><button id="shareMonth" class="primary">📤 分享本月班表</button><button id="exportBackup" hidden>匯出備份</button><div id="backupStatus" role="status" aria-live="polite" hidden style="width:100%;font-size:13px;line-height:1.6;color:#c6d6e8;padding:4px 8px"></div><button id="importBackup" hidden>匯入還原</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none"><button id="clearSchedule">清除班表規則</button></div>
 <div class="card"><div class="row"><button id="prevMonth">‹</button><button id="monthTitle" type="button" title="點此快速選擇年月" style="background:transparent;font-weight:700;font-size:21px;padding:8px 3px;white-space:nowrap"></button><button id="nextMonth">›</button><button id="today">今天</button></div><div id="monthPicker" style="display:none;padding:12px 0"><div class="row" style="gap:8px"><label style="flex:1">年份<select id="jumpYear" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><label style="flex:1">月份<select id="jumpMonth" style="width:100%;padding:10px;background:#273c57;color:white;border:1px solid #49617c;border-radius:10px"></select></label><button id="jumpGo" class="primary">跳轉</button></div></div><div id="holidayDataStatus" class="small" style="margin:4px 0 8px;line-height:1.5"></div><div id="appliedRules" class="small" style="margin:12px 0;line-height:1.5"></div><div class="week"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div id="calendar" class="calendar"></div><div class="legend"><span>🟠 早班</span><span>🟣 夜班</span><span><span style="display:inline-block;width:12px;height:12px;background:#087f83;border-radius:3px;vertical-align:-1px;margin-right:3px"></span>常日班</span><span>⚪ 休假</span><span>🔴 假日</span><span>🟡 加班</span><span>📝 記事</span></div></div>
-<div class="card"><h2 id="summaryTitle">所選日期記事與提醒</h2><div id="todayInfo" class="muted"></div><div class="smallActions"><button id="editTodayNote">編輯所選日期記事</button><button id="openCalendarEvent" type="button">📅 匯出記事到行事曆</button></div></div>
+<div class="card"><h2 id="summaryTitle">所選日期記事與提醒</h2><div id="todayInfo" class="muted"></div><div class="smallActions"><button id="editTodayNote">編輯所選日期記事</button><button id="shareSelectedNote" type="button">分享記事</button></div></div>
 <div class="card hidden"><h2>選擇日期</h2><div id="dateInfo" class="muted"></div><div class="actions" style="margin-top:12px"><button id="leave">改請假</button><button id="overtime">改加班</button><button id="restore">恢復原班表</button></div><div class="field" style="margin-top:15px"><label for="note">當日記事</label><textarea id="note" placeholder="記錄今天的事情…"></textarea></div><button id="saveNote" class="primary full">儲存記事</button><div id="status"></div></div>
 </section>
 <section id="settings" class="hidden">
@@ -62,7 +63,7 @@
 <div class="twoButtons"><button id="previewBtn" class="primary">預覽未來 30 天</button><button id="resetDraft">清除設定草稿</button></div></div>
 <div id="previewCard" class="card hidden"><h2>30 天排班預覽</h2><p id="previewSummary" class="small"></p><div id="previewList" class="previewlist"></div><p class="small">此處預覽從今天起的 30 天；官方假日資料以已載入的年度為準。</p><button id="confirmSave" class="primary full">確認儲存並返回月曆</button></div>
 </section>
-</div><div id="helpSheet" class="sheetShade hidden" role="dialog" aria-modal="true"><div class="sheet"><button id="helpClose" class="sheetClose">關閉 ✕</button><h2>使用指南</h2><div class="helpList">① 首次使用按「快速建立班表」設定輪班或常日班。<br>② 按「預覽未來 30 天」確認，再按「確認儲存」。<br>③ 在月曆輕點日期，立即開啟請假、加班、恢復及記事選單。<br>④ 班表設定、請假、加班及記事儲存在此手機的班表助理 App 中，不會自動同步到其他手機。Safari 網頁版與主畫面 App 的資料也可能分開儲存；更換手機或重新安裝前，請先「匯出備份」。<br>⑤ 此測試版不會建立 iPhone 鬧鐘；官方假日以已載入的年份資料為準。<br>⑥ 換手機前，請先「匯出備份」並確認 JSON 已存入 iCloud Drive 或 Google 雲端硬碟；「已產生備份檔」不代表已上傳雲端。<br>⑦ App 更新：保持網路連線，從 iPhone 多工畫面將班表助理往上滑掉，再由主畫面重新開啟。下拉月曆不會更新 App；若仍顯示舊版，請按「檢查 App 更新」。更新前建議先匯出備份。</div></div></div><div id="dateSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-label="日期操作選單"><div class="sheet"><button id="sheetClose" class="sheetClose" type="button">關閉 ✕</button><div id="sheetTitle" class="sheetTitle"></div><div id="sheetInfo" class="muted"></div><div class="actions"><button id="sheetLeave" type="button">改請假</button><button id="sheetOvertime" type="button">改加班</button><button id="sheetRestore" type="button">恢復原班表</button></div><div id="overtimeEditor" class="hidden" style="padding:12px 0"><label class="small" for="overtimeShift">加班班別</label><select id="overtimeShift" style="margin:8px 0 10px"><option value="day">早班加班</option><option value="night">夜班加班</option></select><button id="confirmOvertime" class="primary full" type="button">確認加班班別</button></div><label class="small" for="sheetNote">當日記事</label><textarea id="sheetNote" placeholder="記錄這一天的事情…"></textarea><button id="sheetSaveNote" class="primary full" type="button">儲存記事</button><button id="sheetCalendarEvent" class="full" type="button" style="margin-top:10px">📅 匯出記事到行事曆</button></div></div><div id="calendarEventSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-labelledby="calendarEventHeading"><div class="sheet"><button id="calendarEventClose" class="sheetClose" type="button">關閉 ✕</button><h2 id="calendarEventHeading">記事 → 行事曆</h2><p class="small">建立一個事件，匯入行事曆後由行事曆提醒你。休假日也可以使用。</p><form id="calendarEventForm"><div class="field"><label for="calendarEventTitle">事件名稱</label><input id="calendarEventTitle" maxlength="160" required placeholder="例如：回診、接家人"></div><div class="cols"><div class="field"><label for="calendarEventDate">日期</label><input id="calendarEventDate" type="date" required></div><div class="field"><label for="calendarEventTime">開始時間</label><input id="calendarEventTime" type="time" required></div></div><div class="field"><label for="calendarEventDuration">事件長度</label><select id="calendarEventDuration"><option value="15">15 分鐘</option><option value="30">30 分鐘</option><option value="60" selected>1 小時</option><option value="120">2 小時</option></select></div><div class="field"><label for="calendarEventDescription">事件備註（可自行刪減）</label><textarea id="calendarEventDescription" maxlength="20000"></textarea></div><p><label><input id="calendarEventRemind" type="checkbox"> 在行事曆設定提醒</label></p><div class="field"><label for="calendarEventLead">提醒時間</label><select id="calendarEventLead" disabled><option value="0">事件開始時</option><option value="5">提前 5 分鐘</option><option value="10">提前 10 分鐘</option><option value="15" selected>提前 15 分鐘</option><option value="30">提前 30 分鐘</option><option value="60">提前 1 小時</option><option value="1440">提前 1 天</option></select></div><p class="small" id="calendarEventZone"></p><button id="calendarEventExport" type="submit" class="primary full">建立並分享行事曆檔案</button><button id="calendarEventDownload" type="button" class="full hidden" style="margin-top:8px">下載行事曆檔案</button></form><p id="calendarEventStatus" class="small" role="status" aria-live="polite">匯出後，請在行事曆確認儲存與提醒設定。班表助理不會直接建立系統通知；匯入的事件也不會隨記事修改而自動更新。重複匯入可能重複建立事件。</p><p class="small">iPhone 若只出現檔案預覽，可將 .ics 檔案寄給自己，再從 Apple「郵件」App 開啟附件加入行事曆。</p></div></div><script>
+</div><div id="helpSheet" class="sheetShade hidden" role="dialog" aria-modal="true"><div class="sheet"><button id="helpClose" class="sheetClose">關閉 ✕</button><h2>使用指南</h2><div class="helpList">① 首次使用按「快速建立班表」設定輪班或常日班。<br>② 按「預覽未來 30 天」確認，再按「確認儲存」。<br>③ 在月曆輕點日期，立即開啟請假、加班、恢復及記事選單。<br>④ 班表設定、請假、加班及記事儲存在此手機的班表助理 App 中，不會自動同步到其他手機。Safari 網頁版與主畫面 App 的資料也可能分開儲存；更換手機或重新安裝前，請先「匯出備份」。<br>⑤ 此測試版不會建立 iPhone 鬧鐘；官方假日以已載入的年份資料為準。<br>⑥ 換手機前，請先「匯出備份」並確認 JSON 已存入 iCloud Drive 或 Google 雲端硬碟；「已產生備份檔」不代表已上傳雲端。<br>⑦ App 更新：保持網路連線，從 iPhone 多工畫面將班表助理往上滑掉，再由主畫面重新開啟。下拉月曆不會更新 App；若仍顯示舊版，請按「檢查 App 更新」。更新前建議先匯出備份。</div></div></div><div id="dateSheet" class="sheetShade hidden" role="dialog" aria-modal="true" aria-label="日期操作選單"><div class="sheet"><button id="sheetClose" class="sheetClose" type="button">關閉 ✕</button><div id="sheetTitle" class="sheetTitle"></div><div id="sheetInfo" class="muted"></div><div class="actions"><button id="sheetLeave" type="button">改請假</button><button id="sheetOvertime" type="button">改加班</button><button id="sheetRestore" type="button">恢復原班表</button></div><div id="overtimeEditor" class="hidden" style="padding:12px 0"><label class="small" for="overtimeShift">加班班別</label><select id="overtimeShift" style="margin:8px 0 10px"><option value="day">早班加班</option><option value="night">夜班加班</option></select><button id="confirmOvertime" class="primary full" type="button">確認加班班別</button></div><label class="small" for="sheetNote">當日記事</label><textarea id="sheetNote" placeholder="記錄這一天的事情…"></textarea><div class="noteEventControls" style="margin:12px 0"><div class="cols"><div class="field"><label for="sheetEventDate">記事日期</label><input id="sheetEventDate" type="date" readonly aria-readonly="true"></div><div class="field"><label for="sheetEventTime">開始時間（選填）</label><input id="sheetEventTime" type="time"></div></div><p><label><input id="sheetEventRemind" type="checkbox"> 提醒這則記事</label></p><div class="field"><label for="sheetEventLead">提醒時間</label><select id="sheetEventLead" disabled><option value="0">開始時</option><option value="5">提前 5 分鐘</option><option value="10">提前 10 分鐘</option><option value="15" selected>提前 15 分鐘</option><option value="30">提前 30 分鐘</option><option value="60">提前 1 小時</option><option value="1440">提前 1 天</option></select></div><p id="sheetEventHint" class="small" style="line-height:1.6"></p></div><button id="sheetSaveNote" class="primary full" type="button">儲存記事與提醒</button><button id="sheetShareNote" class="full" type="button" style="margin-top:10px">分享已儲存記事</button></div></div><script>
 'use strict';
 const $=id=>document.getElementById(id), KEY='shift_assistant_app_preview_01';
 const ids=['mode','team','first','base','rotationBase','on','off','rotation','dayStart','dayEnd','nightStart','nightEnd','dayAlarm','nightAlarm','holidayOff','makeupWork'];
@@ -81,8 +82,66 @@ function persist(){try{localStorage.setItem(KEY,backupSnapshot());backupStatus()
 function shift(k,s){if(!s||s.mode==='shift'&&(!s.base||!s.team))return {type:'blank',label:'未設定'};const d=parse(k);if(s.mode==='weekday'){let work=(s.weekdays||[]).includes((d.getDay()+6)%7+1);const rec=holidays[k];if(rec&&s.holidayOff&&rec.off)work=false;if(rec&&s.makeupWork&&!rec.off&&[0,6].includes(d.getDay()))work=true;return work?{type:'weekday',label:'常日班',time:s.dayStart+'–'+s.dayEnd,alarm:s.dayAlarm}:{type:'off',label:'休假'}}const base=parse(s.base);const n=diff(d,base),cycle=Number(s.on)+Number(s.off);if(!cycle)return {type:'blank',label:'未設定'};if(((n%cycle)+cycle)%cycle>=Number(s.on))return {type:'off',label:'休假'};const anchor=s.rotationBase?parse(s.rotationBase+'-01'):base;let months=(d.getFullYear()-anchor.getFullYear())*12+d.getMonth()-anchor.getMonth();let first=s.first;let night=first==='night';if(Number(s.rotation)>0&&((Math.floor(months/Number(s.rotation))%2)+2)%2===1)night=!night;return night?{type:'night',label:'夜班',time:s.nightStart+'–次日 '+s.nightEnd,alarm:s.nightAlarm}:{type:'daywork',label:'早班',time:s.dayStart+'–'+s.dayEnd,alarm:s.dayAlarm}}
 function status(k,s,withOverrides=true){const v=shift(k,s);if(withOverrides&&overrides[k]&&s){if(overrides[k]==='leave')return {type:'leave',label:'請假'};if(overrides[k]==='overtime'||overrides[k]&&overrides[k].type==='overtime'){const o=overrides[k];const choice=typeof o==='object'?o.shift:null;if(!choice)return {type:'overtime',label:'加班（待選班別）'};const night=choice==='night';return {type:'overtime',label:night?'夜班加班':'早班加班',time:night?s.nightStart+'–次日 '+s.nightEnd:s.dayStart+'–'+s.dayEnd,alarm:night?s.nightAlarm:s.dayAlarm}}}return v}
 function info(k,v){const rec=holidays[k];let lines=[esc(k)+'｜'+esc(v.label)];if(v.time)lines.push('上班時間：'+esc(v.time));if(v.alarm)lines.push('提醒設定：'+esc(v.alarm)+'（尚未連動 iPhone 通知）');if(rec&&rec.name)lines.push('假日：'+esc(rec.name));if(saved&&saved.mode==='weekday'){const d=parse(k),day=(d.getDay()+6)%7+1;lines.push('星期'+['','一','二','三','四','五','六','日'][day]+'｜已套用星期設定：'+((saved.weekdays||[]).includes(day)?'上班':'休假'));if(overrides[k])lines.push('本日有手動班別調整')}if(rec&&rec.off&& !rec.name)lines.push('官方辦公日曆：休息日');return lines.join('<br>')}
-function renderTodayCard(){const v=status(selected,saved),n=notes[selected];let reminder='當日無上班提醒';if(v.alarm&&v.type!=='leave'&&v.type!=='off')reminder='上班提醒設定：'+esc(v.alarm)+'（尚未連動 iPhone 通知）';if(v.type==='overtime'&&!v.alarm)reminder='已標記加班，尚未選擇班別與提醒時間';$('summaryTitle').textContent=selected+'｜記事與提醒';$('todayInfo').innerHTML='<div><strong>記事</strong><p>'+(n?esc(n).replace(/\\n/g,'<br>'):'當日尚無記事')+'</p></div><div style="margin-top:12px"><strong>提醒</strong><p>'+reminder+'</p></div>'}
-function render(){updateHolidayYearStatus();const wk=['一','二','三','四','五','六','日'];$('appliedRules').textContent=saved?.mode==='weekday'?'已套用：常日班｜星期'+(saved.weekdays||[]).map(x=>wk[x-1]).join('、')+'｜官方假日排休 '+(saved.holidayOff?'開':'關')+'｜補班 '+(saved.makeupWork?'開':'關'):saved?.mode==='shift'?'已套用：'+saved.team+'組｜輪班制｜做'+saved.on+'休'+saved.off:'尚未套用班表規則';$('onboarding').classList.toggle('hidden',!!saved);const first=new Date(viewYear,viewMonth,1),offset=first.getDay(),length=new Date(viewYear,viewMonth+1,0).getDate();$('monthTitle').textContent=viewYear+' 年 '+(viewMonth+1)+' 月';let html='';for(let i=0;i<offset;i++)html+='<button class="day" disabled></button>';for(let n=1;n<=length;n++){const d=new Date(viewYear,viewMonth,n),k=key(d),v=status(k,saved),rec=holidays[k],red=d.getDay()===0||d.getDay()===6||(rec&&rec.name);html+='<button class="day '+(selected===k?'sel':'')+'" data-date="'+k+'"><span class="num '+(red?'red':'')+'">'+n+'</span>'+(v.type!=='blank'?'<span class="pill '+v.type+'">'+esc(v.type==='overtime'?'加班':v.label)+'</span>':'')+(rec&&rec.name?'<span class="holiday">'+esc(rec.name)+'</span>':'')+(notes[k]?'<span class="noteDot" aria-label="有記事">● 記事</span>':'')+'</button>'}$('calendar').innerHTML=html;document.querySelectorAll('[data-date]').forEach(b=>b.onclick=()=>{if(!$('dateSheet').classList.contains('hidden')&&!closeDateSheet())return;selected=b.dataset.date;render();openDateSheet()});renderTodayCard();$('dateInfo').innerHTML=info(selected,status(selected,saved));$('note').value=notes[selected]||'';$('status').textContent=saved?'':'尚未設定班表：請按右上角「班表設定」';}
+// Integrated note event; metadata remains a string entry in notes so old clients preserve it.
+function noteEventKey(date){return '@event:'+date}
+function noteTextVersion(text){let a=2166136261,b=5381;for(let i=0;i<text.length;i++){a=Math.imul(a^text.charCodeAt(i),16777619);b=Math.imul(b,33)^text.charCodeAt(i)}return text.length+':'+(a>>>0).toString(16)+':'+(b>>>0).toString(16)}
+function parseNoteEvent(raw,date,text,matchText=true){
+ try{const v=JSON.parse(raw);if(!v||typeof v!=='object'||Array.isArray(v)||Object.keys(v).some(k=>!['id','textVersion','date','time','remind','lead','at','savedAt','zone'].includes(k)))return null;
+ if((matchText&&(typeof text!=='string'||!text.trim()||v.textVersion!==noteTextVersion(text)))||typeof v.textVersion!=='string'||!/^\d{1,8}:[0-9a-f]{1,8}:[0-9a-f]{1,8}$/.test(v.textVersion)||v.date!==date||!/^\d{4}-\d{2}-\d{2}$/.test(v.date)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(v.time)||typeof v.remind!=='boolean'||![0,5,10,15,30,60,1440].includes(v.lead)||typeof v.id!=='string'||!/^[a-zA-Z0-9-]{1,80}$/.test(v.id)||typeof v.zone!=='string'||v.zone.length>80||!Number.isFinite(v.at)||!Number.isFinite(v.savedAt)||v.at<0||v.savedAt<0)return null;
+ const [y,m,d]=v.date.split('-').map(Number),dt=new Date(y,m-1,d);if(y<2020||y>2060||dt.getFullYear()!==y||dt.getMonth()!==m-1||dt.getDate()!==d)return null;return v;
+ }catch(e){return null}
+}
+function validStoredNoteEvent(raw,date){try{return !!parseNoteEvent(raw,date,undefined,false)}catch(e){return false}}
+function selectedNoteEvent(date=selected){return parseNoteEvent(notes[noteEventKey(date)],date,notes[date])}
+function noteEventEditorValue(){return {time:$('sheetEventTime').value,remind:$('sheetEventRemind').checked,lead:Number($('sheetEventLead').value)}}
+function fillNoteEventEditor(){const v=selectedNoteEvent();$('sheetEventDate').value=selected;$('sheetEventTime').value=v?.time||'';$('sheetEventRemind').checked=!!v?.remind;$('sheetEventLead').value=String(v?.lead??15);$('sheetEventLead').disabled=!$('sheetEventRemind').checked;$('sheetEventHint').textContent=v?'此事件時區：'+v.zone+'。網頁版提醒需保持班表開啟；鎖屏／背景通知尚未支援。':'可只儲存記事；需要事件時間或提醒時再填。網頁版提醒需保持班表開啟。'}
+function noteEventEditorDirty(){if($('dateSheet').classList.contains('hidden'))return false;const old=selectedNoteEvent(),now=noteEventEditorValue();return now.time!==(old?.time||'')||now.remind!==!!old?.remind||now.lead!==(old?.lead??15)}
+function buildNoteEvent(text,editor){
+ if(!text){if(editor.time||editor.remind)throw Error('請先填寫記事內容，或清除事件時間與提醒後刪除記事。');return null}
+ if(!editor.time){if(editor.remind)throw Error('請先設定開始時間，再開啟提醒。');return null}
+ if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(editor.time)||![0,5,10,15,30,60,1440].includes(editor.lead))throw Error('事件時間或提醒設定無效。');
+ const old=selectedNoteEvent(),[y,m,d]=selected.split('-').map(Number),[h,min]=editor.time.split(':').map(Number),start=new Date(y,m-1,d,h,min);
+ if(start.getFullYear()!==y||start.getMonth()!==m-1||start.getDate()!==d||start.getHours()!==h||start.getMinutes()!==min)throw Error('事件日期或時間無效。');
+ if(old&&old.textVersion===noteTextVersion(text)&&old.time===editor.time&&old.remind===editor.remind&&old.lead===editor.lead)return old;
+ const candidate={id:crypto.randomUUID(),textVersion:noteTextVersion(text),date:selected,time:editor.time,remind:editor.remind,lead:editor.lead,at:old&&old.time===editor.time?old.at:start.getTime(),savedAt:Date.now(),zone:old&&old.time===editor.time?old.zone:Intl.DateTimeFormat().resolvedOptions().timeZone||'本地時區'};
+ if(candidate.remind&&candidate.at-candidate.lead*60000<=Date.now())throw Error('提醒時間已過，請調整開始時間或關閉提醒。');return candidate;
+}
+function commitNoteEdit(overrideChange){
+ const inSheet=!$('dateSheet').classList.contains('hidden'),text=(inSheet?$('sheetNote').value:$('note').value).trim(),oldNote=notes[selected],metaKey=noteEventKey(selected),oldRaw=notes[metaKey],oldOverride=overrides[selected];
+ let metadata;try{metadata=inSheet?buildNoteEvent(text,noteEventEditorValue()):(text?selectedNoteEvent():null)}catch(e){alert(e.message);return false}
+ if(!inSheet&&metadata&&metadata.textVersion!==noteTextVersion(text))metadata=null;
+ if(text)notes[selected]=text;else delete notes[selected];
+ if(metadata)notes[metaKey]=JSON.stringify(metadata);else delete notes[metaKey];
+ if(overrideChange!==undefined){if(overrideChange===null)delete overrides[selected];else overrides[selected]=overrideChange}
+ if(metadata&&new TextEncoder().encode(backupSnapshot()).length>800000){if(oldNote===undefined)delete notes[selected];else notes[selected]=oldNote;if(oldRaw===undefined)delete notes[metaKey];else notes[metaKey]=oldRaw;if(oldOverride===undefined)delete overrides[selected];else overrides[selected]=oldOverride;alert('記事與提醒超過同步容量，請刪減記事後再儲存。');return false}
+ if(!persist()){if(oldNote===undefined)delete notes[selected];else notes[selected]=oldNote;if(oldRaw===undefined)delete notes[metaKey];else notes[metaKey]=oldRaw;if(oldOverride===undefined)delete overrides[selected];else overrides[selected]=oldOverride;return false}
+ render();$('status').textContent='記事與提醒設定已儲存';checkNoteReminders();return true;
+}
+function noteEventSummary(date){const v=selectedNoteEvent(date);return v?'<div style="margin-top:10px">事件時間：<strong>'+esc(v.time)+'</strong><br>記事提醒：'+(v.remind?(v.lead?'提前 '+v.lead+' 分鐘':'事件開始時')+'（班表開啟時）':'關閉')+'</div>':''}
+const noteRemindersDelivered=new Set();
+function checkNoteReminders(){
+ const now=Date.now();if(document.hidden)return;
+ const candidates=[];
+ for(const date of Object.keys(notes)){if(!/^\d{4}-\d{2}-\d{2}$/.test(date))continue;const v=selectedNoteEvent(date);if(!v?.remind)continue;const due=v.at-v.lead*60000;
+ if(due>now||due<v.savedAt||now-due>90000)continue;
+ const marker=v.id;let delivered=noteRemindersDelivered.has(marker);try{delivered=delivered||localStorage.getItem('shift_note_delivered_'+marker)==='1'}catch(e){}
+ if(delivered)continue;candidates.push({date,v});noteRemindersDelivered.add(marker);try{localStorage.setItem('shift_note_delivered_'+marker,'1')}catch(e){}
+ }
+ if(!candidates.length)return;
+ const box=$('noteReminderBanner');box.replaceChildren();
+ const title=document.createElement('strong');title.textContent='記事提醒';box.appendChild(title);
+ for(const {date,v} of candidates){const p=document.createElement('p');p.textContent=date+' '+v.time+'｜'+notes[date];box.appendChild(p)}
+ const close=document.createElement('button');close.textContent='知道了';close.onclick=()=>box.classList.add('hidden');box.appendChild(close);box.classList.remove('hidden');
+}
+function savedNoteShareText(){const note=notes[selected];if(!note?.trim())throw Error('這一天還沒有記事。');if(!$('dateSheet').classList.contains('hidden')&&($('sheetNote').value.trim()!==note||noteEventEditorDirty()))throw Error('請先儲存記事，再分享。');const v=selectedNoteEvent();return selected+(v?' '+v.time:'')+'\n'+note}
+async function shareSavedNote(){try{const text=savedNoteShareText();if(navigator.share){await navigator.share({title:'班表記事',text})}else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert('記事已複製，可貼到你要分享的地方。')}else alert('此瀏覽器無法分享，請選取記事文字自行複製。')}catch(e){if(e.name!=='AbortError')alert(e.message||'無法分享；記事仍保留。')}}
+$('sheetEventRemind').onchange=()=>{$('sheetEventLead').disabled=!$('sheetEventRemind').checked};
+$('shareSelectedNote').onclick=shareSavedNote;$('sheetShareNote').onclick=shareSavedNote;
+setInterval(checkNoteReminders,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkNoteReminders()});
+// END integrated note event
+
+function renderTodayCard(){const v=status(selected,saved),n=notes[selected];let reminder='當日無上班提醒';if(v.alarm&&v.type!=='leave'&&v.type!=='off')reminder='上班提醒設定：'+esc(v.alarm)+'（尚未連動 iPhone 通知）';if(v.type==='overtime'&&!v.alarm)reminder='已標記加班，尚未選擇班別與提醒時間';$('summaryTitle').textContent=selected+'｜記事與提醒';$('todayInfo').innerHTML='<div><strong>記事</strong><p>'+(n?esc(n).replace(/\\n/g,'<br>'):'當日尚無記事')+'</p>'+noteEventSummary(selected)+'</div><div style="margin-top:12px"><strong>上班提醒</strong><p>'+reminder+'</p></div>'}
+function render(){updateHolidayYearStatus();const wk=['一','二','三','四','五','六','日'];$('appliedRules').textContent=saved?.mode==='weekday'?'已套用：常日班｜星期'+(saved.weekdays||[]).map(x=>wk[x-1]).join('、')+'｜官方假日排休 '+(saved.holidayOff?'開':'關')+'｜補班 '+(saved.makeupWork?'開':'關'):saved?.mode==='shift'?'已套用：'+saved.team+'組｜輪班制｜做'+saved.on+'休'+saved.off:'尚未套用班表規則';$('onboarding').classList.toggle('hidden',!!saved);const first=new Date(viewYear,viewMonth,1),offset=first.getDay(),length=new Date(viewYear,viewMonth+1,0).getDate();$('monthTitle').textContent=viewYear+' 年 '+(viewMonth+1)+' 月';let html='';for(let i=0;i<offset;i++)html+='<button class="day" disabled></button>';for(let n=1;n<=length;n++){const d=new Date(viewYear,viewMonth,n),k=key(d),v=status(k,saved),rec=holidays[k],red=d.getDay()===0||d.getDay()===6||(rec&&rec.name);html+='<button class="day '+(selected===k?'sel':'')+'" data-date="'+k+'"><span class="num '+(red?'red':'')+'">'+n+'</span>'+(v.type!=='blank'?'<span class="pill '+v.type+'">'+esc(v.type==='overtime'?'加班':v.label)+'</span>':'')+(rec&&rec.name?'<span class="holiday">'+esc(rec.name)+'</span>':'')+(notes[k]?'<span class="noteDot" aria-label="有記事">'+(selectedNoteEvent(k)?esc(selectedNoteEvent(k).time)+' 記事':'● 記事')+'</span>':'')+'</button>'}$('calendar').innerHTML=html;document.querySelectorAll('[data-date]').forEach(b=>b.onclick=()=>{if(!$('dateSheet').classList.contains('hidden')&&!closeDateSheet())return;selected=b.dataset.date;render();openDateSheet()});renderTodayCard();$('dateInfo').innerHTML=info(selected,status(selected,saved));$('note').value=notes[selected]||'';$('status').textContent=saved?'':'尚未設定班表：請按右上角「班表設定」';}
 function readDraft(){const s={};for(const id of ids)s[id]=$(id).type==='checkbox'?$(id).checked:$(id).value;s.weekdays=[...weekdays];return s}
 function writeDraft(s){for(const id of ids){if($(id).type==='checkbox')$(id).checked=!!s[id];else $(id).value=s[id]??defaults[id]}weekdays=[...(s.weekdays||defaults.weekdays)];drawWeekdays();toggleMode()}
 function drawWeekdays(){const names=['一','二','三','四','五','六','日'];$('weekdayButtons').innerHTML=names.map((n,i)=>'<button type="button" class="'+(weekdays.includes(i+1)?'active':'')+'" data-week="'+(i+1)+'">'+n+'</button>').join('');document.querySelectorAll('[data-week]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.week);weekdays=weekdays.includes(n)?weekdays.filter(x=>x!==n):[...weekdays,n].sort();drawWeekdays();hidePreview()})}
@@ -96,8 +155,8 @@ $('confirmSave').onclick=()=>{if(!previewed)return;const s=readDraft();const old
 $('resetDraft').onclick=()=>{if(confirm('清除目前設定草稿？不會修改已儲存的班表。')){writeDraft(defaults);hidePreview()}};
 $('monthTitle').onclick=()=>{const p=$('monthPicker');const visible=p.style.display!=='none';p.style.display=visible?'none':'block';if(!visible){$('jumpYear').innerHTML=Array.from({length:41},(_,i)=>2020+i).map(y=>'<option value="'+y+'">'+y+' 年</option>').join('');$('jumpMonth').innerHTML=Array.from({length:12},(_,i)=>'<option value="'+i+'">'+(i+1)+' 月</option>').join('');$('jumpYear').value=String(viewYear);$('jumpMonth').value=String(viewMonth)}};$('jumpGo').onclick=()=>{viewYear=Number($('jumpYear').value);viewMonth=Number($('jumpMonth').value);$('monthPicker').style.display='none';render()};$('prevMonth').onclick=()=>{viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--}render()};$('nextMonth').onclick=()=>{viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++}render()};$('today').onclick=()=>{viewYear=now.getFullYear();viewMonth=now.getMonth();selected=todayKey;render()};
 $('leave').onclick=()=>change('leave');$('overtime').onclick=()=>change('overtime');$('restore').onclick=()=>change(null);
-function change(v){if(!saved){alert('請先建立班表');return false}const old=overrides[selected],oldNote=notes[selected],noteValue=($('dateSheet').classList.contains('hidden')?$('note').value:$('sheetNote').value).trim();if(v)overrides[selected]=v;else delete overrides[selected];if(noteValue)notes[selected]=noteValue;else delete notes[selected];if(!persist()){if(old===undefined)delete overrides[selected];else overrides[selected]=old;if(oldNote===undefined)delete notes[selected];else notes[selected]=oldNote;return false}render();$('status').textContent='班別與記事已儲存';return true}
-$('saveNote').onclick=()=>{const v=$('note').value.trim(),old=notes[selected];if(v)notes[selected]=v;else delete notes[selected];if(persist()){$('status').textContent='記事已儲存'}else{if(old===undefined)delete notes[selected];else notes[selected]=old}};
+function change(v){if(!saved){alert('請先建立班表');return false}return commitNoteEdit(v)}
+$('saveNote').onclick=()=>commitNoteEdit();
 const HOLIDAY_CACHE_KEY='shift_assistant_official_holidays_cache_v1';
 let holidayAvailableYears=[];let holidaySourceLabel='尚未載入';
 function updateHolidayYearStatus(){const y=String(viewYear),has=holidayAvailableYears.includes(y);const el=$('holidayDataStatus');if(!el)return;el.textContent=has?'假日資料：'+y+' 年已有官方辦公日曆｜'+holidaySourceLabel:'⚠ '+y+' 年尚無官方辦公日曆｜'+(saved?.mode==='weekday'?'常日班國定假日排休可能不正確；':'')+'輪班規則照常計算';}
@@ -106,18 +165,16 @@ function restoreHolidayCache(){try{const cached=JSON.parse(localStorage.getItem(
 async function loadHolidays(manual=false){try{const r=await fetch('./data/official_calendar.json',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const data=await r.json();if(!applyHolidayData(data,'已同步'))throw Error('資料格式不正確');try{localStorage.setItem(HOLIDAY_CACHE_KEY,JSON.stringify({data,updatedAt:new Date().toISOString()}))}catch(e){}if(manual)alert('假日資料已更新。')}catch(e){if(!Object.keys(holidays).length)restoreHolidayCache();if(manual)alert(Object.keys(holidays).length?'無法連線更新，已使用上次取得的假日資料。':'無法連線更新，也沒有離線假日資料；常日班的國定假日排休可能不正確，請連網後更新。')}}
 $('refreshHolidays').onclick=()=>loadHolidays(true);
 
-function openDateSheet(){$('overtimeEditor').classList.add('hidden');$('sheetTitle').textContent=selected+'｜'+status(selected,saved).label;$('sheetInfo').innerHTML=info(selected,status(selected,saved));$('sheetNote').value=notes[selected]||'';$('dateSheet').classList.remove('hidden')}
-function closeDateSheet(){const v=$('sheetNote').value.trim(),old=notes[selected]||'';if(v!==old){if(v)notes[selected]=v;else delete notes[selected];if(!persist()){if(old)notes[selected]=old;else delete notes[selected];alert('記事尚未成功儲存，請稍後再試。');return false}render()}$('dateSheet').classList.add('hidden');window.dispatchEvent(new Event("shift-editor-closed"));return true}
+function openDateSheet(){$('overtimeEditor').classList.add('hidden');$('sheetTitle').textContent=selected+'｜'+status(selected,saved).label;$('sheetInfo').innerHTML=info(selected,status(selected,saved));$('sheetNote').value=notes[selected]||'';$('dateSheet').classList.remove('hidden');fillNoteEventEditor()}
+function closeDateSheet(){if($('dateSheet').classList.contains('hidden'))return true;if(($('sheetNote').value.trim()!==(notes[selected]||'')||noteEventEditorDirty())&&!commitNoteEdit())return false;$('dateSheet').classList.add('hidden');window.dispatchEvent(new Event('shift-editor-closed'));return true}
 $('sheetClose').onclick=closeDateSheet;
 $('dateSheet').onclick=e=>{if(e.target===$('dateSheet'))closeDateSheet()};
 $('sheetLeave').onclick=()=>{if(change('leave'))openDateSheet()};
 $('sheetOvertime').onclick=()=>{$('overtimeEditor').classList.remove('hidden');const o=overrides[selected];$('overtimeShift').value=o&&typeof o==='object'&&o.shift?o.shift:(saved.first||'day')};
-$('confirmOvertime').onclick=()=>{const old=overrides[selected],oldNote=notes[selected],v=$('sheetNote').value.trim();overrides[selected]={type:'overtime',shift:$('overtimeShift').value};if(v)notes[selected]=v;else delete notes[selected];if(persist()){render();openDateSheet()}else{if(old===undefined)delete overrides[selected];else overrides[selected]=old;if(oldNote===undefined)delete notes[selected];else notes[selected]=oldNote}};
+$('confirmOvertime').onclick=()=>{if(commitNoteEdit({type:'overtime',shift:$('overtimeShift').value}))openDateSheet()};
 $('sheetRestore').onclick=()=>{if(change(null))openDateSheet()};
-$('sheetCalendarEvent').onclick=()=>openCalendarEvent();
-$('openCalendarEvent').onclick=()=>openCalendarEvent();
-$('sheetSaveNote').onclick=()=>{const v=$('sheetNote').value.trim(),old=notes[selected];if(v)notes[selected]=v;else delete notes[selected];if(persist()){$('note').value=v;render();closeDateSheet()}else{if(old===undefined)delete notes[selected];else notes[selected]=old}};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('calendarEventSheet').classList.contains('hidden'))closeCalendarEvent();else if(!$('dateSheet').classList.contains('hidden'))closeDateSheet()}});
+$('sheetSaveNote').onclick=()=>{if(commitNoteEdit())closeDateSheet()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDateSheet()});
 $('editTodayNote').onclick=()=>{openDateSheet()};
 $('quickSetup').onclick=openSettings;
 $('helpBtn').onclick=$('helpBtn2').onclick=()=>{$('helpSheet').classList.remove('hidden')};
@@ -140,7 +197,7 @@ function validBackup(data){
   if(c.mode==='weekday'&&(!Array.isArray(c.weekdays)||c.weekdays.some(n=>!Number.isInteger(n)||n<1||n>7)||new Set(c.weekdays).size!==c.weekdays.length||typeof c.holidayOff!=='boolean'||typeof c.makeupWork!=='boolean'))return false;
   for(const k of ['dayStart','dayEnd','nightStart','nightEnd','dayAlarm','nightAlarm'])if(!validTime(c[k]))return false;
  }
- for(const [k,v] of Object.entries(x.notes))if(!validDate(k)||typeof v!=='string')return false;
+ for(const [k,v] of Object.entries(x.notes)){if(typeof v!=='string')return false;if(k.startsWith('@event:')){const date=k.slice(7);if(!validDate(date)||!validStoredNoteEvent(v,date))return false}else if(!validDate(k))return false}
  for(const [k,v] of Object.entries(x.overrides)){if(!validDate(k))return false;if(v!=='leave'&&v!=='overtime'&&!(v&&typeof v==='object'&&v.type==='overtime'&&['day','night'].includes(v.shift)))return false}
  return true
 }
@@ -202,9 +259,9 @@ $('backupFile').onchange=async()=>{
 $('clearSchedule').onclick=()=>{if(!saved)return alert('目前尚未設定班表');if(!confirm('確定清除目前班表規則？記事和請假／加班紀錄會保留。'))return;const old=saved;saved=null;if(persist())render();else saved=old};
 if(localStorage.getItem('shift_assistant_theme')==='light')document.body.classList.add('themeLight');
 load();restoreHolidayCache();render();backupStatus();loadHolidays();
-/* v0.5.26 diagnostic: no new service worker registration */
+/* v0.5.27 diagnostic: no new service worker registration */
 
-const APP_VERSION='0.5.26';
+const APP_VERSION='0.5.27';
 document.querySelectorAll('.head .small, .notice, #cloudSyncPanel h3').forEach(node=>{node.textContent=node.textContent.replace(/(?:V)?0\.5\.\d+/g,m=>(m.startsWith('V')?'V':'')+APP_VERSION)});
 document.title='班表助理｜測試版 '+APP_VERSION;
 const UPDATE_ATTEMPT='shift_assistant_auto_update_attempt_v1';
@@ -235,86 +292,6 @@ window.addEventListener('load',()=>{
  setTimeout(()=>checkAppUpdate(false),900);
 });
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkAppUpdate(false)});
-// Calendar export: no change to saved schedule/overrides/notes or cloud schema.
-function calendarEscapeText(v){return String(v).replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g,'')}
-function calendarFoldLine(line){const encoder=new TextEncoder();let out='',part='',bytes=0;for(const char of line){const n=encoder.encode(char).length;if(bytes+n>75){out+=part+'\r\n';part=' ';bytes=1}part+=char;bytes+=n}return out+part}
-function calendarUTC(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z')}
-function calendarEventData(input,now=new Date()){
- const title=String(input.title||'').trim(),description=String(input.description||'');
- if(!title||title.length>160)throw Error('請填寫事件名稱（最多 160 字）。');
- if(description.length>20000)throw Error('事件備註太長，請刪減後再匯出。');
- if(!/^\d{4}-\d{2}-\d{2}$/.test(input.date)||!/^\d{2}:\d{2}$/.test(input.time))throw Error('請選擇有效的日期與開始時間。');
- const [y,m,d]=input.date.split('-').map(Number),[h,min]=input.time.split(':').map(Number);
- const start=new Date(y,m-1,d,h,min,0,0);
- if(y<2020||y>2060||start.getFullYear()!==y||start.getMonth()!==m-1||start.getDate()!==d||start.getHours()!==h||start.getMinutes()!==min)throw Error('日期或時間無效，請重新選擇。');
- const duration=Number(input.duration),lead=Number(input.lead);
- if(![15,30,60,120].includes(duration))throw Error('請選擇事件長度。');
- if(typeof input.remind!=='boolean'||![0,5,10,15,30,60,1440].includes(lead))throw Error('提醒設定無效。');
- if(input.remind&&start.getTime()-lead*60000<=now.getTime())throw Error('提醒時間已過，請調整事件時間或提前分鐘數。');
- return {title,description,start,end:new Date(start.getTime()+duration*60000),remind:input.remind,lead};
-}
-function calendarBuildICS(event,uid,now=new Date()){
- if(!/^[a-zA-Z0-9-]{1,80}@shift-assistant\.local$/.test(uid))throw Error('事件識別碼無效。');
- const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Shift Assistant//Note Calendar Export//ZH-TW','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+calendarUTC(now),'DTSTART:'+calendarUTC(event.start),'DTEND:'+calendarUTC(event.end),'SUMMARY:'+calendarEscapeText(event.title),'DESCRIPTION:'+calendarEscapeText(event.description)];
- if(event.remind)lines.push('BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:'+(event.lead===0?'PT0M':'-PT'+event.lead+'M'),'DESCRIPTION:'+calendarEscapeText(event.title),'END:VALARM');
- lines.push('END:VEVENT','END:VCALENDAR');return lines.map(calendarFoldLine).join('\r\n')+'\r\n';
-}
-let calendarPrepared=null,calendarExportBusy=false,calendarReturnFocus=null;
-function calendarFormInput(){return {title:$('calendarEventTitle').value,description:$('calendarEventDescription').value,date:$('calendarEventDate').value,time:$('calendarEventTime').value,duration:$('calendarEventDuration').value,remind:$('calendarEventRemind').checked,lead:$('calendarEventLead').value}}
-function calendarPrepareFile(){
- if(!$('calendarEventForm').reportValidity())return null;
- const input=calendarFormInput(),event=calendarEventData(input),fingerprint=JSON.stringify(input);
- if(calendarPrepared?.fingerprint===fingerprint)return calendarPrepared;
- const uid=crypto.randomUUID()+'@shift-assistant.local',ics=calendarBuildICS(event,uid);
- const name='shift-event-'+input.date+'.ics';
- calendarPrepared={fingerprint,file:new File([ics],name,{type:'text/calendar;charset=utf-8'}),name};return calendarPrepared;
-}
-function openCalendarEvent(){
- const openSheet=!$('dateSheet').classList.contains('hidden');
- const note=openSheet?$('sheetNote').value:notes[selected]||'';
- if(!note.trim()){alert('請先填寫記事，再建立行事曆事件。');return}
- // Validate before saving a note or opening a dialog; no automatic server writes here.
- if(note.length>20000){alert('記事超過事件備註長度，請先刪減或選擇較短的記事。');return}
- calendarReturnFocus=document.activeElement;
- $('calendarEventSheet').classList.remove('hidden');
- if(openSheet&&!closeDateSheet()){$('calendarEventSheet').classList.add('hidden');return}
- $('calendarEventTitle').value=note.trim().split(/\r?\n/)[0].slice(0,160);
- $('calendarEventDescription').value=note;
- $('calendarEventDate').value=selected;$('calendarEventTime').value='';
- $('calendarEventDuration').value='60';$('calendarEventRemind').checked=false;$('calendarEventLead').value='15';$('calendarEventLead').disabled=true;
- $('calendarEventZone').textContent='使用這台裝置的時區：'+(Intl.DateTimeFormat().resolvedOptions().timeZone||'本地時區')+'。匯入後會按行事曆時區顯示。';
- $('calendarEventStatus').textContent='請選擇事件時間；提醒設定只用於這次匯出，不會修改原記事或上班提醒。';
- $('calendarEventDownload').classList.add('hidden');calendarPrepared=null;
- $('calendarEventTitle').focus();
-}
-function closeCalendarEvent(){
- $('calendarEventSheet').classList.add('hidden');calendarPrepared=null;
- if(calendarReturnFocus?.isConnected)calendarReturnFocus.focus();
- window.dispatchEvent(new Event('shift-editor-closed'));
-}
-function calendarDownloadFile(prepared){
- const url=URL.createObjectURL(prepared.file),a=document.createElement('a');a.href=url;a.download=prepared.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
- $('calendarEventStatus').textContent='已啟動檔案下載。請在行事曆匯入並確認事件及提醒；目前尚未確認加入成功。';
-}
-$('calendarEventRemind').onchange=()=>{$('calendarEventLead').disabled=!$('calendarEventRemind').checked};
-$('calendarEventClose').onclick=closeCalendarEvent;
-$('calendarEventSheet').onclick=e=>{if(e.target===$('calendarEventSheet'))closeCalendarEvent()};
-$('calendarEventForm').onsubmit=async e=>{
- e.preventDefault();if(calendarExportBusy)return;
- try{
- const prepared=calendarPrepareFile();if(!prepared)return;
- calendarExportBusy=true;$('calendarEventExport').disabled=true;$('calendarEventDownload').disabled=true;
- let canShare=false;try{canShare=!!navigator.share&&!!navigator.canShare?.({files:[prepared.file]})}catch(ignore){}
- if(canShare){
-  try{await navigator.share({files:[prepared.file]});$('calendarEventStatus').textContent='分享操作已完成。請在行事曆確認儲存與提醒；分享成功不代表事件已加入。'}
-  catch(error){if(error.name==='AbortError'){$('calendarEventStatus').textContent='已取消分享，記事仍保留。'}else{$('calendarEventStatus').textContent='無法分享此檔案，請使用下方下載按鈕。'}}
-  $('calendarEventDownload').classList.remove('hidden');
- }else{calendarDownloadFile(prepared);$('calendarEventDownload').classList.remove('hidden')}
- }catch(error){$('calendarEventStatus').textContent=error.message||'無法建立行事曆事件，記事仍保留。'}
- finally{calendarExportBusy=false;$('calendarEventExport').disabled=false;$('calendarEventDownload').disabled=false}
-};
-$('calendarEventDownload').onclick=()=>{try{const prepared=calendarPrepareFile();if(prepared)calendarDownloadFile(prepared)}catch(error){$('calendarEventStatus').textContent=error.message}};
-// END calendar export
 
 </script>
 <section class="card" id="cloudSyncPanel" style="margin:12px 0;padding:16px">
@@ -340,7 +317,7 @@ const app=initializeApp(config),auth=getAuth(app),db=getFirestore(app);
 const el=id=>document.getElementById(id),status=msg=>el("cloudSyncStatus").textContent=msg;
 el("advancedExport").onclick=()=>el("exportBackup").click();
 el("advancedImport").onclick=()=>el("importBackup").click();
-el("advancedUpdate").onclick=()=>el("checkAppVersion").click(); const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.26 已載入｜等待登入狀態…")}
+el("advancedUpdate").onclick=()=>el("checkAppVersion").click(); const restoreMessage=sessionStorage.getItem("shift_assistant_cloud_restore_notice");if(restoreMessage){sessionStorage.removeItem("shift_assistant_cloud_restore_notice");status(restoreMessage)}else{status("V0.5.27 已載入｜等待登入狀態…")}
 let current=null,busy=false,authReady=false;
 const authWait=setTimeout(()=>{if(!authReady)status("⚠ Google 登入狀態尚未確認，手機資料安全保留。請確認網路後重新開啟 App。")},15000);
 function buttons(){el("cloudSignIn").hidden=!authReady||!!current;el("cloudSignOut").hidden=!authReady||!current;el("cloudUpload").disabled=!current||busy;el("cloudDownload").disabled=!current||busy;el("cloudCheck").disabled=!current||busy}
@@ -361,9 +338,8 @@ const TIMEOUT_MS=12000;
 function withTimeout(p){return Promise.race([p,new Promise((_,reject)=>setTimeout(()=>reject(new Error("雲端連線逾時，資料未變更。")),TIMEOUT_MS))])}
 let pendingSync=false,autoTimer=null,conflict=false,recheckTimer=null;
 function hasUnsavedEditorNote(){
- if(el("calendarEventSheet")&&!el("calendarEventSheet").classList.contains("hidden"))return true;
  const sheet=el("dateSheet");
- return !!sheet&&!sheet.classList.contains("hidden")&&el("sheetNote").value.trim()!==(notes[selected]||'');
+ return !!sheet&&!sheet.classList.contains("hidden")&&(el("sheetNote").value.trim()!==(notes[selected]||'')||(typeof noteEventEditorDirty==='function'&&noteEventEditorDirty()));
 }
 function safeThreeWayMerge(baseText,localText,remoteText){
  try{
@@ -377,6 +353,7 @@ function safeThreeWayMerge(baseText,localText,remoteText){
  else return null;
  for(const field of ['overrides','notes']){
   const keys=new Set([...Object.keys(b[field]),...Object.keys(l[field]),...Object.keys(r[field])]);
+  if(field==='notes'){const dates=new Set([...keys].map(k=>k.startsWith('@event:')?k.slice(7):k));for(const key of dates){const meta='@event:'+key;const pair=x=>({text:x[field][key],metadata:x[field][meta]});const bv=pair(b),lv=pair(l),rv=pair(r);let v;if(eq(lv,rv))v=lv;else if(eq(lv,bv))v=rv;else if(eq(rv,bv))v=lv;else return null;if(v.text!==undefined)out[field][key]=v.text;if(v.metadata!==undefined)out[field][meta]=v.metadata}continue}
   for(const key of keys){
    const bv=Object.prototype.hasOwnProperty.call(b[field],key)?b[field][key]:undefined;
    const lv=Object.prototype.hasOwnProperty.call(l[field],key)?l[field][key]:undefined;
